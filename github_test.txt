@@ -1,9 +1,6 @@
 this is master
 change
-<<<<<<< HEAD
-feature B
-feature BB
-=======
 feature A
 feature B
->>>>>>> develop
+
+modified
