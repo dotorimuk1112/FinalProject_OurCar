@@ -1,9 +1,6 @@
 this is master
 change
-<<<<<<< HEAD
 feature B
 feature BB
-=======
-feature A
-feature B
->>>>>>> develop
+
+상민이 테스트 입니다.
