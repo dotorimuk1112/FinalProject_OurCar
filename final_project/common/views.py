@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해 import
+from sales.forms import SalesForm
 from .models import Car
 import pickle
 import pandas as pd
@@ -32,6 +33,7 @@ def signup(request):
 # 저장된 모델 불러오기
 with open('large_xgboost_model.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
+
 def car_info(request):
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
@@ -52,6 +54,7 @@ def car_info(request):
             # 데이터를 적절한 형태로 변환하여 모델에 적용
             data_df = pd.DataFrame(data)
             predicted_price = loaded_model.predict(data_df)
+            
             return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price})
         except Car.DoesNotExist:
             error_message = "해당하는 차량 정보가 없습니다."
