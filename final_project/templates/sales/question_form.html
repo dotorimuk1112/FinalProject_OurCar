@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">차량 등록</h5>
+    <form method="post">
+        {% csrf_token %}
+        <!-- 오류 표시 시작 -->
+        {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+            {% for error in field.errors %}
+            <div>
+                <strong>{{ field.label }}</strong>
+                {{ error }}
+            </div>
+            {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- 오류 표시 끝 -->
+        <!-- 기존의 차량 정보를 보여주되 수정 불가능한 입력 필드들 -->
+        <div class="mb-3">
+            <label for="MNAME" class="form-label">모델명</label>
+            <input type="text" class="form-control" name="MNAME" id="MNAME" value="{{ car.MNAME }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="MYERAR" class="form-label">연식</label>
+            <input type="text" class="form-control" name="MYERAR" id="MYERAR" value="{{ car.MYERAR }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="MILEAGE" class="form-label">주행거리</label>
+            <input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="COLOR" class="form-label">색상</label>
+            <input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="TRANS" class="form-label">변속기</label>
+            <input type="text" class="form-control" name="TRANS" id="TRANS" value="{{ car.TRANS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="F_TYPE" class="form-label">연료</label>
+            <input type="text" class="form-control" name="F_TYPE" id="F_TYPE" value="{{ car.F_TYPE }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="DISP" class="form-label">배기량</label>
+            <input type="text" class="form-control" name="DISP" id="DISP" value="{{ car.DISP }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="VTYPE" class="form-label">차종</label>
+            <input type="text" class="form-control" name="VTYPE" id="VTYPE" value="{{ car.VTYPE }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="VNUM" class="form-label">차량번호</label>
+            <input type="text" class="form-control" name="VNUM" id="VNUM" value="{{ car.VNUM }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="CU_HIS" class="form-label">용도변경 이력</label>
+            <input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="MVD_HIS" class="form-label">자차피해 이력</label>
+            <input type="text" class="form-control" name="MVD_HIS" id="MVD_HIS" value="{{ car.MVD_HIS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="AVD_HIS" class="form-label">타차피해 이력</label>
+            <input type="text" class="form-control" name="AVD_HIS" id="AVD_HIS" value="{{ car.AVD_HIS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="FD_HIS" class="form-label">침수 이력</label>
+            <input type="text" class="form-control" name="FD_HIS" id="FD_HIS" value="{{ car.FD_HIS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="VT_HIS" class="form-label">도난 이력</label>
+            <input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS }}" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="US_HIS" class="form-label">소유자 변경 횟수</label>
+            <input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}" readonly>
+        </div>
+        <!-- 가격 입력 필드 -->
+        <div class="mb-3">
+            <label for="PRICE" class="form-label">가격</label>
+            <input type="text" class="form-control" name="PRICE" id="PRICE">
+        </div>
+        <!-- 내차팔기 버튼 -->
+        <button type="submit" class="btn btn-primary">내차팔기</button>
+    </form>
+</div>
+{% endblock %}
