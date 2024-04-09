@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>차량 정보 조회</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
     <h1>차량 정보 조회</h1>
     <form method="post">
         {% csrf_token %}
@@ -17,12 +11,25 @@
         <h2>차량 정보</h2>
         <p>차량 이름: {{ car.MNAME }}</p>
         <p>가격: {{ car.PRICE }}</p>
+        <p>주행거리: {{ car.MILEAGE }}</p>
+        <p>배기량: {{ car.DISP }}</p>
+        <p>용도변경 이력: {{ car.CU_HIS }}</p>
+        <p>자차피해이력 : {{ car.MVD_HIS }}</p>
+        <p>타차피해이력 : {{ car.AVD_HIS }}</p>
+        <p>침수 이력 : {{ car.FD_HIS }}</p>
+        <p>도난 이력 : {{ car.VT_HIS }}</p>
+        <p>소유자 변경 횟수: {{ car.US_HIS }}</p>
+        
         {% if predicted_price %}
             <p>예상 가격: {{ predicted_price }}</p>
         {% endif %}
         <!-- 나머지 차량 정보도 필요한 만큼 추가 -->
+        {% comment %} <a href="{% url 'sell_car' car_number=car.VNUM %}" class="btn btn-primary">내차팔기</a> {% endcomment %}
+
+        <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
+        {{ car.VNUM }}
     {% elif error_message %}
         <p>{{ error_message }}</p>
     {% endif %}
-</body>
-</html>
+{% endblock %}
+
