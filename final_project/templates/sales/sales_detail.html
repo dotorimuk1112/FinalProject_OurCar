@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="my-3">
-                <a href="javascript:void(0)" data-uri="{% url 'sales:question_vote' sales.post_id  %}"
+                {% comment %} <a href="javascript:void(0)" data-uri="{% url 'sales:question_vote' sales.post_id  %}" {% endcomment %}
                     class="recommend btn btn-sm btn-outline-secondary"> 추천
                     <span class="badge rounded-pill bg-success">{{sales.buyer.count}}</span>
                 </a>

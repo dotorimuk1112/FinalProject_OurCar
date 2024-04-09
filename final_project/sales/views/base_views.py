@@ -26,13 +26,10 @@ def index(request):
 
 # 질문 상세 보기
 def detail(request, post_id):
-    # question = Question.objects.get(id=question_id)
-    
-    CarSalesPost = get_object_or_404(CarSalesPost,post_id=post_id)
-    print(CarSalesPost)
-    context = {'CarSalesPost': CarSalesPost}
-    print(context)
-    return render(request, 'sales/question_detail.html', context)
+    car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
+    context = {'CarSalesPost': car_sales_post}
+    return render(request, 'sales/sales_detail.html', context)
+
 
 @login_required(login_url='common:login')
 def my_page(request):
