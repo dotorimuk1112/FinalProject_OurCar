@@ -53,8 +53,10 @@
                     <div class="card">
                         <div class="card-body">
                             <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
-                            {% comment %} <h5 class="card-title my-3"><a href="{% url 'pybo:detail' sales.post_id %}">{{ sales.MNAME }}</a></h5> {% endcomment %}
+                            {% comment %} s<h5 class="card-title my-3"><a href="{{ url ('detail', post_id=sales.post_id) }}">{{ sales.MNAME }}</a></h5> {% endcomment %}
                             <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                            <p class="card-text"><a href= "{% url 'sales:detail' car.post_id %}" 차종: {{ car.MNAME }} </a> </p>
+
                             <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p>
                         </div>
                     </div>
