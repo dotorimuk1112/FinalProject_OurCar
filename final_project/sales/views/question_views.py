@@ -27,6 +27,8 @@ def question_create(request, car_VNUM):
     context = {'form': form, 'car': car}  # Pass the car object to the template
     return render(request, 'sales/question_form.html', context)
 
+
+
 # 질문 수정
 @login_required(login_url='common:login')
 def question_modify(request, post_id):

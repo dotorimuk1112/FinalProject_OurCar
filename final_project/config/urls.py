@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from common import views
+from sales.views import base_views
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -26,7 +26,7 @@ urlpatterns = [
 
     path('common/', include('common.urls')),
     path('sales/', include('sales.urls')),
-    path('', views.index, name='index'),  # '/' 에 해당되는 path
+    path('', base_views.index, name='index'),  # '/' 에 해당되는 path
 
     # path('', base_views.index, name='index'),  # '/' 에 해당되는 path
     

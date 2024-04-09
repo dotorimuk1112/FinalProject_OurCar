@@ -24,12 +24,15 @@ def index(request):
     context = {'car_list': page_obj, 'page': page, 'kw': kw}
     return render(request, 'sales/question_list.html', context)
 
-# # 질문 상세 보기
-# def detail(request, question_id):
-#     # question = Question.objects.get(id=question_id)
-#     question = get_object_or_404(CarSalesPost, pk=question_id)
-#     context = {'question': question}
-#     return render(request, 'sales/question_detail.html', context)
+# 질문 상세 보기
+def detail(request, post_id):
+    # question = Question.objects.get(id=question_id)
+    
+    CarSalesPost = get_object_or_404(CarSalesPost,post_id=post_id)
+    print(CarSalesPost)
+    context = {'CarSalesPost': CarSalesPost}
+    print(context)
+    return render(request, 'sales/question_detail.html', context)
 
 @login_required(login_url='common:login')
 def my_page(request):
