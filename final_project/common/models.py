@@ -19,15 +19,13 @@ class TestSangmin(models.Model):
     auto_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     car_price = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'test_sangmin'
 
 class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20)
     profile_image = models.ImageField(upload_to='profile_images', blank=True, null=True)
     real_name = models.CharField(max_length=100)  # 예시로 최대 길이 100으로 설정했습니다.
     test_sangmin = models.OneToOneField(TestSangmin, on_delete=models.CASCADE, related_name='custom_user', blank=True, null=True)
+
     
 class Car(models.Model):
     SEQ = models.IntegerField()
@@ -40,13 +38,12 @@ class Car(models.Model):
     F_TYPE = models.TextField()
     DISP = models.IntegerField()
     VTYPE = models.TextField()
-    VNUM = models.TextField(primary_key=True)
+    VNUM = models.CharField(max_length=100, primary_key=True)  # 적절한 길이를 선택하세요.
     CU_HIS = models.IntegerField()
     MVD_HIS = models.FloatField()
     AVD_HIS = models.FloatField()
     FD_HIS = models.IntegerField()
     VT_HIS = models.FloatField()
     US_HIS = models.IntegerField()
-    class Meta:
-        managed = False
-        db_table = 'test_kb_crawling'
+
+
