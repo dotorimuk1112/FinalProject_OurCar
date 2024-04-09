@@ -2,7 +2,7 @@
 <div>
 <nav class="navbar  fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="test container-fluid  navbar-expand-lg navbar-light bg-light">
-        {% comment %} <a class="navbar-brand" href="{% url 'pybo:index' %}">아워카</a> {% endcomment %}
+        <a class="navbar-brand" href="{% url 'index' %}">아워카</a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
@@ -16,7 +16,7 @@
                 <li class="nav-item">
                     {% if user.is_authenticated %}
                     <li><a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a></li>
-                    {% comment %} <li><a class="nav-link" href="{% url 'pybo:my_page' %}">마이페이지</a></li> {% endcomment %}
+                    <li><a class="nav-link" href="{% url 'sales:my_page' %}">마이페이지</a></li>
 
                     {% else %}
                     <a class="nav-link" href="{% url 'common:login' %}">로그인</a>

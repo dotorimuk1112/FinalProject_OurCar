@@ -11,16 +11,18 @@ urlpatterns = [
     path('',
          base_views.index, name='index'),
      path('my_page/', base_views.my_page, name='my_page'),
-
+    path('detail/<int:post_id>',
+         base_views.detail, name='detail'),
 
     # question_views.py
-    path('sales/create/<str:car_VNUM>/',
+    path('create/<str:car_VNUM>/',
          question_views.question_create, name='question_create'),
-    path('sales/modify/<int:question_id>/',
+    path('modify/<int:question_id>/',
          question_views.question_modify, name='question_modify'),
-    path('sales/delete/<int:question_id>/',
+    path('delete/<int:question_id>/',
          question_views.question_delete, name='question_delete'),
-    path('sales/vote/<int:question_id>/', question_views.question_vote, name='question_vote'),
+
+    path('vote/<int:question_id>/', question_views.question_vote, name='question_vote'),
     
     
 
