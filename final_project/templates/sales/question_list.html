@@ -51,17 +51,33 @@
             {% for car in car_list %}
                 <div class="col-md-3 mb-4">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body clickable-card">
                             <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
                             <p class="card-text"> </p>
-                            {% comment %} <a href="{% url 'sales:detail' car.post_id %}">{{ car.MNAME }}</a> {% endcomment %}
-
-                            <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p>
-                            <a href= "{% url 'sales:detail' car.post_id %}" 차종: {{ car.MNAME }} </a>
 
                             
-                            {{ car.MNAME }}
+                            <div class="card-title my-3" style="height: 40px;">
+                                <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                    <strong>{{ car.MNAME }}</strong>
+                                </a>
+                            </div>
+                            
+                            <div>
+                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                            </div>
+                            
+                            <div class="text-end">
+                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
+                                    <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                </p>   
+                            </div>
+                                              
+                            {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                            {% comment %} <p> eqfeddddqf </p> {% endcomment %}
+
+                            
                         </div>
                     </div>
                 </div>
@@ -138,6 +154,16 @@ btn_search.addEventListener('click', function() {
     document.getElementById('kw').value = document.getElementById('search_kw').value;
     document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
     document.getElementById('searchForm').submit();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    var cardBodyElements = document.querySelectorAll(".clickable-card");
+    cardBodyElements.forEach(function(cardBodyElement) {
+        cardBodyElement.addEventListener("click", function() {
+            var detailUrl = this.querySelector(".card-title a").getAttribute("href");
+            window.location.href = detailUrl;
+        });
+    });
 });
 </script>
 {% endblock %}

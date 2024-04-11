@@ -1,0 +1,14 @@
+.clickable-card {
+    cursor: pointer;
+    height: 370px; /* 원하는 높이로 설정 */
+}
+
+.clickable-card:hover {
+    box-shadow: 0 0 10px rgba(3, 2, 91, 0.5);
+    transition: box-shadow 0.2s ease-in-out;
+    height: 370px; /* 원하는 높이로 설정 */
+    /* width: 300px; */
+    overflow: hidden; /* 내용이 넘칠 경우를 대비하여 오버플로우 처리 */
+}
+
+
