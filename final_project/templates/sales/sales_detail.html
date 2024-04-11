@@ -11,38 +11,130 @@
      {% endfor %}
      </div>
      {% endif %}
-    <!-- 질문 -->
-    <h2 class="border-bottom py-2">{{ sales.subject }}</h2>
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">{{ sales.price|mark }}</div>
-            <div class="d-flex justify-content-end">
-                {% if sales.modify_date %}
-                <div class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div>{{ sales.modify_date }}</div>
-                </div>
-                {% endif %}
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">작성자 : {{ sales.seller.username }}</div>
-                    <div>{{ sales.create_date }}</div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card my-3">
+                <img src="/static/uploads/sampleCAR.jpg" alt="대표 사진" class="card-img-top" width="200" height="300">
+                <div class="card-body">
+                    <!-- 이 부분은 이미지 왼쪽에 위치하게 될 내용입니다. -->
                 </div>
             </div>
-            <div class="my-3">
-                {% comment %} <a href="javascript:void(0)" data-uri="{% url 'sales:question_vote' sales.post_id  %}" {% endcomment %}
-                    class="recommend btn btn-sm btn-outline-secondary"> 추천
-                    <span class="badge rounded-pill bg-success">{{sales.buyer.count}}</span>
-                </a>
-                {% if request.user == sales.seller %}
-                <a href="{% url 'sales:question_modify' sales.post_id  %}" 
-                   class="btn btn-sm btn-outline-secondary">수정</a>
-                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
-                   data-uri="{% url 'sales:question_delete' sales.post_id  %}">삭제</a>
-                {% endif %}
+        </div>
+        <div class="col-md-6">
+            <div class=" my-3">
+                <div >
+                    <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
+                    <div class="d-flex">
+                        {% if CarSalesPost.modify_date %}
+                        <div class="badge bg-light text-dark p-2 text-start mx-3">
+                            <div class="mb-2">modified at</div>
+                            <div>{{ CarSalesPost.modify_date }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="d-flex">
+                                {% if CarSalesPost.modify_date %}
+                                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                                    <div class="mb-2">modified at</div>
+                                    <div>{{ CarSalesPost.modify_date }}</div>
+                                </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="text-dark text-start">
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">({{ CarSalesPost.VNUM }})</div>
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">{{ CarSalesPost.MNAME }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-dark text-end">
+                                            <div class= "fs-6"> 판매가격 :  <span style="color: red; font-size: 30px;">{{ CarSalesPost.PRICE }}만원</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <span class="text-secondary" style="font-size: 13px;">{{ CarSalesPost.MYERAR }}년식 | {{ CarSalesPost.MILEAGE }}km | {{ CarSalesPost.F_TYPE }}</span>
+                            
+                        </div>
+                    </div>
+
+                    
+                    <div class="my-3">
+                        <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                            class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
+                            <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                        </a> 
+                        {% if request.user == CarSalesPost.seller %}                        
+                        <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                           class="btn btn-sm btn-outline-secondary">수정</a> 
+     
+                        <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                           data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                        {% endif %} 
+                    </div>
+                </div>
+                
+            </div>
+            <div class="bg-light text-dark p-2 text-end">
+                <h4> 판매자 정보 </h4>
+                <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
+                <div class="mb-2">판매자: {{ CarSalesPost.seller.phone_number }}</div>
+
+                <div>{{ CarSalesPost.create_date }}</div>
             </div>
         </div>
     </div>
+
     
+    <table class="table">
+        <tbody>
+            <tr>
+                <th scope="row">연식</th>
+                <td>{{ CarSalesPost.MYERAR }}</td>
+                <th scope="row">주행거리</th>
+                <td>{{ CarSalesPost.MILEAGE }}</td>
+            </tr>
+            <tr>
+                <th scope="row">색상</th>
+                <td>{{ CarSalesPost.COLOR }}</td>
+                <th scope="row">변속기</th>
+                <td>{{ CarSalesPost.TRANS }}</td>
+            </tr>
+            <tr>
+                <th scope="row">연료</th>
+                <td>{{ CarSalesPost.F_TYPE }}</td>
+                <th scope="row">배기량</th>
+                <td>{{ CarSalesPost.DISP }}</td>
+            </tr>
+            <tr>
+                <th scope="row">차종</th>
+                <td>{{ CarSalesPost.VTYPE }}</td>
+                <th scope="row">차량번호</th>
+                <td>{{ CarSalesPost.VNUM }}</td>
+            </tr>
+            <tr>
+                <th scope="row">용도변경 이력</th>
+                <td>{{ CarSalesPost.CU_HIS }}</td>
+                <th scope="row">자차피해 이력</th>
+                <td>{{ CarSalesPost.MVD_HIS }}</td>
+            </tr>
+            <tr>
+                <th scope="row">타차피해 이력</th>
+                <td>{{ CarSalesPost.AVD_HIS }}</td>
+                <th scope="row">침수 이력</th>
+                <td>{{ CarSalesPost.FD_HIS }}</td>
+            </tr>
+            <tr>
+                <th scope="row">도난 이력</th>
+                <td>{{ CarSalesPost.VT_HIS }}</td>
+                <th scope="row">소유자 변경 횟수</th>
+                <td>{{ CarSalesPost.US_HIS }}</td>
+            </tr>
+        </tbody>
+    </table>
 
     
 </div>
@@ -61,7 +153,7 @@ document.title = "차량 상세 정보"; // 이 부분이 제목을 변경하는
 const recommend_elements = document.getElementsByClassName("recommend");
 Array.from(recommend_elements).forEach(function(element) {
     element.addEventListener('click', function() {
-        if(confirm("정말로 추천하시겠습니까?")) {
+        if(confirm("정말로 구매 의사가 있으신가요?")) {
             location.href = this.dataset.uri;
         };
     });

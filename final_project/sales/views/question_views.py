@@ -31,39 +31,52 @@ def question_create(request, car_VNUM):
 
 # 질문 수정
 @login_required(login_url='common:login')
-def question_modify(request, post_id):
-    CarSalesPost = get_object_or_404(CarSalesPost, pk=post_id)
-    if request.user != CarSalesPost.seller:
+def sales_modify(request, post_id):
+    car_sales_post = get_object_or_404(CarSalesPost, pk=post_id)
+    if request.user != car_sales_post.seller:
         messages.error(request, '수정권한이 없습니다')
-        return redirect('sales:detail', question_id=CarSalesPost.post_id)
+        return redirect('sales:detail', post_id=car_sales_post.post_id)
     if request.method == "POST":
-        form = SalesForm(request.POST, instance=CarSalesPost)
+        form = SalesForm(request.POST, instance=car_sales_post)
         if form.is_valid():
-            CarSalesPost = form.save(commit=False)
-            CarSalesPost.modify_date = timezone.now()  # 수정일시 저장
-            CarSalesPost.save()
-            return redirect('sales:detail', question_id=CarSalesPost.post_id)
+            car_sales_post = form.save(commit=False)
+            car_sales_post.modify_date = timezone.now()  # 수정일시 저장
+            car_sales_post.save()
+            return redirect('sales:detail', post_id=car_sales_post.post_id)
     else:
-        form = SalesForm(instance=CarSalesPost)
-    context = {'form': form}
-    return render(request, 'sales/question_form.html', context)
+        form = SalesForm(instance=car_sales_post)
+    context = {'form': form, 'car_sales_post': car_sales_post}
+    return render(request, 'sales/sales_modify_form.html', context)
+
 
 # 질문 삭제
 @login_required(login_url='common:login')
-def question_delete(request, post_id):
-    CarSalesPost = get_object_or_404(CarSalesPost, pk=post_id)
-    if request.user != CarSalesPost.seller:
+def sales_delete(request, post_id):
+    car_sales_post = get_object_or_404(CarSalesPost, pk=post_id)
+    if request.user != car_sales_post.seller:
         messages.error(request, '삭제권한이 없습니다')
-        return redirect('sales:detail', post_id=CarSalesPost.post_id)
-    CarSalesPost.delete()
+        return redirect('sales:detail', post_id=car_sales_post.post_id)
+    car_sales_post.delete()
     return redirect('sales:index')
 
 # 질문 추천
+# @login_required(login_url='common:login')
+# def question_vote(request, post_id):
+#     CarSalesPost = get_object_or_404(CarSalesPost, pk=post_id)
+#     if request.user == CarSalesPost.seller:
+#         messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
+#     else:
+#         CarSalesPost.voter.add(request.user)
+#     return redirect('sales:detail', post_id=CarSalesPost.post_id)
+
+# 차량 구매 요청
 @login_required(login_url='common:login')
-def question_vote(request, post_id):
-    CarSalesPost = get_object_or_404(CarSalesPost, pk=post_id)
-    if request.user == CarSalesPost.seller:
-        messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
+def buy_car(request, post_id):
+    car_sales_post = get_object_or_404(CarSalesPost, pk=post_id)
+    if request.user == car_sales_post.seller:
+        messages.error(request, '본인이 판매하는 차량은 구매할 수 없습니다.')
+    elif request.user in car_sales_post.buyer.all():  # 이미 구매 요청을 한 경우
+        car_sales_post.buyer.remove(request.user)  # 구매 요청 취소
     else:
-        CarSalesPost.voter.add(request.user)
-    return redirect('sales:detail', post_id=CarSalesPost.post_id)
+        car_sales_post.buyer.add(request.user)  # 구매 요청 추가
+    return redirect('sales:detail', post_id=car_sales_post.post_id)

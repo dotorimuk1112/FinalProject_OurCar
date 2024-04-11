@@ -24,6 +24,11 @@ class CustomUser(AbstractUser):
     phone_number = models.CharField(max_length=20)
     profile_image = models.ImageField(upload_to='profile_images', blank=True, null=True)
     real_name = models.CharField(max_length=100)  # 예시로 최대 길이 100으로 설정했습니다.
+    address = models.CharField(max_length=255, blank=True, null=True)  # 새로 추가한 address 필드
+    class GenderChoices(models.TextChoices):
+        MALE = 'M', '남성'
+        FEMALE = 'F', '여성'
+    gender = models.CharField(choices=GenderChoices.choices, max_length=1, blank=True,null=True)
     test_sangmin = models.OneToOneField(TestSangmin, on_delete=models.CASCADE, related_name='custom_user', blank=True, null=True)
 
     
