@@ -11,10 +11,13 @@
                 aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div class="collapse navbar-collapse position-absolute end-0" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
                 <li class="nav-item">
                     {% if user.is_authenticated %}
+                    <li class="mt-1">
+                        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle" style="width: 25px; height: 25px;">
+                    </li>   
                     <li><a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a></li>
                     <li><a class="nav-link" href="{% url 'sales:my_page' %}">마이페이지</a></li>
 

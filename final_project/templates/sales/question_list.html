@@ -3,7 +3,7 @@
 {% load pybo_filter %}
 {% block content %}
 <!-- HTML 코드 -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+{% comment %} <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex align-items-center justify-content-center" style="background-color: skyblue; height: 400px;">
@@ -29,7 +29,7 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-</div>
+</div> {% endcomment %}
 
 
 <div class="container my-3">
@@ -47,49 +47,64 @@
         </div>
     </div>
     <div class="row">
-        {% if car_list %}
-            {% for car in car_list %}
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <div class="card-body clickable-card">
-                            <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
-                            <p class="card-text"> </p>
-
-                            
-                            <div class="card-title my-3" style="height: 40px;">
-                                <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
-                                    <strong>{{ car.MNAME }}</strong>
-                                </a>
-                            </div>
-                            
-                            <div>
-                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
-                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
-                            </div>
-                            
-                            <div class="text-end">
-                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
-                                    <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
-                                </p>   
-                            </div>
-                                              
-                            {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
-                            {% comment %} <p> eqfeddddqf </p> {% endcomment %}
-
-                            
-                        </div>
-                    </div>
+        <!-- 왼쪽에 브랜드 필터 버튼들 -->
+        <div class="col-md-2">
+            <div class="list-group">
+                <a href="?brand=현대" class="list-group-item list-group-item-action" id="hyundaiBtn">현대</a>
+                <div id="hyundaiModels" style="display: none;">
+                    <table class="table table-striped">
+                        <tbody>
+                            <tr>
+                                <td><a href="?brand=포터">포터</a></td>
+                                <td><a href="?brand=제네시스">제네시스</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                {% if forloop.counter|divisibleby:4 %}
-                    </div><div class="row">
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <div class="col-md-12">
-                <p>질문이 없습니다.</p>
+                <a href="?brand=현대" class="list-group-item list-group-item-action">현대</a>
+                <a href="?brand=기아" class="list-group-item list-group-item-action">기아</a>
+                <!-- 다른 브랜드 필터 버튼들도 추가 -->
             </div>
-        {% endif %}
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                {% if car_list %}
+                    {% for car in car_list %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card">
+                                <div class="card-body clickable-card">
+                                    <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
+                                    <p class="card-text"> </p>
+                                    <div class="card-title my-3" style="height: 40px;">
+                                        <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                            <strong>{{ car.MNAME }}</strong>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
+                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div>                 
+                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div><div class="row">
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="col-md-12">
+                        <p>질문이 없습니다.</p>
+                    </div>
+                {% endif %}
+        </div>
     </div>
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
@@ -163,6 +178,16 @@ document.addEventListener("DOMContentLoaded", function() {
             var detailUrl = this.querySelector(".card-title a").getAttribute("href");
             window.location.href = detailUrl;
         });
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // 현대 버튼 클릭 시 표 토글
+    const hyundaiBtn = document.getElementById("hyundaiBtn");
+    const hyundaiModels = document.getElementById("hyundaiModels");
+    hyundaiBtn.addEventListener("click", function(e) {
+        window.location.href = hyundaiBtn.href; // 링크로 이동
+        e.preventDefault();
+        hyundaiModels.style.display = hyundaiModels.style.display === "none" ? "block" : "none";
     });
 });
 </script>
