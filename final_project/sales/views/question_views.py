@@ -38,6 +38,7 @@ def sales_modify(request, post_id):
         return redirect('sales:detail', post_id=car_sales_post.post_id)
     if request.method == "POST":
         form = SalesForm(request.POST, instance=car_sales_post)
+
         if form.is_valid():
             car_sales_post = form.save(commit=False)
             car_sales_post.modify_date = timezone.now()  # 수정일시 저장
@@ -45,11 +46,14 @@ def sales_modify(request, post_id):
             return redirect('sales:detail', post_id=car_sales_post.post_id)
     else:
         form = SalesForm(instance=car_sales_post)
-    context = {'form': form, 'car_sales_post': car_sales_post}
-    return render(request, 'sales/sales_modify_form.html', context)
+      # car 변수에 차량번호 정보를 저장
+    car_VNUM = car_sales_post.VNUM
+    car = get_object_or_404(Car, VNUM=car_VNUM)
+    context = {'form': form, 'car_sales_post': car_sales_post, 'car': car}
+    return render(request, 'sales/question_form.html', context)
 
 
-# 질문 삭제
+# 판매글 삭제
 @login_required(login_url='common:login')
 def sales_delete(request, post_id):
     car_sales_post = get_object_or_404(CarSalesPost, pk=post_id)
