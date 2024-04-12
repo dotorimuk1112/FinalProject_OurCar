@@ -1,5 +1,7 @@
 venvs/
+venv2/
 
 ourcar/my_settings.py
+
 
 final_project/my_settings.py

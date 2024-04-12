@@ -17,6 +17,8 @@
                 <p><strong>이름:</strong> {{ user.username }}</p>
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
+                <a href="{% url 'common:delete_user' user.id  %}" 
+                class="btn btn-sm btn-outline-secondary">회원 탈퇴</a> 
                 <!-- 기타 사용자 정보 필드들을 추가로 출력할 수 있음 -->
             </div>
             <!-- 사용자 정보 출력 부분 이후에 추가 -->
