@@ -83,7 +83,9 @@
         <!-- 가격 입력 필드 -->
         <div class="mb-3">
             <label for="PRICE" class="form-label">가격</label>
-            <input type="text" class="form-control" name="PRICE" id="PRICE">
+            <input type="text" class="form-control" name="PRICE" id="PRICE"
+            value="{{ form.PRICE.value|default_if_none:'' }}">
+            
         </div>
         <!-- 내차팔기 버튼 -->
         <button type="submit" class="btn btn-primary">내차팔기</button>

@@ -69,7 +69,7 @@
         <div class="col-md-9">
             <div class="tab" style="display: flex; justify-content: flex-end;">
                 <button class="tablinks" onclick="openCity(event, 'Paris')">나의 소비 내역<span id="carCount"></span></button>
-                <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역<span id="userCarCount"></span></button>
+                <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
 
                 <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen">관심있는 차량({{ liked_car_count }})</button>
             </div>

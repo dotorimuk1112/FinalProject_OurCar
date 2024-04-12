@@ -12,16 +12,23 @@ from ..forms import ProfileImageForm
 def index(request):
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
+    brand_filter = request.GET.get('brand', '')  # 브랜드 필터
+    
     car_list = CarSalesPost.objects.order_by('-create_date')
+    
     if kw:
         car_list = car_list.filter(
             Q(MNAME__icontains=kw)   # 제목 검색
-
         ).distinct()
     
-    paginator = Paginator(car_list, 12)  # 페이지당 10개씩 보여주기
+    if brand_filter:
+        car_list = car_list.filter(
+            Q(MNAME__icontains=brand_filter)  # 제목에 브랜드명이 포함된 차량 필터링
+        ).distinct()
+    
+    paginator = Paginator(car_list, 12)  # 페이지당 12개씩 보여주기
     page_obj = paginator.get_page(page)
-    context = {'car_list': page_obj, 'page': page, 'kw': kw}
+    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'brand_filter': brand_filter}
     return render(request, 'sales/question_list.html', context)
 
 # 질문 상세 보기
