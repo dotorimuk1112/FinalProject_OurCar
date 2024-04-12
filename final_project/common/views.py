@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해 import
+from django.contrib import messages
 from sales.forms import SalesForm
-from .models import Car
+from .models import Car, CustomUser
 import pickle
 import pandas as pd
 from django.http import HttpResponse
@@ -60,3 +61,13 @@ def car_info(request):
             error_message = "해당하는 차량 정보가 없습니다."
             return render(request, 'common/car_info.html', {'error_message': error_message})
     return render(request, 'common/car_info.html')
+
+# 회원 탈퇴
+@login_required(login_url='common:login')
+def delete_user(request, user_id):
+    current_user = get_object_or_404(CustomUser, pk=user_id)
+    if request.user != current_user:
+        messages.error(request, '삭제권한이 없습니다')
+        return redirect('sales:index')
+    current_user.delete()
+    return redirect('sales:index')
