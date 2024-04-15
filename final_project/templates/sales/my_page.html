@@ -4,8 +4,8 @@
 <div class="container-fluid my-3 px-5">
     <div class="row">
         <!-- 왼쪽 열: 사용자 정보 -->
-        <div class="col-md-2" style="background-color:skyblue;">
-            <div class="text-center ">
+        <div class="col-md-2" style="background-color:skyblue; border-radius: 10px; height: 600px;">
+            <div class="text-center mt-4">
                 <h3>사용자 정보</h3>
                 <!-- 사용자가 선택한 이미지 or 디폴트 이미지 -->
                 <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
@@ -17,12 +17,18 @@
                 <p><strong>이름:</strong> {{ user.username }}</p>
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
-                <a href="{% url 'common:delete_user' user.id  %}" 
-                class="btn btn-sm btn-outline-secondary">회원 탈퇴</a> 
+                <div class="d-flex justify-content-center">
+                    <div class="col-md-6 mb-2">
+                        <a href="{% url 'common:edit_profile'%}" class="btn btn-sm btn-outline-secondary btn-block" style="font-size: 13px">개인정보 수정</a>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <a href="{% url 'common:password_update'%}" class="btn btn-sm btn-outline-secondary btn-block" style="font-size: 13px">비밀번호 변경</a>
+                    </div>
+                </div>
                 <!-- 기타 사용자 정보 필드들을 추가로 출력할 수 있음 -->
             </div>
             <!-- 사용자 정보 출력 부분 이후에 추가 -->
-            <div class="text-center ">
+            {% comment %} <div class="text-center ">
                 <h3>TestSangmin 정보</h3>
                 {% if test_sangmin_instance %}
                     <p><strong>SEQ:</strong> {{ test_sangmin_instance.seq }}</p>
@@ -63,13 +69,13 @@
                     <p>TestSangmin 정보가 없습니다.</p>
                 {% endif %}
             </div>
-            
+             {% endcomment %}
         </div>
 
         <!-- 오른쪽 열: 좋아요한 게시글 목록 -->
         
-        <div class="col-md-9">
-            <div class="tab" style="display: flex; justify-content: flex-end;">
+        <div class="col-md-9" style="border-radius: 20px;">
+            <div class="tab" style="display: flex; justify-content: flex-end; border-top-left-radius: 20px; border-top-right-radius: 20px;">
                 <button class="tablinks" onclick="openCity(event, 'Paris')">나의 소비 내역<span id="carCount"></span></button>
                 <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
 
@@ -224,7 +230,7 @@
             <div id="Paris" class="tabcontent">
                 <div class="text-center ">
                     <h3>TestSangmin 정보</h3>
-                    <canvas id="myChart" width="250" height="250"></canvas>
+                    <canvas id="myChart" width="200" height="200"></canvas>
                 </div>
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>

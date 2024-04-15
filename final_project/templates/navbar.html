@@ -2,7 +2,7 @@
 <div>
 <nav class="navbar  fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="test container-fluid  navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'index' %}">아워카</a>
+        <a class="navbar-brand ml-3" href="{% url 'index' %}">아워카</a>
         <button class="navbar-toggler" type="button"
                 data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
@@ -18,7 +18,7 @@
                     <li class="mt-1">
                         <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle" style="width: 25px; height: 25px;">
                     </li>   
-                    <li><a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a></li>
+                    <li><a class="nav-link" href="{% url 'common:logout' %}">{{ user.real_name }} (로그아웃)</a></li>
                     <li><a class="nav-link" href="{% url 'sales:my_page' %}">마이페이지</a></li>
 
                     {% else %}
