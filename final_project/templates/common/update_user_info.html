@@ -9,7 +9,7 @@
                 <div class="mb-3">
                     <label for="real_name" class="form-label">실제 이름</label>
                     <input type="text" class="form-control" name="real_name" id="real_name"
-                           value="{{ form.real_name.value|default_if_none:'' }}">
+                           value="{{ form.real_name.value|default_if_none:'' }}" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="gender" class="form-label">성별</label>
@@ -23,9 +23,9 @@
                 <div class="mb-3">
                     <label for="username" class="form-label">사용자 ID</label>
                     <input type="text" class="form-control" name="username" id="username"
-                           value="{{ form.username.value|default_if_none:'' }}">
+                           value="{{ form.username.value|default_if_none:'' }}" readonly>
                 </div>
-                <div class="mb-3">
+                {% comment %} <div class="mb-3">
                     <label for="password1" class="form-label">비밀번호</label>
                     <input type="password" class="form-control" name="password1" id="password1"
                            value="{{ form.password1.value|default_if_none:'' }}">
@@ -34,7 +34,7 @@
                     <label for="password2" class="form-label">비밀번호 확인</label>
                     <input type="password" class="form-control" name="password2" id="password2"
                            value="{{ form.password2.value|default_if_none:'' }}">
-                </div>
+                </div> {% endcomment %}
                 <div class="mb-3">
                     <label for="email" class="form-label">이메일</label>
                     <input type="text" class="form-control" name="email" id="email"
@@ -58,9 +58,13 @@
                     });
                 </script>
                 
+                
+                <a href="{% url 'common:delete_user' user.id  %}" 
+                class="btn btn-sm btn-outline-secondary">회원 탈퇴</a>
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">생성하기</button>
-                </div>            </form>
+                </div>            
+            </form>
         </div>
     </div>
 </div>

@@ -1,35 +1,142 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>차량 정보 조회</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="car_number">차량 번호 입력:</label>
-        <input type="text" id="car_number" name="car_number">
-        <button type="submit">조회</button>
-    </form>
-    {% if car %}
-        <h2>차량 정보</h2>
-        <p>차량 이름: {{ car.MNAME }}</p>
-        <p>가격: {{ car.PRICE }}</p>
-        <p>주행거리: {{ car.MILEAGE }}</p>
-        <p>배기량: {{ car.DISP }}</p>
-        <p>용도변경 이력: {{ car.CU_HIS }}</p>
-        <p>자차피해이력 : {{ car.MVD_HIS }}</p>
-        <p>타차피해이력 : {{ car.AVD_HIS }}</p>
-        <p>침수 이력 : {{ car.FD_HIS }}</p>
-        <p>도난 이력 : {{ car.VT_HIS }}</p>
-        <p>소유자 변경 횟수: {{ car.US_HIS }}</p>
-        
-        {% if predicted_price %}
-            <p>예상 가격: {{ predicted_price }}</p>
-        {% endif %}
-        <!-- 나머지 차량 정보도 필요한 만큼 추가 -->
-        {% comment %} <a href="{% url 'sell_car' car_number=car.VNUM %}" class="btn btn-primary">내차팔기</a> {% endcomment %}
-
-        <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
-        {{ car.VNUM }}
-    {% elif error_message %}
-        <p>{{ error_message }}</p>
-    {% endif %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">차량 정보 조회</h1>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <div class="col-md-4 text-md-right">
+                        <label for="car_number" class="col-form-label">차량 번호 입력:</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <input type="text" id="car_number" name="car_number" class="form-control">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary">조회</button>
+                </div> 
+            </form>
+            
+            
+            
+            
+        </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-md-6">
+            {% if car %}
+            <div class="text-center mt-4">
+                <h2>차량 정보</h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th scope="row">차량 이름</th>
+                            <td>{{ car.MNAME }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">가격</th>
+                            <td>{{ car.PRICE }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">주행거리</th>
+                            <td>{{ car.MILEAGE }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">배기량</th>
+                            <td>{{ car.DISP }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">용도변경 이력</th>
+                            <td>{{ car.CU_HIS }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">자차피해이력</th>
+                            <td>{{ car.MVD_HIS }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">타차피해이력</th>
+                            <td>{{ car.AVD_HIS }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">침수 이력</th>
+                            <td>{{ car.FD_HIS }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">도난 이력</th>
+                            <td>{{ car.VT_HIS }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">소유자 변경 횟수</th>
+                            <td>{{ car.US_HIS }}</td>
+                        </tr>
+                        <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            {% if car %}
+                <div class="text-center mt-4">
+                    <h2>예상 가격</h2>
+                    <div class="text-center">
+                        <canvas id="predictedPriceChart" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
+                    </div>
+                    <p>예상 가격: {{ predicted_price }}만원</p>
+                    <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
+                </div>
+            {% elif error_message %}
+                <p class="text-center">{{ error_message }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+           
 {% endblock %}
+{% block script %}
+<script>
+    // 예상 가격 데이터
+    var predictedPrice = {{ predicted_price }};
+    var lowerBound = Math.round(predictedPrice * 0.9 * 10) / 10; // -10% 범위, 소수점 첫째 자리에서 반올림
+    var upperBound = Math.round(predictedPrice * 1.1 * 10) / 10; // +10% 범위, 소수점 첫째 자리에서 반올림
+    
+    
 
+    // 차트 그리기
+    var chartDom = document.getElementById('predictedPriceChart');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['최소 가격', '예상 가격', '최대 가격']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [
+                { value: lowerBound, itemStyle: { color: '#007bff' } }, // 최소 - 파란색
+                { value: predictedPrice, itemStyle: { color: '#ff0000' }, symbolSize: 10 }, // 예상 가격 - 빨간색
+                { value: upperBound, itemStyle: { color: '#007bff' } } // 최대 - 파란색
+            ],
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }]
+    };
+
+    // 차트에 옵션 적용
+    myChart.setOption(option);
+</script>
+
+{% endblock %}
