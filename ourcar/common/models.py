@@ -16,8 +16,8 @@ class TestSangmin(models.Model):
     dist_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     plsanit_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     clothgds_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
-    auto_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
-    car_price = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
+    # auto_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
+    # car_price = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)/
 
     class Meta:
         managed = True
