@@ -39,7 +39,8 @@
                     });
                 </script>
                 
-                <div class="d-flex justify-content-end">
+                <div class="d-flex justify-content-between align-items-center"> <!-- 수정완료 버튼과 회원 탈퇴 버튼을 좌우 정렬하고 수직 가운데 정렬 -->
+                    <a href="{% url 'common:delete_user' user_id=request.user.id %}" class="btn btn-danger">회원 탈퇴</a>
                     <button type="submit" class="btn btn-primary">수정완료</button>
                 </div>            
             </form>

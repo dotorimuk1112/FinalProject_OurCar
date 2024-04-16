@@ -12,3 +12,12 @@ def sub(value, arg):
 def mark(value):
     extensions = ["nl2br", "fenced_code"]
     return mark_safe(markdown.markdown(value, extensions=extensions))
+
+
+@register.filter
+def add_commas(value):
+    return "{:,}".format(value)
+
+@register.filter
+def truncate_decimal(value):
+    return int(value)

@@ -29,58 +29,58 @@
     <div class="row justify-content-center mt-2">
         <div class="col-md-6">
             {% if car %}
-            <div class="text-center mt-4">
-                <h2>차량 정보</h2>
-                <table class="table">
+            <div class="container mt-4">
+                <h2 class="text-center">차량 정보</h2>
+                <table class="table table-bordered text-center">
                     <tbody>
                         <tr>
-                            <th scope="row">차량 이름</th>
+                            <th scope="row" class="bg-success text-white">차량 이름</th>
                             <td>{{ car.MNAME }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">가격</th>
+                            <th scope="row" class="bg-success text-white">가격</th>
                             <td>{{ car.PRICE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">주행거리</th>
+                            <th scope="row" class="bg-success text-white">주행거리</th>
                             <td>{{ car.MILEAGE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">배기량</th>
+                            <th scope="row" class="bg-success text-white">배기량</th>
                             <td>{{ car.DISP }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">용도변경 이력</th>
+                            <th scope="row" class="bg-success text-white">용도변경 이력</th>
                             <td>{{ car.CU_HIS }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">자차피해이력</th>
+                            <th scope="row" class="bg-success text-white">자차피해이력</th>
                             <td>{{ car.MVD_HIS }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">타차피해이력</th>
+                            <th scope="row" class="bg-success text-white">타차피해이력</th>
                             <td>{{ car.AVD_HIS }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">침수 이력</th>
+                            <th scope="row" class="bg-success text-white">침수 이력</th>
                             <td>{{ car.FD_HIS }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">도난 이력</th>
+                            <th scope="row" class="bg-success text-white">도난 이력</th>
                             <td>{{ car.VT_HIS }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">소유자 변경 횟수</th>
+                            <th scope="row" class="bg-success text-white">소유자 변경 횟수</th>
                             <td>{{ car.US_HIS }}</td>
                         </tr>
                         <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
                     </tbody>
                 </table>
             </div>
-            {% endif %}
+            
         </div>
         <div class="col-md-6">
-            {% if car %}
+          
                 <div class="text-center mt-4">
                     <h2>예상 가격</h2>
                     <div class="text-center">
@@ -114,7 +114,7 @@
     option = {
         xAxis: {
             type: 'category',
-            data: ['최소 가격', '예상 가격', '최대 가격']
+            data: ['최소 가격', '최대 가격']
         },
         yAxis: {
             type: 'value'
@@ -122,7 +122,6 @@
         series: [{
             data: [
                 { value: lowerBound, itemStyle: { color: '#007bff' } }, // 최소 - 파란색
-                { value: predictedPrice, itemStyle: { color: '#ff0000' }, symbolSize: 10 }, // 예상 가격 - 빨간색
                 { value: upperBound, itemStyle: { color: '#007bff' } } // 최대 - 파란색
             ],
             type: 'line',
