@@ -50,5 +50,6 @@ class Car(models.Model):
     FD_HIS = models.IntegerField()
     VT_HIS = models.FloatField()
     US_HIS = models.IntegerField()
+    L_NAME = models.TextField(null=True)  # nullable로 설정
 
 

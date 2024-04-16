@@ -1,8 +1,70 @@
 {% extends 'base.html' %}
-
+{% load pybo_filter %}
 {% block content %}
 <div class="container">
-    <h5 class="my-3 border-bottom pb-2">차량 등록</h5>
+    <h4 class="my-3 border-bottom pb-2">차량 등록</h5>
+    <h5 class="my-3 border-bottom pb-2">사진 등록</h5>
+    <h2>Image Upload</h2>
+    <div class="image-upload-container">
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
+            <div id="preview1" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
+            <div id="preview2" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
+            <div id="preview3" class="image-preview"></div>
+        </div>
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
+            <div id="preview1" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
+            <div id="preview2" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
+            <div id="preview3" class="image-preview"></div>
+        </div>
+    </div>
+    <div class="image-upload-container mt-4 mb-5">
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
+            <div id="preview1" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
+            <div id="preview2" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
+            <div id="preview3" class="image-preview"></div>
+        </div>
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
+            <div id="preview1" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
+            <div id="preview2" class="image-preview"></div>
+        </div>
+        
+        <div class="image-upload">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
+            <div id="preview3" class="image-preview"></div>
+        </div>
+    </div>
     <form method="post">
         {% csrf_token %}
         <!-- 오류 표시 시작 -->
@@ -19,76 +81,85 @@
         </div>
         {% endif %}
         <!-- 오류 표시 끝 -->
-        <!-- 기존의 차량 정보를 보여주되 수정 불가능한 입력 필드들 -->
-        <div class="mb-3">
-            <label for="MNAME" class="form-label">모델명</label>
-            <input type="text" class="form-control" name="MNAME" id="MNAME" value="{{ car.MNAME }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="MYERAR" class="form-label">연식</label>
-            <input type="text" class="form-control" name="MYERAR" id="MYERAR" value="{{ car.MYERAR }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="MILEAGE" class="form-label">주행거리</label>
-            <input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="COLOR" class="form-label">색상</label>
-            <input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="TRANS" class="form-label">변속기</label>
-            <input type="text" class="form-control" name="TRANS" id="TRANS" value="{{ car.TRANS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="F_TYPE" class="form-label">연료</label>
-            <input type="text" class="form-control" name="F_TYPE" id="F_TYPE" value="{{ car.F_TYPE }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="DISP" class="form-label">배기량</label>
-            <input type="text" class="form-control" name="DISP" id="DISP" value="{{ car.DISP }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="VTYPE" class="form-label">차종</label>
-            <input type="text" class="form-control" name="VTYPE" id="VTYPE" value="{{ car.VTYPE }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="VNUM" class="form-label">차량번호</label>
-            <input type="text" class="form-control" name="VNUM" id="VNUM" value="{{ car.VNUM }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="CU_HIS" class="form-label">용도변경 이력</label>
-            <input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="MVD_HIS" class="form-label">자차피해 이력</label>
-            <input type="text" class="form-control" name="MVD_HIS" id="MVD_HIS" value="{{ car.MVD_HIS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="AVD_HIS" class="form-label">타차피해 이력</label>
-            <input type="text" class="form-control" name="AVD_HIS" id="AVD_HIS" value="{{ car.AVD_HIS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="FD_HIS" class="form-label">침수 이력</label>
-            <input type="text" class="form-control" name="FD_HIS" id="FD_HIS" value="{{ car.FD_HIS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="VT_HIS" class="form-label">도난 이력</label>
-            <input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS }}" readonly>
-        </div>
-        <div class="mb-3">
-            <label for="US_HIS" class="form-label">소유자 변경 횟수</label>
-            <input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}" readonly>
-        </div>
+        <table class="table table-bordered text-center">
+            <tbody>
+                <tr>
+                    <th colspan="1"><label for="MNAME" class="form-label">모델명</label></th>
+                    <td colspan="3" class="custom-center"><input type="text" class="form-control" name="MNAME" id="MNAME" value="{{ car.MNAME }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="MILEAGE" class="form-label">주행거리</label></th>
+                    <td><input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE | add_commas}}km" readonly></td>
+                    <th><label for="MYERAR" class="form-label">연식</label></th>
+                    <td><input type="text" class="form-control" name="MYERAR" id="MYERAR" value="{{ car.MYERAR }}" readonly></td>
+                    
+                </tr>
+                <tr>
+                    <th><label for="TRANS" class="form-label">변속기</label></th>
+                    <td><input type="text" class="form-control" name="TRANS" id="TRANS" value="{{ car.TRANS }}" readonly></td>
+                    <th><label for="F_TYPE" class="form-label">연료</label></th>
+                    <td><input type="text" class="form-control" name="F_TYPE" id="F_TYPE" value="{{ car.F_TYPE }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="DISP" class="form-label">배기량</label></th>
+                    <td><input type="text" class="form-control" name="DISP" id="DISP" value="{{ car.DISP | add_commas}}cc" readonly></td>
+                    <th><label for="VTYPE" class="form-label">차종</label></th>
+                    <td><input type="text" class="form-control" name="VTYPE" id="VTYPE" value="{{ car.VTYPE }}" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="VNUM" class="form-label">차량번호</label></th>
+                    <td><input type="text" class="form-control" name="VNUM" id="VNUM" value="{{ car.VNUM }}" readonly></td>
+                    <th><label for="CU_HIS" class="form-label">용도변경 이력</label></th>
+                    <td><input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}회" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="MVD_HIS" class="form-label">자차피해 이력</label></th>
+                    <td><input type="text" class="form-control" name="MVD_HIS" id="MVD_HIS" value="{{ car.MVD_HIS | truncate_decimal }}회" readonly></td>
+                    <th><label for="AVD_HIS" class="form-label">타차피해 이력</label></th>
+                    <td><input type="text" class="form-control" name="AVD_HIS" id="AVD_HIS" value="{{ car.AVD_HIS | truncate_decimal }}회" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="FD_HIS" class="form-label">침수 이력</label></th>
+                    <td><input type="text" class="form-control" name="FD_HIS" id="FD_HIS" value="{{ car.FD_HIS }}회" readonly></td>
+                    <th><label for="VT_HIS" class="form-label">도난 이력</label></th>
+                    <td><input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS | truncate_decimal }}회" readonly></td>
+                </tr>
+                <tr>
+                    <th><label for="COLOR" class="form-label">색상</label></th>
+                    <td><input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly></td>
+                    <th><label for="US_HIS" class="form-label">소유자 변경 횟수</label></th>
+                    <td colspan="3"><input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}회" readonly></td>
+                </tr>
+                
+            </tbody>
+        </table>
+    
         <!-- 가격 입력 필드 -->
         <div class="mb-3">
             <label for="PRICE" class="form-label">가격</label>
-            <input type="text" class="form-control" name="PRICE" id="PRICE"
-            value="{{ form.PRICE.value|default_if_none:'' }}">
-            
+            <input type="text" class="form-control" name="PRICE" id="PRICE" value="{{ form.PRICE.value|default_if_none:'' }}">
         </div>
+    
         <!-- 내차팔기 버튼 -->
         <button type="submit" class="btn btn-primary">내차팔기</button>
     </form>
+    
 </div>
 {% endblock %}
+{% block script%}
+<script>
+    function previewImage(event, previewId) {
+        var file = event.target.files[0];
+        var previewArea = document.getElementById(previewId);
+        previewArea.innerHTML = ''; // 기존의 미리보기 삭제
+    
+        var reader = new FileReader();
+        reader.onload = function(){
+            var image = document.createElement('img');
+            image.src = reader.result;
+            previewArea.appendChild(image);
+        }
+        reader.readAsDataURL(file);
+    }
+</script>
+{%endblock%}
