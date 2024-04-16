@@ -89,7 +89,7 @@
                 </tr>
                 <tr>
                     <th><label for="MILEAGE" class="form-label">주행거리</label></th>
-                    <td><input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE | add_commas}}km" readonly></td>
+                    <td><input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE}}" readonly></td>
                     <th><label for="MYERAR" class="form-label">연식</label></th>
                     <td><input type="text" class="form-control" name="MYERAR" id="MYERAR" value="{{ car.MYERAR }}" readonly></td>
                     
@@ -102,33 +102,34 @@
                 </tr>
                 <tr>
                     <th><label for="DISP" class="form-label">배기량</label></th>
-                    <td><input type="text" class="form-control" name="DISP" id="DISP" value="{{ car.DISP | add_commas}}cc" readonly></td>
+                    <td><input type="text" class="form-control" name="DISP" id="DISP" value="{{ car.DISP }}" readonly></td>
                     <th><label for="VTYPE" class="form-label">차종</label></th>
                     <td><input type="text" class="form-control" name="VTYPE" id="VTYPE" value="{{ car.VTYPE }}" readonly></td>
                 </tr>
                 <tr>
                     <th><label for="VNUM" class="form-label">차량번호</label></th>
                     <td><input type="text" class="form-control" name="VNUM" id="VNUM" value="{{ car.VNUM }}" readonly></td>
-                    <th><label for="CU_HIS" class="form-label">용도변경 이력</label></th>
-                    <td><input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}회" readonly></td>
+                    <th><label for="COLOR" class="form-label">색상</label></th>
+                    <td><input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly></td>
+
                 </tr>
                 <tr>
                     <th><label for="MVD_HIS" class="form-label">자차피해 이력</label></th>
-                    <td><input type="text" class="form-control" name="MVD_HIS" id="MVD_HIS" value="{{ car.MVD_HIS | truncate_decimal }}회" readonly></td>
+                    <td><input type="text" class="form-control" name="MVD_HIS" id="MVD_HIS" value="{{ car.MVD_HIS | truncate_decimal }}" readonly></td>
                     <th><label for="AVD_HIS" class="form-label">타차피해 이력</label></th>
-                    <td><input type="text" class="form-control" name="AVD_HIS" id="AVD_HIS" value="{{ car.AVD_HIS | truncate_decimal }}회" readonly></td>
+                    <td><input type="text" class="form-control" name="AVD_HIS" id="AVD_HIS" value="{{ car.AVD_HIS | truncate_decimal }}" readonly></td>
                 </tr>
                 <tr>
                     <th><label for="FD_HIS" class="form-label">침수 이력</label></th>
-                    <td><input type="text" class="form-control" name="FD_HIS" id="FD_HIS" value="{{ car.FD_HIS }}회" readonly></td>
+                    <td><input type="text" class="form-control" name="FD_HIS" id="FD_HIS" value="{{ car.FD_HIS }}" readonly></td>
                     <th><label for="VT_HIS" class="form-label">도난 이력</label></th>
-                    <td><input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS | truncate_decimal }}회" readonly></td>
+                    <td><input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS | truncate_decimal }}" readonly></td>
                 </tr>
                 <tr>
-                    <th><label for="COLOR" class="form-label">색상</label></th>
-                    <td><input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly></td>
+                    <th><label for="CU_HIS" class="form-label">용도변경 이력</label></th>
+                    <td><input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}" readonly></td>
                     <th><label for="US_HIS" class="form-label">소유자 변경 횟수</label></th>
-                    <td colspan="3"><input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}회" readonly></td>
+                    <td colspan="3"><input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}" readonly></td>
                 </tr>
                 
             </tbody>
