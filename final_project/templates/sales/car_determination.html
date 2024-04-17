@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>차량 판별</title>
+</head>
+
+<body>
+    <h1>차량 판별</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" accept="image/*" onchange="previewImage(event, 'image-preview')" name="image">
+        <div id="image-preview" class="image-preview"></div>
+        <button type="submit">제출</button>
+    </form>
+    
+    {% if uploaded_image %}
+        <h2>업로드된 이미지</h2>
+        <img src="{{ uploaded_image.uploadedimage.url }}" alt="Uploaded Image">
+        
+        {% if processed_image %}
+            <h2>처리된 이미지</h2>
+            <img src="{{ processed_image }}" alt="Processed Image">
+        {% else %}
+            <p>처리된 이미지가 없습니다.</p>
+        {% endif %}
+        
+        {% if determination_result %}
+            {% if determination_result == '2' %}
+                <p>업로드된 사진은 차량입니다.</p>
+            {% else %}
+                <p>업로드된 사진은 차량이 아닙니다. 다시 업로드 해주세요.</p>
+            {% endif %}
+        {% else %}
+            <p>업로드된 사진은 차량이 아닙니다. 다시 업로드 해주세요.</p>
+        {% endif %}
+        
+    {% else %}
+        <p>업로드된 이미지가 없습니다.</p>
+    {% endif %}
+</body>
+
+<script>
+    function previewImage(event, previewId) {
+        var file = event.target.files[0];
+        var previewArea = document.getElementById(previewId);
+        previewArea.innerHTML = ''; // 기존의 미리보기 삭제
+    
+        var reader = new FileReader();
+        reader.onload = function(){
+            var image = document.createElement('img');
+            image.src = reader.result;
+            previewArea.appendChild(image);
+        }
+        reader.readAsDataURL(file);
+    }
+</script>
+
+</html>
+{% endblock %}

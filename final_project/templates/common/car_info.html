@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">차량 정보 조회</h1>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <div class="col-md-4 text-md-right">
+                        <label for="car_number" class="col-form-label">차량 번호 입력:</label>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <input type="text" id="car_number" name="car_number" class="form-control">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button type="submit" class="btn btn-primary">조회</button>
+                </div> 
+            </form>
+            
+            
+            
+            
+        </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-md-6">
+            {% if car %}
+            <div class="container mt-4">
+                <h2 class="text-center">차량 정보</h2>
+                <table class="table table-bordered text-center">
+                    <tbody>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">차량 이름</th>
+                            <td>{{ car.MNAME }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">가격</th>
+                            <td>{{ car.PRICE }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">주행거리</th>
+                            <td>{{ car.MILEAGE }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">배기량</th>
+                            <td>{{ car.DISP }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">용도변경 이력</th>
+                            <td>{{ car.CU_HIS|floatformat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">자차피해이력</th>
+                            <td>{{ car.MVD_HIS|floatformat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">타차피해이력</th>
+                            <td>{{ car.AVD_HIS|floatformat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">침수 이력</th>
+                            <td>{{ car.FD_HIS|floatformat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">도난 이력</th>
+                            <td>{{ car.VT_HIS|floatformat }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">소유자 변경 횟수</th>
+                            <td>{{ car.US_HIS|floatformat }}</td>
+                        </tr>
+                        <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="col-md-6">
+          
+                <div class="text-center mt-4">
+                    <h2>예상 가격</h2>
+                    <div class="text-center">
+                        <canvas id="predictedPriceChart" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
+                    </div>
+                    <p>예상 가격: {{ predicted_price }}만원</p>
+                    <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
+                </div>
+            {% elif error_message %}
+                <p class="text-center">{{ error_message }}</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+           
+{% endblock %}
+{% block script %}
+<script>
+    // 예상 가격 데이터
+    var predictedPrice = {{ predicted_price }};
+    var lowerBound = Math.round(predictedPrice * 0.9 * 10) / 10; // -10% 범위, 소수점 첫째 자리에서 반올림
+    var upperBound = Math.round(predictedPrice * 1.1 * 10) / 10; // +10% 범위, 소수점 첫째 자리에서 반올림
+    
+    
+
+    // 차트 그리기
+    var chartDom = document.getElementById('predictedPriceChart');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+        xAxis: {
+            type: 'category',
+            data: ['최소 가격', '최대 가격']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [
+                { value: lowerBound, itemStyle: { color: '#007bff' } }, // 최소 - 파란색
+                { value: upperBound, itemStyle: { color: '#007bff' } } // 최대 - 파란색
+            ],
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }]
+    };
+
+    // 차트에 옵션 적용
+    myChart.setOption(option);
+</script>
+
+{% endblock %}
