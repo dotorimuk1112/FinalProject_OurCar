@@ -15,23 +15,6 @@ import seul_car_list
 
 from django.http import JsonResponse
 
-def filter_cars(request):
-    brand = request.GET.get('brand')
-    model = request.GET.get('model')
-
-    car_list = CarSalesPost.objects.order_by('-create_date')
-
-    # 필터링
-    if brand:
-        car_list = car_list.filter(MNAME__icontains=brand)
-    if model:
-        car_list = car_list.filter(MNAME__icontains=model)
-
-    # 결과를 JSON 형태로 반환
-    data = {
-        'car_list': list(car_list.values())
-    }
-    return JsonResponse(data)
 
 with open('budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)
@@ -41,24 +24,34 @@ with open('budget_recommend_models.pkl', 'rb') as f:
 def index(request):
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
+    
     car_list = CarSalesPost.objects.order_by('-create_date')
     ko_brands = seul_car_list.ko_brand
-    selected_brand = request.GET.get('selected_brand', '')  # 선택된 브랜드
 
     if kw:
         car_list = car_list.filter(
             Q(MNAME__icontains=kw)   # 제목 검색
         ).distinct()
-    # 선택된 브랜드가 있다면 해당 브랜드로 필터링
-    if selected_brand:
-        car_list = car_list.filter(
-            Q(MNAME__icontains=selected_brand)
+
+    search_mode = request.GET.get('search_mode')
+    search_mode2 = request.GET.get('search_mode2')
+
+    print(search_mode)
+    if search_mode:
+        if search_mode != "전체":
+            car_list = car_list.filter(
+                Q(MNAME__icontains=search_mode)
             ).distinct()
+        
+        # search_mode에 해당하는 키에 맞는 value 가져오기
+        selected_brand_values = ko_brands.get(search_mode, [])
+    else:
+        selected_brand_values = []
 
     
     paginator = Paginator(car_list, 12)  # 페이지당 12개씩 보여주기
     page_obj = paginator.get_page(page)
-    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'ko_brands' : ko_brands, 'selected_brand': selected_brand}
+    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'ko_brands' : ko_brands, 'selected_brand_values': selected_brand_values}
     return render(request, 'sales/question_list.html', context)
 
 # 질문 상세 보기

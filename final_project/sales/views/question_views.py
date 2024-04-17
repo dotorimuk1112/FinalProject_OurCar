@@ -13,7 +13,6 @@ from common.models import Car
 @login_required(login_url='common:login')
 def question_create(request, car_VNUM):
     car = get_object_or_404(Car, VNUM=car_VNUM)
-    tell = CarSalesPost
     if request.method == 'POST':
         form = SalesForm(request.POST)
         if form.is_valid():
