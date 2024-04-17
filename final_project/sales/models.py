@@ -27,11 +27,11 @@ class CarSalesPost(models.Model):
     modify_date = models.DateTimeField(null=True, blank=True)
     create_date = models.DateTimeField()
     buyer = models.ManyToManyField(CustomUser, related_name='buyer_car_sales_posts')  # 추천인 추가
-    thumbnail_image = models.ImageField(upload_to='profile_images', blank=True, null=True)
-    Image1 = models.ImageField(upload_to='profile_images', blank=True, null=True)
-    Image2 = models.ImageField(upload_to='profile_images', blank=True, null=True)
-    Image3 = models.ImageField(upload_to='profile_images', blank=True, null=True)
-    Image4 = models.ImageField(upload_to='profile_images', blank=True, null=True)
+    thumbnail_image = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image1 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image2 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image3 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image4 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     
     def __str__(self):
         return self.MNAME
