@@ -4,7 +4,7 @@ DATABASES = {
         'NAME': 'ourcar',
         'USER': 'user31',
         'PASSWORD': 'user31',
-        'HOST': '192.168.0.65',
-        'PORT': '8881',
+        'HOST': '0.tcp.jp.ngrok.io',
+        'PORT': '11953',
     }
 }
