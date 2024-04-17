@@ -3,7 +3,18 @@
 {% load pybo_filter %}
 {% block content %}
 <!-- HTML 코드 -->
-{% comment %} <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+    <!-- message 표시 -->
+    {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul><li>{{ message.message }}</li></ul>
+    {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex align-items-center justify-content-center" style="background-color: skyblue; height: 400px;">
@@ -29,7 +40,7 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-</div> {% endcomment %}
+</div>
 
 
 <div class="container my-3">
@@ -73,7 +84,7 @@
                         <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body clickable-card">
-                                    <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
@@ -109,9 +120,9 @@
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
-        {% if question_list.has_previous %}
+        {% if car_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.previous_page_number }}"
+            <a class="page-link" data-page="{{ car_list.previous_page_number }}"
                  href="javascript:void(0)">이전</a>
         </li>
         {% else %}
@@ -120,10 +131,10 @@
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
-        {% for page_number in question_list.paginator.page_range %}
-        {% if page_number >= question_list.number|add:-4 and page_number <= question_list.number|add:4 %}
+        {% for page_number in car_list.paginator.page_range %}
+        {% if page_number >= car_list.number|add:-4 and page_number <= car_list.number|add:4 %}
 
-        {% if page_number == question_list.number %}
+        {% if page_number == car_list.number %}
         <li class="page-item active" aria-current="page">
             <a class="page-link" data-page="{{ page_number }}"
                 href="javascript:void(0)">{{ page_number }}</a>
@@ -137,9 +148,9 @@
         {% endif %}
         {% endfor %}
         <!-- 다음페이지 -->
-        {% if question_list.has_next %}
+        {% if car_list.has_next %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.next_page_number }}"
+            <a class="page-link" data-page="{{ car_list.next_page_number }}"
                 href="javascript:void(0)">다음</a>
         </li>
         {% else %}
