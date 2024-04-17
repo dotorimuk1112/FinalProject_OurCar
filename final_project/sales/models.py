@@ -26,7 +26,9 @@ class CarSalesPost(models.Model):
     PRICE = models.IntegerField(null=False) ##만원단위
     modify_date = models.DateTimeField(null=True, blank=True)
     create_date = models.DateTimeField()
+
     buyer = models.ManyToManyField(CustomUser, related_name='buyer_car_sales_posts')  # 추천인 추가
+    brand = models.TextField(null=True)
     
     def __str__(self):
         return self.MNAME

@@ -11,7 +11,8 @@ urlpatterns = [
     path('',
          base_views.index, name='index'),
      path('my_page/', base_views.my_page, name='my_page'),
-    
+    path('filter/', base_views.filter_cars, name='filter_cars'),
+
 
      
     path('detail/<int:post_id>/',
