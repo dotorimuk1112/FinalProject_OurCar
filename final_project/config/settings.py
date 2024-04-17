@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'common.apps.CommonConfig',  
     'sales.apps.SalesConfig',
     'chat.apps.ChatConfig',  
+    'django_filters',
 ]
 
 MIDDLEWARE = [
