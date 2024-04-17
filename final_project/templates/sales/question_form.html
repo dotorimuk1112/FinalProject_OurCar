@@ -2,70 +2,48 @@
 {% load pybo_filter %}
 {% block content %}
 <div class="container">
+    <!-- message 표시 -->
+    {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul><li>{{ message.message }}</li></ul>
+    {% endfor %}
+    </div>
+    {% endif %}
     <h4 class="my-3 border-bottom pb-2">차량 등록</h5>
     <h5 class="my-3 border-bottom pb-2">사진 등록</h5>
     <h2>Image Upload</h2>
-    <div class="image-upload-container">
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
-            <div id="preview1" class="image-preview"></div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="image-upload-container mt-4 mb-5">
+            <input type="file" accept="image/*" onchange="previewImage(event, 'thumbnail_image-preview')" name="thumbnail_image">
+            <div id="thumbnail_image-preview" class="image-preview"></div>
         </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
-            <div id="preview2" class="image-preview"></div>
+
+        <div class="image-upload-container mt-4 mb-5">
+            <div class="image-upload">
+                <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" name="image1">
+                <div id="preview1" class="image-preview"></div>
+            </div>
+            
+            <div class="image-upload">
+                <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" name="image2">
+                <div id="preview2" class="image-preview"></div>
+            </div>
+            
+            <div class="image-upload">
+                <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" name="image3">
+                <div id="preview3" class="image-preview"></div>
+            </div>
+            
+            <div class="image-upload">
+                <input type="file" accept="image/*" onchange="previewImage(event, 'preview4')" name="image4">
+                <div id="preview4" class="image-preview"></div>
+            </div>
         </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
-            <div id="preview3" class="image-preview"></div>
-        </div>
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
-            <div id="preview1" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
-            <div id="preview2" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
-            <div id="preview3" class="image-preview"></div>
-        </div>
-    </div>
-    <div class="image-upload-container mt-4 mb-5">
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
-            <div id="preview1" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
-            <div id="preview2" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
-            <div id="preview3" class="image-preview"></div>
-        </div>
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" />
-            <div id="preview1" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" />
-            <div id="preview2" class="image-preview"></div>
-        </div>
-        
-        <div class="image-upload">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" />
-            <div id="preview3" class="image-preview"></div>
-        </div>
-    </div>
-    <form method="post">
+
         {% csrf_token %}
         <!-- 오류 표시 시작 -->
         {% if form.errors %}
@@ -89,7 +67,7 @@
                 </tr>
                 <tr>
                     <th><label for="MILEAGE" class="form-label">주행거리</label></th>
-                    <td><input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE}}" readonly></td>
+                    <td><input type="text" class="form-control" name="MILEAGE" id="MILEAGE" value="{{ car.MILEAGE }}" readonly></td>
                     <th><label for="MYERAR" class="form-label">연식</label></th>
                     <td><input type="text" class="form-control" name="MYERAR" id="MYERAR" value="{{ car.MYERAR }}" readonly></td>
                     
