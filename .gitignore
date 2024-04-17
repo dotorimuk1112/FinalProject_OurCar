@@ -1,8 +1,8 @@
 venvs/
 venv2/
+.venv/
 
 ourcar/my_settings.py
-
 
 final_project/my_settings.py
 
@@ -14,3 +14,5 @@ final_project/common/migrations/__pycache__/
 final_project/chat/__pycache__/
 final_project/chat/migrations/__pycache__/
 final_project/__pycache__/
+
+**/__pycache__/
