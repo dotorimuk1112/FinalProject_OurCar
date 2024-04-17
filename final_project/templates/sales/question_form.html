@@ -87,8 +87,9 @@
                 <tr>
                     <th><label for="VNUM" class="form-label">차량번호</label></th>
                     <td><input type="text" class="form-control" name="VNUM" id="VNUM" value="{{ car.VNUM }}" readonly></td>
-                    <th><label for="CU_HIS" class="form-label">용도변경 이력</label></th>
-                    <td><input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}" readonly></td>
+                    <th><label for="COLOR" class="form-label">색상</label></th>
+                    <td><input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly></td>
+
                 </tr>
                 <tr>
                     <th><label for="MVD_HIS" class="form-label">자차피해 이력</label></th>
@@ -103,8 +104,8 @@
                     <td><input type="text" class="form-control" name="VT_HIS" id="VT_HIS" value="{{ car.VT_HIS | truncate_decimal }}" readonly></td>
                 </tr>
                 <tr>
-                    <th><label for="COLOR" class="form-label">색상</label></th>
-                    <td><input type="text" class="form-control" name="COLOR" id="COLOR" value="{{ car.COLOR }}" readonly></td>
+                    <th><label for="CU_HIS" class="form-label">용도변경 이력</label></th>
+                    <td><input type="text" class="form-control" name="CU_HIS" id="CU_HIS" value="{{ car.CU_HIS }}" readonly></td>
                     <th><label for="US_HIS" class="form-label">소유자 변경 횟수</label></th>
                     <td colspan="3"><input type="text" class="form-control" name="US_HIS" id="US_HIS" value="{{ car.US_HIS }}" readonly></td>
                 </tr>
