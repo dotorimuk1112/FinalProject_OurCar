@@ -5,9 +5,9 @@ from django.utils import timezone
 from ..forms import SalesForm
 from ..models import CarSalesPost
 from common.models import Car
-
-# from ..forms import QuestionForm
-# from ..models import Question
+from PIL import Image
+from ..static.car_determination import car_determination
+from django.http import HttpResponse
 
 # 질문 생성
 @login_required(login_url='common:login')
@@ -15,16 +15,70 @@ def question_create(request, car_VNUM):
     car = get_object_or_404(Car, VNUM=car_VNUM)
 
     if request.method == 'POST':
-        form = SalesForm(request.POST)
+        form = SalesForm(request.POST, request.FILES)
         if form.is_valid():
-            CarSalesPost = form.save(commit=False)
-            CarSalesPost.seller = request.user
-            CarSalesPost.create_date = timezone.now()
-            CarSalesPost.save()
+            car_sales_post = form.save(commit=False)
+            car_sales_post.seller = request.user
+            car_sales_post.create_date = timezone.now()
+            
+            # ■업로드 이미지 처리 
+            # 썸네일 처리
+            not_car_list = []
+
+            thumb = request.FILES.get("thumbnail_image")
+            thumbnail_img_result = car_determination(thumb)
+            if thumb and (thumbnail_img_result=='2'):
+                car_sales_post.thumbnail_image = thumb
+                print('썸네일 자동차 확인. 업로드 성공.')
+            else:
+                not_car_list.append('썸네일')
+                
+            # 이미지1 처리
+            image1 = request.FILES.get("image1")
+            img1_result = car_determination(image1)
+            if image1 and (img1_result == '2'):
+                car_sales_post.Image1 = image1
+                print('1번 이미지 자동차 확인. 업로드 성공.')
+            else:
+                not_car_list.append('이미지1')
+
+            # 이미지2 처리
+            image2 = request.FILES.get("image2")
+            img2_result = car_determination(image2)
+            if image2 and (img2_result == '2'):
+                car_sales_post.Image2 = image2
+            else:
+                not_car_list.append('이미지2')
+
+            # 이미지3 처리
+            image3 = request.FILES.get("image3")
+            img3_result = car_determination(image3)
+            if image3 and (img3_result == '2'):
+                car_sales_post.Image3 = image3
+            else:
+                not_car_list.append('이미지3')
+
+            # 이미지4 처리
+            image4 = request.FILES.get("image4")
+            img4_result = car_determination(image4)
+            if image4 and (img4_result == '2'):
+                car_sales_post.Image4 = image4
+            else:
+                not_car_list.append('이미지4')
+
+            if not_car_list:
+                error_messages = [f'{m}에 자동차가 포함되어 있지 않습니다.' for m in not_car_list]
+                for error_message in error_messages:
+                    messages.error(request, error_message)
+                context = {'form': form, 'car': car, 'error_messages': error_messages}
+                return render(request, 'sales/question_form.html', context)
+
+            car_sales_post.save()
+            messages.success(request, '판매 게시글이 성공적으로 등록됐습니다.')
             return redirect('sales:index')
     else:
         form = SalesForm()
-    context = {'form': form, 'car': car}  # Pass the car object to the template
+    context = {'form': form, 'car': car}
     return render(request, 'sales/question_form.html', context)
 
 
