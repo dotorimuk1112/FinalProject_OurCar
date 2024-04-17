@@ -51,27 +51,27 @@
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">용도변경 이력</th>
-                            <td>{{ car.CU_HIS }}</td>
+                            <td>{{ car.CU_HIS|floatformat }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">자차피해이력</th>
-                            <td>{{ car.MVD_HIS }}</td>
+                            <td>{{ car.MVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">타차피해이력</th>
-                            <td>{{ car.AVD_HIS }}</td>
+                            <td>{{ car.AVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">침수 이력</th>
-                            <td>{{ car.FD_HIS }}</td>
+                            <td>{{ car.FD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">도난 이력</th>
-                            <td>{{ car.VT_HIS }}</td>
+                            <td>{{ car.VT_HIS|floatformat }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">소유자 변경 횟수</th>
-                            <td>{{ car.US_HIS }}</td>
+                            <td>{{ car.US_HIS|floatformat }}</td>
                         </tr>
                         <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
                     </tbody>

@@ -95,7 +95,7 @@
                 <th scope="row">연식</th>
                 <td>{{ CarSalesPost.MYERAR }}</td>
                 <th scope="row">주행거리</th>
-                <td>{{ CarSalesPost.MILEAGE }}</td>
+                <td>{{ CarSalesPost.MILEAGE| add_commas }}</td>
             </tr>
             <tr>
                 <th scope="row">색상</th>
@@ -107,7 +107,7 @@
                 <th scope="row">연료</th>
                 <td>{{ CarSalesPost.F_TYPE }}</td>
                 <th scope="row">배기량</th>
-                <td>{{ CarSalesPost.DISP }}</td>
+                <td>{{ CarSalesPost.DISP| add_commas }}</td>
             </tr>
             <tr>
                 <th scope="row">차종</th>
@@ -117,21 +117,21 @@
             </tr>
             <tr>
                 <th scope="row">용도변경 이력</th>
-                <td>{{ CarSalesPost.CU_HIS }}</td>
+                <td>{{ CarSalesPost.CU_HIS|floatformat }}회</td>
                 <th scope="row">자차피해 이력</th>
-                <td>{{ CarSalesPost.MVD_HIS }}</td>
+                <td>{{ CarSalesPost.MVD_HIS|floatformat }}회</td>
             </tr>
             <tr>
                 <th scope="row">타차피해 이력</th>
-                <td>{{ CarSalesPost.AVD_HIS }}</td>
+                <td>{{ CarSalesPost.AVD_HIS|floatformat }}회</td>
                 <th scope="row">침수 이력</th>
-                <td>{{ CarSalesPost.FD_HIS }}</td>
+                <td>{{ CarSalesPost.FD_HIS|floatformat }}회</td>
             </tr>
             <tr>
                 <th scope="row">도난 이력</th>
-                <td>{{ CarSalesPost.VT_HIS }}</td>
+                <td>{{ CarSalesPost.VT_HIS|floatformat }}회</td>
                 <th scope="row">소유자 변경 횟수</th>
-                <td>{{ CarSalesPost.US_HIS }}</td>
+                <td>{{ CarSalesPost.US_HIS|floatformat }}회</td>
             </tr>
         </tbody>
     </table>
