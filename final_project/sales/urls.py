@@ -11,7 +11,7 @@ urlpatterns = [
     path('',
          base_views.index, name='index'),
      path('my_page/', base_views.my_page, name='my_page'),
-    
+
 
      
     path('detail/<int:post_id>/',

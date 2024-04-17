@@ -13,7 +13,6 @@ from django.http import HttpResponse
 @login_required(login_url='common:login')
 def question_create(request, car_VNUM):
     car = get_object_or_404(Car, VNUM=car_VNUM)
-
     if request.method == 'POST':
         form = SalesForm(request.POST, request.FILES)
         if form.is_valid():
