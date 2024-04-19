@@ -5,6 +5,6 @@ DATABASES = {
         'USER': 'user31',
         'PASSWORD': 'user31',
         'HOST': '0.tcp.jp.ngrok.io',
-        'PORT': '11953',
+        'PORT': '19100',
     }
 }

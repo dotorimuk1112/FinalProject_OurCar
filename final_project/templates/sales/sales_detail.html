@@ -89,26 +89,26 @@
         </div>
     </div>
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
         <div class="carousel-inner">
             {% if CarSalesPost.Image1 %}
             <div class="carousel-item active">
-                <img src="{{ CarSalesPost.Image1.url }}" class="d-block w-100" alt="Image 1" width="200" height="200">
+                <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid w-100" alt="Image 1">
             </div>
             {% endif %}
             {% if CarSalesPost.Image2 %}
             <div class="carousel-item">
-                <img src="{{ CarSalesPost.Image2.url }}" class="d-block w-100" alt="Image 2" width="200" height="200">
+                <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid w-100" alt="Image 2">
             </div>
             {% endif %}
             {% if CarSalesPost.Image3 %}
             <div class="carousel-item">
-                <img src="{{ CarSalesPost.Image3.url }}" class="d-block w-100" alt="Image 3" width="200" height="200">
+                <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid w-100" alt="Image 3">
             </div>
             {% endif %}
             {% if CarSalesPost.Image4 %}
             <div class="carousel-item">
-                <img src="{{ CarSalesPost.Image4.url }}" class="d-block w-100" alt="Image 4" width="200" height="200">
+                <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid w-100" alt="Image 4">
             </div>
             {% endif %}
         </div>
