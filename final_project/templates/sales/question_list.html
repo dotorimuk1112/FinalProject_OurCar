@@ -64,9 +64,9 @@
                 <div class="container my-3">
                     <label for="brandFilter">브랜드 필터:</label>
                     <select class="form-control" name="search_mode" id="search_mode">
-                        <option value="전체">전체</option>
+                        <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
                         {% for brand_name in ko_brands %}
-                        <option value="{{ brand_name }}">{{ brand_name }}</option>
+                        <option value="{{ brand_name }}" {% if search_mode == brand_name %}selected{% endif %}>{{ brand_name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -77,9 +77,11 @@
                 <div class="container my-3">
                     <label for="brandFilter">세부 차종 명:</label>
                     <select class="form-control" name="search_mode2" id="search_mode2">
+                        <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
                         {% for brand_value in selected_brand_values %}
-                        <option value="{{ brand_value }}">{{ brand_value }}</option>
+                        <option value="{{ brand_value }}" {% if search_mode2 == brand_value %}selected{% endif %}>{{ brand_value }}</option>
                         {% endfor %}
+                        
                     </select>
                 </div>
             </form>
@@ -214,17 +216,23 @@ searchModeSelect.addEventListener("change", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-
     const searchModeSelect = document.querySelector("select[name=search_mode2]");
     
     searchModeSelect.addEventListener("change", function () {
-        document.getElementById("search_mode2").submit();
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
         
         // 선택한 값을 기본값으로 설정
         const selectedValue = this.value;
-        document.getElementById("search_mode2").value = selectedValue;
-        });      
-    });
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('search_mode2', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
 
 </script>
 {% endblock %}

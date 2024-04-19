@@ -45,13 +45,23 @@ def index(request):
         
         # search_mode에 해당하는 키에 맞는 value 가져오기
         selected_brand_values = ko_brands.get(search_mode, [])
+        print("일치는 차종 명 존재:" + str(len(selected_brand_values)))
     else:
         selected_brand_values = []
+        print("일치는 차종 명 존재 안함:" + str(len(selected_brand_values)))
+
+    if search_mode2:
+        if search_mode2 != "전체":
+            car_list = car_list.filter(
+                Q(MNAME__icontains=search_mode2)
+            ).distinct()
+        print("세부 차종명 :" + str(len(selected_brand_values)))
+
 
     
     paginator = Paginator(car_list, 12)  # 페이지당 12개씩 보여주기
     page_obj = paginator.get_page(page)
-    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'ko_brands' : ko_brands, 'selected_brand_values': selected_brand_values}
+    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'ko_brands' : ko_brands, 'selected_brand_values': selected_brand_values, 'search_mode' :search_mode, 'search_mode2' :search_mode2}
     return render(request, 'sales/question_list.html', context)
 
 # 질문 상세 보기
