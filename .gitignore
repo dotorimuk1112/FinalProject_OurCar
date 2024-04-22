@@ -16,3 +16,5 @@ final_project/chat/migrations/__pycache__/
 final_project/__pycache__/
 
 **/__pycache__/
+
+final_project/best.pt
