@@ -1,5 +1,5 @@
 from django import forms
-from sales.models import CarSalesPost
+from sales.models import CarSalesPost, BuyerMessages
 from common.models import CustomUser
 
 
@@ -38,3 +38,9 @@ class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['profile_image']
+        
+
+class BuyerMessagesForm(forms.ModelForm):
+    class Meta:
+        model = BuyerMessages
+        fields = ['buyer_price']

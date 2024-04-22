@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import base_views, question_views
+from .views import base_views, question_views, consume_views
 from sales.views import car_determination_views
 
 
@@ -11,7 +11,9 @@ urlpatterns = [
     path('',
          base_views.index, name='index'),
      path('my_page/', base_views.my_page, name='my_page'),
-
+     
+    path('propose_price/<int:post_id>/',
+         consume_views.propose_price, name='propose_price'),
 
      
     path('detail/<int:post_id>/',

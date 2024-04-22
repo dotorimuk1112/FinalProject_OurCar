@@ -63,3 +63,13 @@ class UploadedImage2(models.Model):
     class Meta:
         managed = True
         db_table = 'pybo_uploadedimage2'
+
+class BuyerMessages(models.Model):
+    buyer_id = models.IntegerField(null=False)
+    seller_id = models.IntegerField(null=False)
+    post_id = models.IntegerField(null=False)
+    buyer_price = models.IntegerField(null=False) ##만원단위
+
+    class Meta: 
+        managed = True
+        db_table = 'BuyerMessages'
