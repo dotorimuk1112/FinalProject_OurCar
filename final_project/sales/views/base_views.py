@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import CarSalesPost, BuyerMessages
-from common.models import TestSangmin
+from common.models import TestSangmin, CustomUser
 from ..forms import ProfileImageForm
 import pickle
 import pandas as pd
@@ -84,25 +84,43 @@ def index(request):
     return render(request, 'sales/question_list.html', context)
 
 # 질문 상세 보기
+from django.shortcuts import get_object_or_404
+
+# 질문 상세 보기
 def detail(request, post_id):
     user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
+    
+    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.
+    buyer_proposals = BuyerMessages.objects.filter(post_id=post_id)
+    
+    # 구매 제안서 목록을 반복하면서 구매자 정보와 함께 가져옵니다.
+    buyer_proposals_with_info = []
+    for proposal in buyer_proposals:
+        # 각 구매 제안서의 구매자 정보를 가져옵니다.
+        buyer_info = get_object_or_404(CustomUser, id=proposal.buyer_id)
+        # 구매 제안서와 구매자 정보를 함께 저장합니다.
+        buyer_proposals_with_info.append((proposal, buyer_info))
+    
     context = {
         'CarSalesPost': car_sales_post,
         'min_budget': min_budget,
         'max_budget': max_budget,
-        'budget_rec_result': budget_rec_result
+        'budget_rec_result': budget_rec_result,
+        'buyer_proposals_with_info': buyer_proposals_with_info  # 구매 제안서와 해당 구매자의 정보를 context에 추가
     }
     return render(request, 'sales/sales_detail.html', context)
+
 
 
 @login_required(login_url='common:login')
 def my_page(request):
     user = request.user
     test_sangmin_instance = TestSangmin.objects.get(id=user.id)
-    user_buyer_price = BuyerMessages.objects.filter(buyer_id=user_id) 
-
+    user_buyer_price = BuyerMessages.objects.filter(buyer_id=user.id) 
+    
+    
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
         
     # 사용자가 좋아하는 차량 가져오기
@@ -155,7 +173,7 @@ def my_page(request):
                 'profile_image_form': form,
                 'liked_car_count': liked_car_count,
                 'user_cars_for_sale_count': user_cars_for_sale_count,
-                'user_buyer_price' : user_buyer_price
+                'user_buyer_price' : user_buyer_price,
                 
             })  
     else:

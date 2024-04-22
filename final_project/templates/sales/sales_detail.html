@@ -127,6 +127,47 @@
                     </div>
                 </div>
                 <div class="my-3 text-end">
+                    {% if request.user == CarSalesPost.seller %}    
+                        <!-- "구매 제안서 보기" 버튼 -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서 보기</button>
+                    {% endif %}
+                    <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서 보기</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="text-center">이름</th>
+                                                <th scope="col" class="text-center">성별</th>
+                                                <th scope="col" class="text-center">주소</th>
+                                                <th scope="col" class="text-center">전화번호</th>
+                                                <th scope="col" class="text-center">구매 제안 가격</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for proposal, buyer_info in buyer_proposals_with_info %}
+                                            <tr>
+                                                <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
+                                                <td class="text-center">{{ buyer_info.get_gender_display }}</td>
+                                                <td class="text-center">{{ buyer_info.address }}</td>
+                                                <td class="text-center">{{ buyer_info.phone_number }}</td>
+                                                <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
                     <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
                         class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
                         <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
@@ -201,7 +242,7 @@
                 <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
                     <h3>파손이 탐지되었습니다.</h3>
                     <div class="carousel-inner">
-                        {% if CarSalesPost.thumbnail_image %}
+                        {% if CarSalesPost.detected_thumbnail %}
                         <div class="carousel-item active">
                             <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
                         </div>
@@ -244,26 +285,34 @@
 </div>
 
     <!-- 모달 폼 -->
-    <div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 약관 동의 체크박스 -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
+                    <label class="form-check-label" for="agreeCheckbox">
+                        판매자에게 당신의 정보를 제공하는 것에 동의합니다.
+                    </label>
                 </div>
-                <div class="modal-body">
-                    <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
-                            <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">제안하기</button>
-                    </form>
-                </div>
+
+                <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
+                        <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitProposalBtn" disabled>제안하기</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
 {% if not request.user == CarSalesPost.seller %}                        
 
@@ -278,7 +327,19 @@
 {% endblock%}
 {% block script %}
 <script type='text/javascript'>
-   
+ // 약관 동의 체크박스 상태 변경 이벤트 리스너
+ document.getElementById("agreeCheckbox").addEventListener("change", function() {
+    // 체크박스가 체크되어 있는지 확인
+    if (this.checked) {
+        // 체크되어 있다면 제안하기 버튼 활성화
+        document.getElementById("submitProposalBtn").disabled = false;
+    } else {
+        // 체크되어 있지 않다면 제안하기 버튼 비활성화
+        document.getElementById("submitProposalBtn").disabled = true;
+        // 사용자에게 체크하라는 메시지 표시
+        alert("판매자에게 당신의 정보를 제공하는 것에 동의하셔야 제안하기 버튼을 누를 수 있습니다.");
+    }
+});
 const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element) {
     element.addEventListener('click', function() {
