@@ -99,9 +99,20 @@
                 <!-- 좌측 요소 -->
                 <div class="col-md-6 mr-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
-                        금융정보
+                        고객님 추천 예산: <br> 
+                        {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                        <div>
+                            {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
+                                <p>적정 가격입니다.</p>
+                            {% elif CarSalesPost.PRICE > max_budget %}
+                            <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
+                            {% else %}
+                            <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                
                 <!-- 우측 요소 -->
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
@@ -183,6 +194,52 @@
         </tbody>
     </table>
 
+<div class="col-md-6">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card my-3">
+                <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                    <h3>파손이 탐지되었습니다.</h3>
+                    <div class="carousel-inner">
+                        {% if CarSalesPost.thumbnail_image %}
+                        <div class="carousel-item active">
+                            <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.detected_image1 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.detected_image2 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.detected_image3 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.detected_image4 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     
 </div>
 
