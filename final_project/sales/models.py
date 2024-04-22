@@ -1,6 +1,8 @@
 from django.db import models
 from common.models import CustomUser
 from config.settings import MEDIA_ROOT
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
 
 class CarSalesPost(models.Model):
     post_id = models.AutoField(primary_key=True)  # 자동으로 1씩 증가하는 필드로 지정
@@ -40,10 +42,15 @@ class CarSalesPost(models.Model):
     detected_image2 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image3 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image4 = models.ImageField(upload_to='detection_results', blank=True, null=True)
-    
+    buyers_count = models.IntegerField(default=0)
     def __str__(self):
         return self.MNAME
-
+    
+@receiver(post_save, sender='sales.BuyerMessages')
+@receiver(post_delete, sender='sales.BuyerMessages')
+def update_buyers_count(sender, instance, **kwargs):
+    buyers_count = BuyerMessages.objects.filter(post_id=instance.post_id).count()
+    CarSalesPost.objects.filter(post_id=instance.post_id).update(buyers_count=buyers_count)
 
 
 # class Answer(models.Model):
