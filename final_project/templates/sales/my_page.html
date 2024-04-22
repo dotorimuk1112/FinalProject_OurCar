@@ -87,18 +87,35 @@
             <div class="tab" style="display: flex; justify-content: flex-end; border-top-left-radius: 20px; border-top-right-radius: 20px;">
                 <button class="tablinks" onclick="openCity(event, 'Paris')">나의 소비 내역<span id="carCount"></span></button>
                 <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
-
                 <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen">관심있는 차량({{ liked_car_count }})</button>
+                <button class="tablinks" onclick="openCity(event, 'Seoul')" id="defaultOpen">내 구매 제안 내역({{buyer_proposed_cars_count}})</button>
             </div>
             <!-- 내 판매 내역 탭 -->
             <div id="MySales" class="tabcontent" style="display: none;">
                 <div class="user-sales">
+                    
                     {% if user_cars_for_sale %}
                     <div class="row">
                         {% for car in user_cars_for_sale %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body clickable-card">
+                                    <div class="text-end">
+                                        {% if car.buyer.count != 0 %}
+                                        <div class="position-relative">
+                                            <span class="bg-danger text-white rounded-circle px-2 position-absolute top-0 start-100 translate-middle">
+                                                
+                                                <span class="">{{ car.buyer.count }}</span>
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                        {% comment %} {% if car.buyer.count != 0 %}
+                                            <i class="fas fa-bell text-danger"></i>
+                                            <span class="text-danger d-inline">{{ car.buyer.count }}</span>
+                                        {% else %}
+                                            
+                                        {% endif %} {% endcomment %}
+                                    </div>                               
                                     <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
@@ -106,6 +123,7 @@
                                             <strong>{{ car.MNAME }}</strong>
                                         </a>
                                     </div>
+                                    
                                     <div>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
@@ -235,7 +253,7 @@
                 {% endif %}
             </div>
 
-            
+            <!-- 내 소비 내역 탭 -->
             <div id="Paris" class="tabcontent">
                 <div class="text-center ">
                     <h3>TestSangmin 정보</h3>
@@ -314,6 +332,80 @@
                 </script>
             </div>
             
+            <!-- 내 구매 내역 탭-->
+            <!-- 내가 사고자 하는 차량 탭-->
+            <div id="Seoul" class="tabcontent">
+                <div class="liked-posts ">
+                    {% if buyer_proposed_cars %}
+                    <div class="row">
+                        {% for car in buyer_proposed_cars %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card">
+                                <div class="card-body clickable-card">
+                                    <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
+                                    <p class="card-text"> </p>
+                                    <div class="card-title my-3" style="height: 40px;">
+                                        <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                            <strong>{{ car.MNAME }}</strong>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
+                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div>                 
+                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div><div class="row">
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>좋아요한 게시글이 없습니다.</p>
+                    {% endif %}
+                </div>
+                <!-- 페이징처리 -->
+                {% if buyer_proposed_cars.has_other_pages %}
+                <ul class="pagination justify-content-center mt-4">
+                    {% if buyer_proposed_cars.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    {% endif %}
+                    {% for num in buyer_proposed_cars.paginator.page_range %}
+                    {% if buyer_proposed_cars.number == num %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}<span class="sr-only"></span></span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if liked_car.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ buyer_proposed_cars.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
               
               
             

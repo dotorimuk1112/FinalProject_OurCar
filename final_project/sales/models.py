@@ -35,6 +35,12 @@ class CarSalesPost(models.Model):
     Image3 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     Image4 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     
+    detected_thumbnail = models.ImageField(upload_to='detected_results', blank=True, null=True)
+    detected_image1 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image2 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image3 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image4 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    
     def __str__(self):
         return self.MNAME
 
@@ -63,3 +69,13 @@ class UploadedImage2(models.Model):
     class Meta:
         managed = True
         db_table = 'pybo_uploadedimage2'
+
+class BuyerMessages(models.Model):
+    buyer_id = models.IntegerField(null=False)
+    seller_id = models.IntegerField(null=False)
+    post_id = models.IntegerField(null=False)
+    buyer_price = models.IntegerField(null=False) ##만원단위
+
+    class Meta: 
+        managed = True
+        db_table = 'BuyerMessages'
