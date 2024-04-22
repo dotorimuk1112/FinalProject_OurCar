@@ -16,6 +16,8 @@ import pandas as pd
 from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
 from django.contrib.auth import update_session_auth_hash
+import csv
+from common.static.car_price_pred import car_price_pred_model
 
 def index(request):
     return HttpResponse("안녕하세요 pybo에 오신것을 환영합니다.")
@@ -45,95 +47,15 @@ with open('car_price_prediction_models_v2.pkl', 'rb') as f:
 def car_info(request):
     error_message = None
     car = None
+    mae = None
     predicted_price = None
-    
+
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
-        try:
-            car = Car.objects.get(VNUM=car_number)
-            # 입력된 차량 정보를 기반으로 데이터 구성
-            data = {
-                # 'MYERAR': [2024 - car.MYERAR + 1],
-                # 'MILEAGE': [car.MILEAGE],
-                # 'DISP': [car.DISP],         
-                # 'CU_HIS': [car.CU_HIS],
-                # 'MVD_HIS': [car.MVD_HIS],
-                # 'AVD_HIS': [car.AVD_HIS],
-                # 'FD_HIS': [car.FD_HIS],
-                # 'VT_HIS': [car.VT_HIS],
-                # 'US_HIS': [car.US_HIS],
-                
-                
-   
-                
-                ## 연습
-                'MYEAR': [2024 - car.MYERAR + 1],
-                'MILEAGE': [car.MILEAGE],
-                'DISP': [car.DISP],         
-                'CU_HIS': [car.CU_HIS],
-                'MVD_HIS': [car.MVD_HIS],
-                'AVD_HIS': [car.AVD_HIS],
-                'TL_HIS': [1],
-                'FD_HIS': [car.FD_HIS],
-                'VT_HIS': [car.VT_HIS],
-                'US_HIS': [car.US_HIS],
-                # 임의 값
-                'TLHIS' : [1],
-
-                'TRANS_CVT' : [(car.TRANS == 'CVT')],
-                'TRANS_SAT' : [(car.TRANS == 'SAT')],
-                'TRANS_기타': [(car.TRANS == '기타')],
-                'TRANS_수동': [(car.TRANS == '수동')],
-                'TRANS_오토' : [(car.TRANS == '오토')],
-                'TRANS_자동': [(car.TRANS == '자동')],
-
-                'F_TYPE_0': [(car.F_TYPE == '0')],
-                'F_TYPE_CNG': [(car.F_TYPE == 'CNG')],
-                'F_TYPE_LPG': [(car.F_TYPE == 'LPG')],
-                'F_TYPE_가솔린': [(car.F_TYPE == '가솔린')],
-                'F_TYPE_가솔린 하이브리드': [(car.F_TYPE == '가솔린 하이브리드')],
-                'F_TYPE_가솔린+LPG': [(car.F_TYPE == '가솔린+LPG')],
-                'F_TYPE_가솔린/LPG겸용': [(car.F_TYPE == '가솔린/LPG겸용')],
-                'F_TYPE_기타': [(car.F_TYPE == '기타')],
-                'F_TYPE_디젤': [(car.F_TYPE == '디젤')],
-                'F_TYPE_전기': [(car.F_TYPE == '전기')],
-                'F_TYPE_하이브리드': [(car.F_TYPE == '하이브리드')],
-                'F_TYPE_하이브리드(LPG)': [(car.F_TYPE == '하이브리드(LPG)')],
-                'F_TYPE_하이브리드(가솔린)': [(car.F_TYPE == '하이브리드(가솔린)')],
-                'F_TYPE_하이브리드(가솔린/전기)': [(car.F_TYPE == '하이브리드(가솔린/전기)')],
-                'F_TYPE_하이브리드(디젤)': [(car.F_TYPE == '하이브리드(디젤)')],
-                
-            }
-            # 데이터를 적절한 형태로 변환하여 모델에 적용
-            data_df = pd.DataFrame(data)
-            print(data_df)
-            target_model_name = car.L_NAME
-            target_model = None 
-
-            for model_name, model in loaded_model:
-                if model_name == 'model_' + target_model_name:
-                    target_model = model
-                    break
-            
-            if target_model:
-                # 예측을 위한 입력 데이터 준비
-                # 예를 들어, 입력 데이터는 DataFrame 형태여야 하며, 모델을 훈련할 때와 동일한 특성을 가져야 합니다.
-                input_data = data_df
-
-                # 모델을 사용하여 예측 수행
-                # predictions = target_model.predict(input_data)
-                predicted_price = int(round(float(target_model.predict(input_data)), 1))
-
-            else:
-                # 해당 모델을 찾을 수 없는 경우 처리
-                predicted_price = "모델을 못 찾았습니다."
-            
-            
-            
-        except Car.DoesNotExist:
-            error_message = "해당하는 차량 정보가 없습니다."
+        car = Car.objects.get(VNUM=car_number)
+        predicted_price, mae = car_price_pred_model(car)
     
-    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'error_message': error_message})
+    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'mae': mae, 'error_message': error_message})
 
 
 # 회원 정보 수정

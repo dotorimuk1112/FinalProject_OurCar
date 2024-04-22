@@ -82,11 +82,10 @@
         <div class="col-md-6">
           
                 <div class="text-center mt-4">
-                    <h2>예상 가격</h2>
+                    <h2>예상 가격</h2>(단위: 만 원)
                     <div class="text-center">
                         <canvas id="predictedPriceChart" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
                     </div>
-                    <p>예상 가격: {{ predicted_price }}만원</p>
                     <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
                 </div>
             {% elif error_message %}
@@ -101,10 +100,17 @@
 <script>
     // 예상 가격 데이터
     var predictedPrice = {{ predicted_price }};
-    var lowerBound = Math.round(predictedPrice * 0.9 * 10) / 10; // -10% 범위, 소수점 첫째 자리에서 반올림
-    var upperBound = Math.round(predictedPrice * 1.1 * 10) / 10; // +10% 범위, 소수점 첫째 자리에서 반올림
-    
-    
+    var predictedMAE = {{ mae }};
+    var lowerBound;
+    var upperBound;
+
+    if (predictedMAE !== 0) {
+        lowerBound = Math.round(predictedPrice - predictedMAE); // -10% 범위, 소수점 첫째 자리에서 반올림
+        upperBound = Math.round(predictedPrice + predictedMAE); // +10% 범위, 소수점 첫째 자리에서 반올림
+    } else {
+        lowerBound = Math.round(predictedPrice * 0.9); // predictedPrice에서 -10%
+        upperBound = Math.round(predictedPrice * 1.1); // predictedPrice에서 +10%
+    }
 
     // 차트 그리기
     var chartDom = document.getElementById('predictedPriceChart');
