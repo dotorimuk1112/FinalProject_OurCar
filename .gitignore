@@ -1,5 +1,21 @@
 venvs/
+venv2/
+.venv/
 
 ourcar/my_settings.py
 
 final_project/my_settings.py
+
+final_project/sales/views/__pycache__/
+final_project/sales/__pycache__/
+final_project/config/__pycache__/
+final_project/common/__pycache__/
+final_project/common/migrations/__pycache__/
+final_project/chat/__pycache__/
+final_project/chat/migrations/__pycache__/
+final_project/__pycache__/
+
+**/__pycache__/
+
+*/best.pt
+final_project/best.pt

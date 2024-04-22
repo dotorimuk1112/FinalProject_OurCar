@@ -4,6 +4,17 @@
 {% block content %}
 <!-- HTML 코드 -->
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+    <!-- message 표시 -->
+    {% if messages %}
+    <div class="alert alert-danger my-3" role="alert">
+    {% for message in messages %}
+        <strong>{{ message.tags }}</strong>
+        <ul><li>{{ message.message }}</li></ul>
+    {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="carousel-inner">
         <div class="carousel-item active">
             <div class="d-flex align-items-center justify-content-center" style="background-color: skyblue; height: 400px;">
@@ -34,10 +45,64 @@
 
 <div class="container my-3">
     <div class="row my-3">
+        {% if  not sorting_option == "region" %}
         <div class="col-6">
             <a href="{% url 'common:car_info' %}" class="btn btn-primary">차량 등록하기</a>
         </div>
-        <div class="col-6">
+        
+        <div class="col-2">
+            <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
+
+                <select class="form-control" name="sorting_option" id="sorting_option">
+                    <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
+                    <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
+
+                </select>    
+            </form>
+        </div>
+        {% endif %}
+        {% if  sorting_option == "region" %}
+        <div class="col-4">
+            <a href="{% url 'common:car_info' %}" class="btn btn-primary">차량 등록하기</a>
+        </div>
+        <div class="col-2">
+            <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
+
+                <select class="form-control" name="sorting_option" id="sorting_option">
+                    <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
+                    <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
+
+                </select>    
+            </form>
+        </div>
+        <div class="col-2">
+            <form action="{% url 'index' %}" method="get" class="form"id="sorting_region"  style="width: 100%;">
+
+                <select class="form-control" name="sorting_region" id="sorting_region">
+                    <option value="서울" {% if  sorting_region == "서울" %}selected{% endif %}>서울특별시</option>
+                    <option value="부산" {% if  sorting_region == "부산" %}selected{% endif %}>부산특별시</option>
+                    <option value="대구" {% if  sorting_region == "대구" %}selected{% endif %}>대구광역시</option>
+                    <option value="인천" {% if  sorting_region == "인천" %}selected{% endif %}>인천광역시</option>
+                    <option value="광주" {% if  sorting_region == "광주" %}selected{% endif %}>광주광역시</option>
+                    <option value="대전" {% if  sorting_region == "대전" %}selected{% endif %}>대전광역시</option>
+                    <option value="울산" {% if  sorting_region == "울산" %}selected{% endif %}>울산광역시</option>
+                    <option value="세종" {% if  sorting_region == "세종" %}selected{% endif %}>세종특별자치시</option>
+                    <option value="경기" {% if  sorting_region == "경기" %}selected{% endif %}>경기도</option>
+                    <option value="강원" {% if  sorting_region == "강원" %}selected{% endif %}>강원도</option>
+                    <option value="충북" {% if  sorting_region == "충북" %}selected{% endif %}>충청북도</option>
+                    <option value="충남" {% if  sorting_region == "충남" %}selected{% endif %}>충청남도</option>
+                    <option value="전북" {% if  sorting_region == "전북" %}selected{% endif %}>전라북도</option>
+                    <option value="전남" {% if  sorting_region == "전남" %}selected{% endif %}>전라남도</option>
+                    <option value="경북" {% if  sorting_region == "경북" %}selected{% endif %}>경상북도</option>
+                    <option value="경남" {% if  sorting_region == "경남" %}selected{% endif %}>경상남도</option>
+                    <option value="제주" {% if  sorting_region == "제주" %}selected{% endif %}>제주특별자치도</option>
+                </select>    
+            </form>
+        </div>
+        {% endif %}
+        <div class="col-4">
             <div class="input-group">
                 <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
                 <div class="input-group-append">
@@ -46,41 +111,78 @@
             </div>
         </div>
     </div>
+    
     <div class="row">
-        {% if car_list %}
-            {% for car in car_list %}
-                <div class="col-md-3 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
-                            <p class="card-text"> </p>
-                            {% comment %} <a href="{% url 'sales:detail' car.post_id %}">{{ car.MNAME }}</a> {% endcomment %}
-
-                            <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p>
-                            <a href= "{% url 'sales:detail' car.post_id %}" 차종: {{ car.MNAME }} </a>
-
-                            
-                            {{ car.MNAME }}
+        <!-- 왼쪽에 브랜드 필터 버튼들 -->
+        <div class="col-md-2" id="filter-section">
+            <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode"  style="width: 100%;">
+                    <label for="brandFilter">브랜드 필터:</label>
+                    <select class="form-control" name="search_mode" id="search_mode">
+                        <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
+                        {% for brand_name in ko_brands %}
+                        <option value="{{ brand_name }}" {% if search_mode == brand_name %}selected{% endif %}>{{ brand_name }}</option>
+                        {% endfor %}
+                    </select>
+            </form>
+            {% if selected_brand_values %}
+            <!-- 추가적인 select box -->
+            <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode2"  style="width: 100%;">
+                    <label for="brandFilter">세부 차종 명:</label>
+                    <select class="form-control" name="search_mode2" id="search_mode2">
+                        <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
+                        {% for brand_value in selected_brand_values %}
+                        <option value="{{ brand_value }}" {% if search_mode2 == brand_value %}selected{% endif %}>{{ brand_value }}</option>
+                        {% endfor %}
+                    </select>
+            </form>
+            {% endif %}
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                {% if car_list %}
+                    {% for car in car_list %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card">
+                                <div class="card-body clickable-card">
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                    <p class="card-text"> </p>
+                                    <div class="card-title my-3" style="height: 40px;">
+                                        <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                            <strong>{{ car.MNAME }}</strong>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
+                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div>                 
+                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                </div>
+                            </div>
                         </div>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div><div class="row">
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="col-md-12">
+                        <p>질문이 없습니다.</p>
                     </div>
-                </div>
-                {% if forloop.counter|divisibleby:4 %}
-                    </div><div class="row">
                 {% endif %}
-            {% endfor %}
-        {% else %}
-            <div class="col-md-12">
-                <p>질문이 없습니다.</p>
-            </div>
-        {% endif %}
+        </div>
     </div>
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
-        {% if question_list.has_previous %}
+        {% if car_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.previous_page_number }}"
+            <a class="page-link" data-page="{{ car_list.previous_page_number }}"
                  href="javascript:void(0)">이전</a>
         </li>
         {% else %}
@@ -89,10 +191,10 @@
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
-        {% for page_number in question_list.paginator.page_range %}
-        {% if page_number >= question_list.number|add:-4 and page_number <= question_list.number|add:4 %}
+        {% for page_number in car_list.paginator.page_range %}
+        {% if page_number >= car_list.number|add:-4 and page_number <= car_list.number|add:4 %}
 
-        {% if page_number == question_list.number %}
+        {% if page_number == car_list.number %}
         <li class="page-item active" aria-current="page">
             <a class="page-link" data-page="{{ page_number }}"
                 href="javascript:void(0)">{{ page_number }}</a>
@@ -106,9 +208,9 @@
         {% endif %}
         {% endfor %}
         <!-- 다음페이지 -->
-        {% if question_list.has_next %}
+        {% if car_list.has_next %}
         <li class="page-item">
-            <a class="page-link" data-page="{{ question_list.next_page_number }}"
+            <a class="page-link" data-page="{{ car_list.next_page_number }}"
                 href="javascript:void(0)">다음</a>
         </li>
         {% else %}
@@ -125,19 +227,102 @@
 </form>
 {% endblock %}
 {% block script %}
+
 <script type='text/javascript'>
-const page_elements = document.getElementsByClassName("page-link");
-Array.from(page_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        document.getElementById('page').value = this.dataset.page;
-        document.getElementById('searchForm').submit();
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.set('page', this.dataset.page); // 페이지 번호만 변경
+            window.location.href = `${window.location.pathname}?${urlParams.toString()}`;
+        });
+    });
+    
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('kw', document.getElementById('search_kw').value); // 검색어 변경
+        urlParams.set('page', 1); // 페이지 번호 초기화
+        window.location.href = `${window.location.pathname}?${urlParams.toString()}`;
+    });
+
+document.addEventListener("DOMContentLoaded", function() {
+    var cardBodyElements = document.querySelectorAll(".clickable-card");
+    cardBodyElements.forEach(function(cardBodyElement) {
+        cardBodyElement.addEventListener("click", function() {
+            var detailUrl = this.querySelector(".card-title a").getAttribute("href");
+            window.location.href = detailUrl;
+        });
     });
 });
-const btn_search = document.getElementById("btn_search");
-btn_search.addEventListener('click', function() {
-    document.getElementById('kw').value = document.getElementById('search_kw').value;
-    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
-    document.getElementById('searchForm').submit();
+document.addEventListener("DOMContentLoaded", function() {
+
+const searchModeSelect = document.querySelector("select[name=search_mode]");
+
+searchModeSelect.addEventListener("change", function () {
+    document.getElementById("search_mode").submit();
+    
+    // 선택한 값을 기본값으로 설정
+    const selectedValue = this.value;
+    document.getElementById("search_mode").value = selectedValue;
+    });      
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+    const searchModeSelect = document.querySelector("select[name=search_mode2]");
+    
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('search_mode2', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
+document.addEventListener("DOMContentLoaded", function() {
+    const searchModeSelect = document.querySelector("select[name=sorting_option]");
+    
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('sorting_option', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    const searchModeSelect = document.querySelector("select[name=sorting_region]");
+    
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('sorting_region', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
+
 </script>
 {% endblock %}

@@ -10,6 +10,7 @@ from config.settings import MEDIA_ROOT, MEDIA_URL
 import uuid
 
 
+
 # YOLOv8 모델 로드
 model = YOLO('yolov8s.pt')
 
@@ -40,7 +41,7 @@ def car_determination(request):
         except Exception as e:
             print(f"Error uploading and processing image: {e}")
 
-    return render(request, "pybo/car_determination.html", {"uploaded_image": uploaded_image, "processed_image": processed_image, "determination_result": determination_result})
+    return render(request, "sales/car_determination.html", {"uploaded_image": uploaded_image, "processed_image": processed_image, "determination_result": determination_result})
 
 
 def process_image(image, processed_image_filename):

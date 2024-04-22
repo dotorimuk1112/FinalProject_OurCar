@@ -11,44 +11,278 @@
      {% endfor %}
      </div>
      {% endif %}
-    <!-- 질문 -->
-    <h2 class="border-bottom py-2">{{ sales.subject }}</h2>
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text">{{ sales.price|mark }}</div>
-            <div class="d-flex justify-content-end">
-                {% if sales.modify_date %}
-                <div class="badge bg-light text-dark p-2 text-start mx-3">
-                    <div class="mb-2">modified at</div>
-                    <div>{{ sales.modify_date }}</div>
-                </div>
-                {% endif %}
-                <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">작성자 : {{ sales.seller.username }}</div>
-                    <div>{{ sales.create_date }}</div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card my-3">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                    <div class="carousel-inner">
+                        {% if CarSalesPost.Image1 %}
+                        <div class="carousel-item active">
+                            <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid w-100" alt="Image 1">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image2 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid w-100" alt="Image 2">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image3 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid w-100" alt="Image 3">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image4 %}
+                        <div class="carousel-item">
+                            <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid w-100" alt="Image 4">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
-            <div class="my-3">
-                {% comment %} <a href="javascript:void(0)" data-uri="{% url 'sales:question_vote' sales.post_id  %}" {% endcomment %}
-                    class="recommend btn btn-sm btn-outline-secondary"> 추천
-                    <span class="badge rounded-pill bg-success">{{sales.buyer.count}}</span>
-                </a>
-                {% if request.user == sales.seller %}
-                <a href="{% url 'sales:question_modify' sales.post_id  %}" 
-                   class="btn btn-sm btn-outline-secondary">수정</a>
-                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
-                   data-uri="{% url 'sales:question_delete' sales.post_id  %}">삭제</a>
-                {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <div class=" my-3">
+                <div >
+                    <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
+                    <div class="d-flex">
+                        {% if CarSalesPost.modify_date %}
+                        <div class="badge bg-light text-dark p-2 text-start mx-3">
+                            <div class="mb-2">modified at</div>
+                            <div>{{ CarSalesPost.modify_date }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="">
+                                {% if CarSalesPost.modify_date %}
+                                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                                    <div class="mb-2">modified at</div>
+                                    <div>{{ CarSalesPost.modify_date }}</div>
+                                </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="text-dark text-start">
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">[{{ CarSalesPost.VNUM }}]</div>
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">{{ CarSalesPost.MNAME }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-dark text-end">
+                                            <div class= "fs-6 mt-3"> 판매가격  <span style="color: red; font-size: 30px;">{{ CarSalesPost.PRICE }}만원</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <span class="text-secondary" style="font-size: 13px;">{{ CarSalesPost.MYERAR }}년식 | {{ CarSalesPost.MILEAGE }}km | {{ CarSalesPost.F_TYPE }}</span>
+                            
+                        </div>
+                    </div>
+
+                    
+                    
+                
+            </div>
+
+            <div class="row mt-2">
+                <!-- 좌측 요소 -->
+                <div class="col-md-6 mr-md-2 mb-2">
+                    <div class="bg-light text-dark p-2 text-center ">
+                        고객님 추천 예산: <br> 
+                        {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                        <div>
+                            {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
+                                <p>적정 가격입니다.</p>
+                            {% elif CarSalesPost.PRICE > max_budget %}
+                            <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
+                            {% else %}
+                            <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 우측 요소 -->
+                <div class="col-md-6 ml-md-2 mb-2">
+                    <div class="bg-light text-dark p-2 text-center ">
+                        <h4>판매자 정보</h4>
+                        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+                        <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
+                        <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
+                        <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
+                        <div>주소 : {{ CarSalesPost.seller.address }}</div>
+
+                        <div>게시일 : {{ CarSalesPost.create_date }}</div>
+                    </div>
+                </div>
+                <div class="my-3 text-end">
+                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
+                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                    </a> 
+                    {% if request.user == CarSalesPost.seller %}                        
+                    <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                       class="btn btn-sm btn-outline-secondary">수정</a> 
+ 
+                    <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                       data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                    {% endif %} 
+                </div>
+            </div>
+            </div>
+
+            
+    </div>
+
+    
+
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr>
+                <th scope="row">연식</th>
+                <td>{{ CarSalesPost.MYERAR }}</td>
+                <th scope="row">주행거리</th>
+                <td>{{ CarSalesPost.MILEAGE| add_commas }}</td>
+            </tr>
+            <tr>
+                <th scope="row">색상</th>
+                <td>{{ CarSalesPost.COLOR }}</td>
+                <th scope="row">변속기</th>
+                <td>{{ CarSalesPost.TRANS }}</td>
+            </tr>
+            <tr>
+                <th scope="row">연료</th>
+                <td>{{ CarSalesPost.F_TYPE }}</td>
+                <th scope="row">배기량</th>
+                <td>{{ CarSalesPost.DISP| add_commas }}</td>
+            </tr>
+            <tr>
+                <th scope="row">차종</th>
+                <td>{{ CarSalesPost.VTYPE }}</td>
+                <th scope="row">차량번호</th>
+                <td>{{ CarSalesPost.VNUM }}</td>
+            </tr>
+            <tr>
+                <th scope="row">용도변경 이력</th>
+                <td>{{ CarSalesPost.CU_HIS|floatformat }}회</td>
+                <th scope="row">자차피해 이력</th>
+                <td>{{ CarSalesPost.MVD_HIS|floatformat }}회</td>
+            </tr>
+            <tr>
+                <th scope="row">타차피해 이력</th>
+                <td>{{ CarSalesPost.AVD_HIS|floatformat }}회</td>
+                <th scope="row">침수 이력</th>
+                <td>{{ CarSalesPost.FD_HIS|floatformat }}회</td>
+            </tr>
+            <tr>
+                <th scope="row">도난 이력</th>
+                <td>{{ CarSalesPost.VT_HIS|floatformat }}회</td>
+                <th scope="row">소유자 변경 횟수</th>
+                <td>{{ CarSalesPost.US_HIS|floatformat }}회</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card my-3">
+                    <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                        {% if CarSalesPost.thumbnail_image or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 %}
+                        {% endif %}
+                        <div class="carousel-inner">
+                            {% if CarSalesPost.detected_thumbnail %}
+                            <h3>파손이 탐지되었습니다.</h3>
+                            <div class="carousel-item active">
+                                <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
+                            </div>
+                            {% endif %}
+                            {% if CarSalesPost.detected_image1 %}
+                            <div class="carousel-item">
+                                <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
+                            </div>
+                            {% endif %}
+                            {% if CarSalesPost.detected_image2 %}
+                            <div class="carousel-item">
+                                <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
+                            </div>
+                            {% endif %}
+                            {% if CarSalesPost.detected_image3 %}
+                            <div class="carousel-item">
+                                <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
+                            </div>
+                            {% endif %}
+                            {% if CarSalesPost.detected_image4 %}
+                            <div class="carousel-item">
+                                <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                            </div>
+                            {% endif %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     
-
+    
     
 </div>
+
+    <!-- 모달 폼 -->
+    <div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
+                            <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">제안하기</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% if not request.user == CarSalesPost.seller %}                        
+
+  <!-- "가격 제안하기" 버튼 -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안하기</button>
+  {% endif %}
+
+
+
+
+
 {% endblock%}
 {% block script %}
 <script type='text/javascript'>
+   
 const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element) {
     element.addEventListener('click', function() {
@@ -61,7 +295,7 @@ document.title = "차량 상세 정보"; // 이 부분이 제목을 변경하는
 const recommend_elements = document.getElementsByClassName("recommend");
 Array.from(recommend_elements).forEach(function(element) {
     element.addEventListener('click', function() {
-        if(confirm("정말로 추천하시겠습니까?")) {
+        if(confirm("정말로 구매 의사가 있으신가요?")) {
             location.href = this.dataset.uri;
         };
     });

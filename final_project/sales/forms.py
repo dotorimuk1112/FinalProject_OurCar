@@ -1,12 +1,12 @@
 from django import forms
-from sales.models import CarSalesPost
+from sales.models import CarSalesPost, BuyerMessages
 from common.models import CustomUser
 
 
 class SalesForm(forms.ModelForm):
     class Meta:
         model = CarSalesPost
-        fields = ['PRICE', 'MNAME', 'MYERAR', 'MILEAGE', 'COLOR', 'TRANS', 'F_TYPE', 'DISP', 'VTYPE', 'VNUM', 'CU_HIS', 'MVD_HIS', 'AVD_HIS', 'FD_HIS', 'VT_HIS', 'US_HIS']
+        fields = ['PRICE', 'MNAME', 'MYERAR', 'MILEAGE', 'COLOR', 'TRANS', 'F_TYPE', 'DISP', 'VTYPE', 'VNUM', 'CU_HIS', 'MVD_HIS', 'AVD_HIS', 'FD_HIS', 'VT_HIS', 'US_HIS', 'thumbnail_image']
         labels = {
             'PRICE': '가격',
             'MNAME': '모델명',
@@ -24,13 +24,23 @@ class SalesForm(forms.ModelForm):
             'FD_HIS': '침수 이력',
             'VT_HIS': '도난 이력',
             'US_HIS': '소유자 변경 횟수',
+            'thumbnail_image': '이미지'
         }
 
     
-
+# class VehicleImageForm(forms.ModelForm):
+#     class Meta:
+#         model = CarSalesPost
+#         fields = ['thumbnail_image', 'Image1', 'Image2', 'Image3', 'Image4']
 
         
 class ProfileImageForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['profile_image']
+        
+
+class BuyerMessagesForm(forms.ModelForm):
+    class Meta:
+        model = BuyerMessages
+        fields = ['buyer_price']
