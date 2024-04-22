@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+
+
+
+<div id="priceProposalForm" >
+    <form action="{% url 'sales:propose_price' post_id=current_post_id %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="post_id" value="{{ CarSalesPost.post_id }}">
+        <input type="hidden" name="seller_id" value="{{ CarSalesPost.seller_id }}">
+        <input type="hidden" name="buyer_id" value="{{ request.user.id }}">
+        <label for="buyer_price">가격 제안: </label>
+        <input type="number" name="buyer_price" id="buyer_price" required>
+        <button type="submit" class="btn btn-primary">제안하기</button>
+    </form>
+</div>
+{% endblock%}
