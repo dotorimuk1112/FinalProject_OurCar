@@ -17,10 +17,15 @@ from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
 from django.contrib.auth import update_session_auth_hash
 <<<<<<< HEAD
+<<<<<<< HEAD
 import csv
 from common.static.car_price_pred import car_price_pred_model
 =======
 >>>>>>> develop
+=======
+import csv
+from common.static.car_price_pred import car_price_pred_model
+>>>>>>> 35af3821f368c1048095c99a96237d95cef4aca3
 
 def index(request):
     return HttpResponse("안녕하세요 pybo에 오신것을 환영합니다.")
@@ -44,6 +49,7 @@ def signup(request):
     return render(request, 'common/signup.html', {'form': form})
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # # 저장된 모델 불러오기
 # with open('car_price_prediction_models_v2.pkl', 'rb') as f:
 #     loaded_model = pickle.load(f)
@@ -52,10 +58,16 @@ def signup(request):
 with open('car_price_prediction_models_v2.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
 >>>>>>> develop
+=======
+# # 저장된 모델 불러오기
+# with open('car_price_prediction_models_v2.pkl', 'rb') as f:
+#     loaded_model = pickle.load(f)
+>>>>>>> 35af3821f368c1048095c99a96237d95cef4aca3
 
 def car_info(request):
     error_message = None
     car = None
+<<<<<<< HEAD
 <<<<<<< HEAD
     mae = None
     predicted_price = None
@@ -157,6 +169,17 @@ def car_info(request):
     
     return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'error_message': error_message})
 >>>>>>> develop
+=======
+    mae = None
+    predicted_price = None
+
+    if request.method == 'POST':
+        car_number = request.POST.get('car_number')
+        car = Car.objects.get(VNUM=car_number)
+        predicted_price, mae = car_price_pred_model(car)
+    
+    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'mae': mae, 'error_message': error_message})
+>>>>>>> 35af3821f368c1048095c99a96237d95cef4aca3
 
 
 # 회원 정보 수정
