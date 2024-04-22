@@ -11,6 +11,7 @@ import pickle
 import pandas as pd
 import numpy as np
 import seul_car_list
+from ..static.budget_rec import budget_rec_func
 
 
 from django.http import JsonResponse
@@ -66,46 +67,24 @@ def index(request):
 
 # 질문 상세 보기
 def detail(request, post_id):
+    user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
-    context = {'CarSalesPost': car_sales_post}
+    min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
+    context = {
+        'CarSalesPost': car_sales_post,
+        'min_budget': min_budget,
+        'max_budget': max_budget,
+        'budget_rec_result': budget_rec_result
+    }
     return render(request, 'sales/sales_detail.html', context)
+
 
 @login_required(login_url='common:login')
 def my_page(request):
     user = request.user
-    test_sangmin_instance = None
+    test_sangmin_instance = TestSangmin.objects.get(id=user.id)
 
-    try:
-        test_sangmin_instance = TestSangmin.objects.get(id=user.id)
-        data = {
-            'INTERIOR_AM': [int(test_sangmin_instance.interior_am)],
-            'INSUHOS_AM': [int(test_sangmin_instance.insuhos_am)],
-            'OFFEDU_AM': [int(test_sangmin_instance.offedu_am)],
-            'TRVLEC_AM': [int(test_sangmin_instance.trvlec_am)],
-            'FSBZ_AM': [int(test_sangmin_instance.fsbz_am)],
-            'SVCARC_AM': [int(test_sangmin_instance.svcarc_am)],
-            'DIST_AM': [int(test_sangmin_instance.dist_am)],
-            'PLSANIT_AM': [int(test_sangmin_instance.plsanit_am)],
-            'CLOTHGDS_AM': [int(test_sangmin_instance.clothgds_am)]
-        }
-
-        data_df = pd.DataFrame(data)
-        print(data_df)
-        
-        if budget_rec_model:
-            budget_rec_result = budget_rec_model.predict(data_df)
-            budget_rec_result = np.squeeze(budget_rec_result)
-            budget_rec_result = int(budget_rec_result)
-            min_budget = budget_rec_result - 147
-            max_budget = budget_rec_result + 147
-            print("예측 결과:", "최소 예산-", min_budget, "|", "최대 예산-", max_budget)
-        else:
-            print("budget_rec_model is None")
-            budget_rec_result = None
-            
-    except TestSangmin.DoesNotExist:
-        test_sangmin_instance = None
-        print('데이터가 존재하지 않습니다.')
+    min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
         
     # 사용자가 좋아하는 차량 가져오기
     liked_car = CarSalesPost.objects.filter(buyer=user)

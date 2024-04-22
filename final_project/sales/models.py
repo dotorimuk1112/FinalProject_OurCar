@@ -35,6 +35,12 @@ class CarSalesPost(models.Model):
     Image3 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     Image4 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     
+    detected_thumbnail = models.ImageField(upload_to='detected_results', blank=True, null=True)
+    detected_image1 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image2 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image3 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image4 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    
     def __str__(self):
         return self.MNAME
 
