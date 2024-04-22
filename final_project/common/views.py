@@ -40,6 +40,7 @@ def signup(request):
         form = CustomUserForm()  # CustomUserForm 사용
     return render(request, 'common/signup.html', {'form': form})
 
+# 저장된 모델 불러오기
 with open('car_price_prediction_models_v2.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
 
