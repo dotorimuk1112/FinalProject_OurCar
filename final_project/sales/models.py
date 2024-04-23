@@ -78,9 +78,9 @@ class UploadedImage2(models.Model):
         db_table = 'pybo_uploadedimage2'
 
 class BuyerMessages(models.Model):
-    buyer_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='buyer_messages', null=False)
-    seller_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='seller_messages', null=False)
-    post_id = models.ForeignKey(CarSalesPost, on_delete=models.CASCADE, related_name='post_messages', null=False)
+    buyer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='buyer_messages', null=False)
+    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='seller_messages', null=False)
+    post = models.ForeignKey(CarSalesPost, on_delete=models.CASCADE, related_name='post_messages', null=False)
     buyer_price = models.IntegerField(null=False)  # 만원단위
     accepted = models.BooleanField(null=True)  # 수락 여부를 저장할 필드
 

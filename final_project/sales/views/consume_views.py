@@ -16,6 +16,7 @@ def propose_price(request, post_id):
             if existing_record:
                 # 기존의 레코드가 있으면 수정
                 existing_record.buyer_price = buyer_price
+                existing_record.accepted = None
                 existing_record.save()
             else:
                 # 기존의 레코드가 없으면 새로 생성
@@ -23,6 +24,7 @@ def propose_price(request, post_id):
                 buyer_message.buyer_id = request.user.id
                 buyer_message.post_id = current_post.post_id
                 buyer_message.seller_id = current_post.seller.id
+                buyer_message.accepted = None
                 buyer_message.save()
             # 데이터가 성공적으로 저장된 후 리디렉션할 URL
             return redirect('sales:my_page')  # 사용자가 자신의 페이지로 리디렉션하도록 수정해야 할 수도 있습니다.

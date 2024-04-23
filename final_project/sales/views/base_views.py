@@ -160,7 +160,8 @@ def my_page(request):
     for car in buyer_proposed_cars:
         buyer_message = BuyerMessages.objects.filter(post_id=car.post_id).first()  # 해당 게시글에 대한 첫 번째 BuyerMessages 객체 가져오기
         if buyer_message:
-            car.buyer_price = buyer_message.buyer_price  # 해당 게시글의 buyer_price를 가져와서 car 객체에 추가    
+            car.buyer_price = buyer_message.buyer_price  # 해당 게시글의 buyer_price를 가져와서 car 객체에 추가   
+            car.accepted = buyer_message.accepted 
     # 페이지네이션 추가
     liked_car_page = request.GET.get('liked_car_page', 1)  # 좋아하는 차량 페이지 번호
     user_cars_for_sale_page = request.GET.get('user_cars_for_sale_page', 1)  # 판매 중인 차량 페이지 번호
