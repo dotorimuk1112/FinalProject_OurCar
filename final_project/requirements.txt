@@ -7,6 +7,7 @@ cycler==0.12.1
 Django==5.0.3
 django-crispy-forms==2.1
 django-extensions==3.2.3
+django-filter==24.2
 filelock==3.13.3
 fonttools==4.51.0
 fsspec==2024.3.1

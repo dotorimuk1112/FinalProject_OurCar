@@ -17,7 +17,7 @@ from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
 from django.contrib.auth import update_session_auth_hash
 import csv
-from common.static.car_price_pred import car_price_pred_model
+from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000
 
 def index(request):
     return HttpResponse("안녕하세요 pybo에 오신것을 환영합니다.")
@@ -49,13 +49,17 @@ def car_info(request):
     car = None
     mae = None
     predicted_price = None
+    predicted_list = []
+    mae_10000 = None
 
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
         car = Car.objects.get(VNUM=car_number)
         predicted_price, mae = car_price_pred_model(car)
+        predicted_list, mae_10000 = car_price_pred_model_10000(car)
+        
     
-    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'mae': mae, 'error_message': error_message})
+    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'mae': mae, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000})
 
 
 # 회원 정보 수정
