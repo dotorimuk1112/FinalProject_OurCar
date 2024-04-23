@@ -185,4 +185,3 @@ def car_price_pred_model_10000(car):
     except Car.DoesNotExist:
         error_message = "해당하는 차량 정보가 없습니다."
         return error_message
-    
