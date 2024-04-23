@@ -171,18 +171,42 @@
                                                 <td class="text-center">{{ buyer_info.phone_number }}</td>
                                                 <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
                                                 <td class="text-center">
+                                                    {% if proposal.accepted is not None %}
+                                                        {% if proposal.accepted == 0 %}
+                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="accepted" value="True">
+                                                            <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                        </form>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
+                                                        {% endif %}
+                                                    {% else %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="True">
                                                         <button type="submit" class="btn btn-success btn-sm">수락</button>
                                                     </form>
+                                                    {% endif %}
                                                 </td>
                                                 <td class="text-center">
+                                                    {% if proposal.accepted is not None %}
+                                                        {% if proposal.accepted == 1 %}
+                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="accepted" value="False">
+                                                            <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                        </form>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
+                                                        {% endif %}
+                                                    {% else %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="False">
                                                         <button type="submit" class="btn btn-danger btn-sm">거절</button>
                                                     </form>
+                                                    {% endif %}
                                                 </td>
                                             </tr>
                                             {% endfor %}
