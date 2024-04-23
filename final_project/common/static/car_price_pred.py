@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 def car_price_pred_model(car):
-    with open('car_price_prediction_models_v2.pkl', 'rb') as f:
+    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
         loaded_model = pickle.load(f)
 
     try:
@@ -97,7 +97,7 @@ def car_price_pred_model(car):
         return error_message
     
 def car_price_pred_model_10000(car):
-    with open('car_price_prediction_models_v2.pkl', 'rb') as f:
+    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
         loaded_model = pickle.load(f)
 
     try:
