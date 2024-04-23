@@ -4,10 +4,21 @@
 <div class="container-fluid my-3 px-5">
     <!-- message 표시 -->
     {% if messages %}
-    <div class="alert alert-danger my-3" role="alert">
+    <div class="alert my-3" role="alert">
     {% for message in messages %}
-        <strong>{{ message.tags }}</strong>
-        <ul><li>{{ message.message }}</li></ul>
+       <div class="alert
+           {% if message.level_tag == "debug" %}
+               alert-secondary
+           {% elif message.level_tag == "error" %}
+               alert-danger
+           {% elif message.level_tag == "success" %}
+               alert-success
+           {% else %}
+               alert-{{ message.level_tag }}
+           {% endif %}">
+           {{ message.message }}
+       </div>
+
     {% endfor %}
     </div>
     {% endif %}
@@ -340,7 +351,7 @@
                     <div class="row">
                         {% for car in buyer_proposed_cars %}
                         <div class="col-md-3 mb-4">
-                            <div class="card">
+                            <div class="card {% if car.accepted == 1 %}border-success{% elif car.accepted == 0 %}border-danger{% endif %} border-3">
                                 <div class="card-body clickable-card">
                                     <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
                                     <p class="card-text"> </p>
@@ -360,7 +371,7 @@
                                         </p>   
                                     </div> {% endcomment %}
                                     <div class="text-end">
-                                        <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 가격: {{ car.buyer_price }}</p>
+                                        <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 가격: {{ car.buyer_price }}만원</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
                                             <del style="font-size: 20px; color: red; text-decoration-color: red;"><strong>{{ car.PRICE }}</strong></del><span style="font-size: 12px;">만원</span>
                                         </p>   
@@ -381,7 +392,7 @@
                         {% endfor %}
                     </div>
                     {% else %}
-                    <p>좋아요한 게시글이 없습니다.</p>
+                    <p>구매 제시한 게시글이 없습니다.</p>
                     {% endif %}
                 </div>
                 <!-- 페이징처리 -->
