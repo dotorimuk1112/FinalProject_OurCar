@@ -51,6 +51,8 @@ def car_info(request):
     predicted_price = None
     predicted_list = []
     mae_10000 = None
+    min_price = None
+    max_price = None
 
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
@@ -58,8 +60,10 @@ def car_info(request):
         predicted_price, mae = car_price_pred_model(car)
         predicted_list, mae_10000 = car_price_pred_model_10000(car)
         
+        min_price = int(predicted_price - float(mae))
+        max_price = int(predicted_price + float(mae))
     
-    return render(request, 'common/car_info.html', {'car': car, 'predicted_price': predicted_price, 'mae': mae, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000})
+    return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000})
 
 
 # 회원 정보 수정
