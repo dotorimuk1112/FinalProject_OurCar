@@ -40,9 +40,26 @@
                 </script>
                 
                 <div class="d-flex justify-content-between align-items-center"> <!-- 수정완료 버튼과 회원 탈퇴 버튼을 좌우 정렬하고 수직 가운데 정렬 -->
-                    <a href="{% url 'common:delete_user' user_id=request.user.id %}" class="btn btn-danger">회원 탈퇴</a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdrop">회원 탈퇴</button>
                     <button type="submit" class="btn btn-primary">수정완료</button>
-                </div>            
+                </div>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">회원 탈퇴 여부</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>정말로 탈퇴하시겠습니까?</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button href="{% url 'common:delete_user' user_id=request.user.id %}" type="button" class="btn btn-danger">예</button>
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>            
             </form>
         </div>
     </div>
