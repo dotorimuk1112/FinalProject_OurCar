@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import CarSalesPost, BuyerMessages
-from common.models import TestSangmin, CustomUser
+from common.models import TestSangmin, CustomUser, Car
 from ..forms import ProfileImageForm
 import pickle
 import pandas as pd
@@ -15,6 +15,7 @@ from django.db.models import Count
 from ..static.budget_rec import budget_rec_func
 from django.http import HttpResponse
 from django.contrib import messages
+from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000
 
 
 from django.http import JsonResponse
@@ -109,7 +110,14 @@ def accept_proposal(request, proposal_id):
 def detail(request, post_id):
     user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
+    vnum_value = car_sales_post.VNUM
+    car = Car.objects.get(VNUM=vnum_value)
+    predicted_price, mae = car_price_pred_model(car)
+    min_price = int(predicted_price - float(mae))
+    max_price = int(predicted_price + float(mae))
+    predicted_list, mae_10000 = car_price_pred_model_10000(car)
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
+    average_mileage = car.MILEAGE / (2024 - car.MYERAR + 1)
     
     # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
     buyer_proposals = BuyerMessages.objects.filter(post_id=post_id)
@@ -127,7 +135,13 @@ def detail(request, post_id):
         'min_budget': min_budget,
         'max_budget': max_budget,
         'budget_rec_result': budget_rec_result,
-        'buyer_proposals_with_info': buyer_proposals_with_info  # 구매 제안서와 해당 구매자의 정보를 context에 추가
+        'buyer_proposals_with_info': buyer_proposals_with_info,  # 구매 제안서와 해당 구매자의 정보를 context에 추가
+        'min_price': min_price,
+        'max_price': max_price,
+        'predicted_list': predicted_list,
+        'mae_10000': mae_10000,
+        'car': car,
+        'average_mileage': average_mileage
     }
     return render(request, 'sales/sales_detail.html', context)
 

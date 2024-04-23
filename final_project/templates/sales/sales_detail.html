@@ -31,21 +31,25 @@
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
+                            <p>차량 앞</p>
                             <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid w-100" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
+                            <p>차량 뒤</p>
                             <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid w-100" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
+                            <p>차량 좌</p>
                             <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid w-100" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
+                            <p>차량 우</p>
                             <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid w-100" alt="Image 4">
                         </div>
                         {% endif %}
@@ -58,6 +62,63 @@
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
+                </div>
+            </div>
+            <!-- 모달 버튼 -->
+            <div class="col-md-6 mb-3">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
+                    이미지 슬라이드쇼 열기
+                </button>
+            </div>
+
+            <!-- 모달 -->
+            <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detectedModalLabel">파손이 탐지되었습니다.</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                                <div class="carousel-inner">
+                                    {% if CarSalesPost.detected_thumbnail %}
+                                    <div class="carousel-item active">
+                                        <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image1 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image2 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image3 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image4 %}
+                                    <div class="carousel-item">
+                                        <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -262,52 +323,7 @@
         </tbody>
     </table>
 
-<div class="col-md-6">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card my-3">
-                <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
-                    <h3>파손이 탐지되었습니다.</h3>
-                    <div class="carousel-inner">
-                        {% if CarSalesPost.detected_thumbnail %}
-                        <div class="carousel-item active">
-                            <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
-                        </div>
-                        {% endif %}
-                        {% if CarSalesPost.detected_image1 %}
-                        <div class="carousel-item">
-                            <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
-                        </div>
-                        {% endif %}
-                        {% if CarSalesPost.detected_image2 %}
-                        <div class="carousel-item">
-                            <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
-                        </div>
-                        {% endif %}
-                        {% if CarSalesPost.detected_image3 %}
-                        <div class="carousel-item">
-                            <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
-                        </div>
-                        {% endif %}
-                        {% if CarSalesPost.detected_image4 %}
-                        <div class="carousel-item">
-                            <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
-                        </div>
-                        {% endif %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
     
 </div>
 
@@ -341,11 +357,52 @@
     </div>
 </div>
 
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-center mt-4 mb-5">
+                <!-- AI 예측 적정 가격 -->
+                <h3 class="mt-4">AI 예측 적정 가격:</h3>
+                <h3>{{ min_price }} ~ {{ max_price }}만 원</h3>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center mt-1">
+                <!-- 예상 가격 그래프 -->
+                <canvas id="futurePrice" width="468" height="300"></canvas>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center mt-4 mb-5">
+                <!-- 연평균 주행거리 -->
+                {% if CarSalesPost.MYERAR > 0 and CarSalesPost.MILEAGE %}
+                    {% if CarSalesPost.MYERAR %}
+                        {% if CarSalesPost.MILEAGE %}
+                            <h3>연평균 주행거리: {{average_mileage}}</h3>
+                            {% if average_mileage < 7000 %}
+                                <h3>주행거리가 평균보다 짧음</h3>
+                            {% elif average_mileage >= 7000 and average_mileage <= 15000 %}
+                                <h3>주행거리가 적정</h3>
+                            {% else %}
+                                <h3>주행거리가 평균보다 많음</h3>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 {% if not request.user == CarSalesPost.seller %}                        
 
   <!-- "가격 제안하기" 버튼 -->
   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안하기</button>
   {% endif %}
+
 
 
 
@@ -384,5 +441,85 @@ Array.from(recommend_elements).forEach(function(element) {
         };
     });
 });
+
+    // 예상 가격 리스트와 각 인덱스에 해당하는 연도
+    var predictedPriceList = {{ predicted_list|safe }};
+    var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
+    var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+    var predictedPriceListPlusMAE = predictedPriceList.map(function(price) {
+        return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
+    });
+
+    // -MAE를 뺀 예상 가격 리스트 계산
+    var predictedPriceListMinusMAE = predictedPriceList.map(function(price) {
+        return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
+    });
+
+    // 차트 그리기
+    var chartDom2 = document.getElementById('futurePrice');
+    var myChart2 = echarts.init(chartDom2);
+    var option;
+
+    option2 = {
+        title: { // 제목 추가
+        text: 'AI 예측 미래 변동 가격', // 제목 내용
+        left: 'center' // 가운데 정렬
+        },
+        xAxis: {
+            type: 'category',
+            data: years // 연도를 x축으로 설정
+        },
+        yAxis: {
+            type: 'value'
+        },
+        legend: { // 범례 설정
+            data: ['최대', '최소'], // 범례에 표시될 항목들
+            top: '10%' // 위에서 5% 위치에 제목 표시
+        },
+        series: [
+            {
+                name: '최대',
+                data: predictedPriceListPlusMAE.map(function(price, index) {
+                    return {
+                        value: price,
+                        itemStyle: {
+                            color: '#007bff' // 파란색
+                        }
+                    };
+                }),
+                type: 'line',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}',
+                    fontSize: 14
+                }
+            },
+            {
+                name: '최소',
+                data: predictedPriceListMinusMAE.map(function(price, index) {
+                    return {
+                        value: price,
+                        itemStyle: {
+                            color: '#ff0000' // 빨간색
+                        }
+                    };
+                }),
+                type: 'line',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}',
+                    fontSize: 14
+                }
+            }
+        ]
+    };
+
+
+    // 차트에 옵션 적용
+    myChart2.setOption(option2);
+
 </script>
 {% endblock %}

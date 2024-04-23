@@ -87,7 +87,7 @@
           
                 <div class="text-center mt-4 mb-5">
                     <div class="text-center mt-1">
-                        <canvas id="predictedPriceChart" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
+                        <h3>AI 예측 적정 가격: {{ min_price }} ~ {{ max_price }}만 원</h3>
                         <canvas id="futurePrice" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
                     </div>
                     <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
@@ -101,55 +101,6 @@
 {% endblock %}
 {% block script %}
 <script>
-    // 예상 가격 데이터
-    var predictedPrice = {{ predicted_price }};
-    var predictedMAE = {{ mae }};
-    var lowerBound;
-    var upperBound;
-
-    if (predictedMAE !== 0) {
-        lowerBound = Math.round(predictedPrice - predictedMAE); // -10% 범위, 소수점 첫째 자리에서 반올림
-        upperBound = Math.round(predictedPrice + predictedMAE); // +10% 범위, 소수점 첫째 자리에서 반올림
-    } else {
-        lowerBound = Math.round(predictedPrice * 0.9); // predictedPrice에서 -10%
-        upperBound = Math.round(predictedPrice * 1.1); // predictedPrice에서 +10%
-    }
-
-    // 차트 그리기
-    var chartDom = document.getElementById('predictedPriceChart');
-    var myChart = echarts.init(chartDom);
-    var option;
-
-    option = {
-        title: { // 제목 추가
-        text: 'AI 예측 적정 가격(단위: 만 원)', // 제목 내용
-        left: 'center' // 가운데 정렬
-        },
-        xAxis: {
-            type: 'category',
-            data: ['최소 가격', '최대 가격']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [{
-            data: [
-                { value: lowerBound, itemStyle: { color: '#007bff' } }, // 최소 - 파란색
-                { value: upperBound, itemStyle: { color: '#007bff' } } // 최대 - 파란색
-            ],
-            type: 'line',
-            label: {
-                show: true,
-                position: 'top',
-                formatter: '{c}',
-                fontSize: 14
-            }
-        }]
-    };
-
-    myChart.setOption(option);
-
-
     // 예상 가격 리스트와 각 인덱스에 해당하는 연도
     var predictedPriceList = {{ predicted_list|safe }};
     var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
