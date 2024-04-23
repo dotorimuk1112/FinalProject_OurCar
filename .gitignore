@@ -20,3 +20,4 @@ final_project/__pycache__/
 final_project/best.pt
 
 final_project/car_price_prediction_models_xgb.pkl
+final_project/car_price_prediction_models_RF.pkl

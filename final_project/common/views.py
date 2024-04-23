@@ -41,8 +41,8 @@ def signup(request):
     return render(request, 'common/signup.html', {'form': form})
 
 # 저장된 모델 불러오기
-with open('car_price_prediction_models_v2.pkl', 'rb') as f:
-    loaded_model = pickle.load(f)
+# with open('car_price_prediction_models_v2.pkl', 'rb') as f:
+#     loaded_model = pickle.load(f)
 
 def car_info(request):
     error_message = None
