@@ -4,10 +4,21 @@
 <div class="container my-3">
      <!-- message 표시 -->
      {% if messages %}
-     <div class="alert alert-danger my-3" role="alert">
+     <div class="alert my-3" role="alert">
      {% for message in messages %}
-         <strong>{{ message.tags }}</strong>
-         <ul><li>{{ message.message }}</li></ul>
+        <div class="alert
+            {% if message.level_tag == "debug" %}
+                alert-secondary
+            {% elif message.level_tag == "error" %}
+                alert-danger
+            {% elif message.level_tag == "success" %}
+                alert-success
+            {% else %}
+                alert-{{ message.level_tag }}
+            {% endif %}">
+            {{ message.message }}
+        </div>
+ 
      {% endfor %}
      </div>
      {% endif %}
@@ -147,6 +158,8 @@
                                                 <th scope="col" class="text-center">주소</th>
                                                 <th scope="col" class="text-center">전화번호</th>
                                                 <th scope="col" class="text-center">구매 제안 가격</th>
+                                                <th scope="col" class="text-center">수락</th>
+                                                <th scope="col" class="text-center">거절</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -157,6 +170,20 @@
                                                 <td class="text-center">{{ buyer_info.address }}</td>
                                                 <td class="text-center">{{ buyer_info.phone_number }}</td>
                                                 <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
+                                                <td class="text-center">
+                                                    <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="accepted" value="True">
+                                                        <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                    </form>
+                                                </td>
+                                                <td class="text-center">
+                                                    <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="accepted" value="False">
+                                                        <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                    </form>
+                                                </td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

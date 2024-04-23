@@ -19,6 +19,8 @@ urlpatterns = [
     path('detail/<int:post_id>/',
          base_views.detail, name='detail'),
 
+    path('accept-proposal/<int:proposal_id>/',
+         base_views.accept_proposal, name='accept_proposal'),
     # question_views.py
     path('create/<str:car_VNUM>/',
          question_views.question_create, name='question_create'),

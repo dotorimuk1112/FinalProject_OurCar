@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load pybo_filter %}
 {% block content %}
 <div class="container-fluid my-3 px-5">
     <!-- message 표시 -->
@@ -353,11 +353,22 @@
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
                                     </div>
-                                    <div class="text-end">
-                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
+                                    {% comment %} <div class="text-end">
+                                        <p style="font-size: 12px; margin-right: 10px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 요청가격: {{ car.buyer_price }}</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
                                             <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
                                         </p>   
-                                    </div>                 
+                                    </div> {% endcomment %}
+                                    <div class="text-end">
+                                        <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 가격: {{ car.buyer_price }}</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
+                                            <del style="font-size: 20px; color: red; text-decoration-color: red;"><strong>{{ car.PRICE }}</strong></del><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div>
+                                    
+                                    
+                                    
+                                                   
                                     {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
                                     <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
                                     {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
