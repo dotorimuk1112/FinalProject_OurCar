@@ -13,6 +13,8 @@ import numpy as np
 import seul_car_list
 from django.db.models import Count
 from ..static.budget_rec import budget_rec_func
+from django.http import HttpResponse
+from django.contrib import messages
 
 
 from django.http import JsonResponse
@@ -86,13 +88,30 @@ def index(request):
 # 질문 상세 보기
 from django.shortcuts import get_object_or_404
 
+
+def accept_proposal(request, proposal_id):
+    if request.method == 'POST':
+        proposal = get_object_or_404(BuyerMessages, id=proposal_id)
+        accepted_value = request.POST.get('accepted')
+        if accepted_value == 'True':
+            proposal.accepted = True
+        elif accepted_value == 'False':
+            proposal.accepted = False
+        proposal.save()
+        # 성공적인 메시지를 추가합니다. 이 경우 메시지 레벨은 SUCCESS입니다.
+        messages.success(request, '성공적으로 전달되었습니다.')
+        return redirect('sales:detail', post_id=proposal.post_id)
+    else:
+        return HttpResponse('잘못된 요청입니다.')
+
+
 # 질문 상세 보기
 def detail(request, post_id):
     user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
-    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.
+    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
     buyer_proposals = BuyerMessages.objects.filter(post_id=post_id)
     
     # 구매 제안서 목록을 반복하면서 구매자 정보와 함께 가져옵니다.
@@ -118,7 +137,7 @@ def detail(request, post_id):
 def my_page(request):
     user = request.user
     test_sangmin_instance = TestSangmin.objects.get(id=user.id)
-    user_buyer_price = BuyerMessages.objects.filter(buyer_id=user.id) 
+    # user_buyer_price = BuyerMessages.objects.filter(buyer_id=user.id) 
     
     
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
@@ -135,10 +154,13 @@ def my_page(request):
 
     # 현재 접속한 사용자의 ID에 해당하는 모든 BuyerMessages의 post_id를 가져옵니다.
     user_buyer_messages = BuyerMessages.objects.filter(buyer_id=user_id).values_list('post_id', flat=True)
-
+    user_buyer_price = BuyerMessages.objects.filter(buyer_id=user_id).values_list('buyer_price', flat=True)
     # BuyerMessages에 해당하는 CarSalesPost를 가져옵니다.
     buyer_proposed_cars = CarSalesPost.objects.filter(post_id__in=user_buyer_messages)
-        
+    for car in buyer_proposed_cars:
+        buyer_message = BuyerMessages.objects.filter(post_id=car.post_id).first()  # 해당 게시글에 대한 첫 번째 BuyerMessages 객체 가져오기
+        if buyer_message:
+            car.buyer_price = buyer_message.buyer_price  # 해당 게시글의 buyer_price를 가져와서 car 객체에 추가    
     # 페이지네이션 추가
     liked_car_page = request.GET.get('liked_car_page', 1)  # 좋아하는 차량 페이지 번호
     user_cars_for_sale_page = request.GET.get('user_cars_for_sale_page', 1)  # 판매 중인 차량 페이지 번호
