@@ -43,6 +43,8 @@ class CarSalesPost(models.Model):
     detected_image3 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image4 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     buyers_count = models.IntegerField(default=0)
+    make_deal = models.BooleanField(default=False)  # 새로 추가된 필드
+
     def __str__(self):
         return self.MNAME
     
@@ -87,3 +89,14 @@ class BuyerMessages(models.Model):
     class Meta: 
         managed = True
         db_table = 'BuyerMessages'
+        
+@receiver([post_save, post_delete], sender=BuyerMessages)
+def update_make_deal(sender, instance, **kwargs):
+    # 해당 게시물에 대한 BuyerMessages의 accepted가 True인 수를 가져옵니다.
+    accepted_count = BuyerMessages.objects.filter(post=instance.post, accepted=True).count()
+    # 만약 accepted가 1 이상이면 make_deal 값을 True로 설정합니다.
+    if accepted_count > 0:
+        CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=True)
+    else:
+        # accepted가 없으면 make_deal 값을 False로 설정합니다.
+        CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=False)
