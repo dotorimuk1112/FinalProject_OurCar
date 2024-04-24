@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import CarSalesPost, BuyerMessages
-from common.models import TestSangmin, CustomUser, Car
+from common.models import predict_budget, CustomUser, Car
 from ..forms import ProfileImageForm
 import pickle
 import pandas as pd
@@ -15,7 +15,7 @@ from django.db.models import Count
 from ..static.budget_rec import budget_rec_func
 from django.http import HttpResponse
 from django.contrib import messages
-from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000
+from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000, car_price_pred_model_20000, car_price_pred_model_30000
 
 
 from django.http import JsonResponse
@@ -105,6 +105,16 @@ def accept_proposal(request, proposal_id):
     else:
         return HttpResponse('잘못된 요청입니다.')
 
+# 가격 제시 레코드 삭제
+def cancel_proposal(request, post_id):
+    # 현재 접속한 사용자와 해당 게시글(post_id)에 해당하는 구매 제안서를 가져옵니다.
+    proposal = get_object_or_404(BuyerMessages, buyer=request.user, post_id=post_id)
+
+    # 구매 제안서를 삭제합니다.
+    proposal.delete()
+
+    # 삭제 후에 어디로 리다이렉트할지 선택합니다.
+    return redirect('sales:detail', post_id)
 
 # 질문 상세 보기
 def detail(request, post_id):
@@ -115,13 +125,17 @@ def detail(request, post_id):
     predicted_price, mae = car_price_pred_model(car)
     min_price = int(predicted_price - float(mae))
     max_price = int(predicted_price + float(mae))
-    predicted_list, mae_10000 = car_price_pred_model_10000(car)
-    min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
-    average_mileage = car.MILEAGE / (2024 - car.MYERAR + 1)
+    predicted_list_10000, mae_10000 = car_price_pred_model_10000(car)
+    predicted_list_20000, mae_20000 = car_price_pred_model_20000(car)
+    predicted_list_30000, mae_30000 = car_price_pred_model_30000(car)
+    average_mileage = int(car.MILEAGE / (2024 - car.MYERAR + 1))
+    min_budget, max_budget, budget_rec_result = 0, 0, 0
+    if user:
+        min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
     # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
     buyer_proposals = BuyerMessages.objects.filter(post_id=post_id)
-    
+    buyer_list = [proposal.buyer_id for proposal in buyer_proposals]    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
     # 구매 제안서 목록을 반복하면서 구매자 정보와 함께 가져옵니다.
     buyer_proposals_with_info = []
     for proposal in buyer_proposals:
@@ -131,6 +145,7 @@ def detail(request, post_id):
         buyer_proposals_with_info.append((proposal, buyer_info))
     
     context = {
+        'user': user,
         'CarSalesPost': car_sales_post,
         'min_budget': min_budget,
         'max_budget': max_budget,
@@ -138,10 +153,15 @@ def detail(request, post_id):
         'buyer_proposals_with_info': buyer_proposals_with_info,  # 구매 제안서와 해당 구매자의 정보를 context에 추가
         'min_price': min_price,
         'max_price': max_price,
-        'predicted_list': predicted_list,
+        'predicted_list_10000': predicted_list_10000,
         'mae_10000': mae_10000,
+        'predicted_list_20000': predicted_list_20000,
+        'mae_20000': mae_20000,
+        'predicted_list_30000': predicted_list_30000,
+        'mae_30000': mae_30000,
         'car': car,
-        'average_mileage': average_mileage
+        'average_mileage': average_mileage,
+        'buyer_list' : buyer_list
     }
     return render(request, 'sales/sales_detail.html', context)
 
@@ -150,7 +170,7 @@ def detail(request, post_id):
 @login_required(login_url='common:login')
 def my_page(request):
     user = request.user
-    test_sangmin_instance = TestSangmin.objects.get(id=user.id)
+    test_sangmin_instance = predict_budget.objects.get(id=user.id)
     # user_buyer_price = BuyerMessages.objects.filter(buyer_id=user.id) 
     
     
