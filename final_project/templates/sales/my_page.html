@@ -37,6 +37,7 @@
                 <p><strong>이름:</strong> {{ user.username }}</p>
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
+                <p><strong>신용점수:</strong> {{ user_credit_score }}</p>
                 <div class="d-flex justify-content-center">
                     <div class="col-md-6 mb-2">
                         <a href="{% url 'common:edit_profile'%}" class="btn btn-sm btn-outline-secondary btn-block" style="font-size: 13px">개인정보 수정</a>

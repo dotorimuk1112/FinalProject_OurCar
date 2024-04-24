@@ -68,3 +68,23 @@
 .text-custom-purple {
     color: #8a2be2; /* 보라색 */
 }
+
+#info-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    min-width: 550px; /* 최소 너비 설정 */
+    max-width: 200px; /* 최대 너비 설정 */
+}
+
+#info-container {
+    position: relative;
+    display: inline-block;
+}
+
+#info-trigger:hover + #info-content {
+    display: block;
+}

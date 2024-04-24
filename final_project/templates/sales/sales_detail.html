@@ -65,18 +65,20 @@
                 </div>
             </div>
             <!-- 모달 버튼 -->
-            <div class="col-md-6 mb-3">
+            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 %}
+            <div class="col-md-6 mb-3 text-center">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
-                    이미지 슬라이드쇼 열기
+                    차량 파손이 탐지되었습니다.
                 </button>
             </div>
+            {% endif %}
 
             <!-- 모달 -->
             <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="detectedModalLabel">파손이 탐지되었습니다.</h5>
+                            <h5 class="modal-title" id="detectedModalLabel">AI 탐지 파손 부위</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -88,22 +90,22 @@
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image1 %}
-                                    <div class="carousel-item">
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail %}active{% endif %}">
                                         <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image2 %}
-                                    <div class="carousel-item">
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 %}active{% endif %}">
                                         <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image3 %}
-                                    <div class="carousel-item">
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 %}active{% endif %}">
                                         <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image4 %}
-                                    <div class="carousel-item">
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
                                         <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
                                     </div>
                                     {% endif %}
@@ -194,7 +196,11 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
+<<<<<<< HEAD
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+=======
                         <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 70%; max-width: 160px;">
+>>>>>>> aafd72bd86644697cc852df374bdcc4ef753d22d
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
@@ -403,9 +409,23 @@
     <div class="row">
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5">
-                <!-- AI 예측 적정 가격 -->
-                <h3 class="mt-4">AI 예측 적정 가격:</h3>
+                <div id="info-container">
+                </div>
+                <!-- AI 추천 적정 가격 -->
+                <h3 class="mt-4">해당 매물의 AI 추천 적정 가격:</h3>
                 <h3>{{ min_price }} ~ {{ max_price }}만 원</h3>
+                {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 안전 범위에 속합니다. </h3>
+                {% elif CarSalesPost.PRICE < min_price %}
+                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 너무 저렴합니다. </h3>
+                {% else %}
+                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 너무 비쌉니다. </h3>
+                {% endif %}
+                <button id="info-trigger">?</button>
+                <div id="info-content">
+                    15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 AI 모델이 제공하는<br>
+                    해당 매물의 적정 가격입니다.
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -432,16 +452,23 @@
                     {% if CarSalesPost.MYERAR %}
                         {% if CarSalesPost.MILEAGE %}
                             <h3>연평균 주행거리: {{average_mileage}}km</h3>
-                            {% if average_mileage < 7000 %}
-                                <h3>주행거리가 평균보다 짧음</h3>
-                            {% elif average_mileage >= 7000 and average_mileage <= 15000 %}
-                                <h3>주행거리가 적정</h3>
+                            {% if average_mileage < 7500 %}
+                                <h3>평균 주행거리가 짧습니다.</h3>
+                            {% elif average_mileage >= 7500 and average_mileage <= 20000 %}
+                                <h3>평균 주행거리가 적정합니다.</h3>
                             {% else %}
-                                <h3>주행거리가 평균보다 많음</h3>
+                                <h3>평균 주행거리가 깁니다.</h3>
                             {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endif %}
+                <button id="info-trigger">?</button>
+                <div id="info-content">
+                    해당 매물의 연 평균 주행거리가<br>
+                    7,500km ~ 20,000km에 해당하는지를 분석하여<br>
+                    주행거리 적정 여부를 제공해드리고 있습니다.<br>
+                    기준은 2022년 한국 차량 1대당 연 평균 주행거리인 13,322km입니다.<br>
+                </div>
             </div>
         </div>
     </div>
@@ -469,6 +496,8 @@
             {% endif %}
         {% endif %}
     </div>
+
+
 {% endif %}
 
 
@@ -592,12 +621,12 @@ var predictedPriceList_10000 = {{ predicted_list_10000|safe }};
 var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
 var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
 
-var predictedPriceListPlusMAE = predictedPriceList_10000.map(function(price) {
+var predictedPriceListPlusMAE_10000 = predictedPriceList_10000.map(function(price) {
     return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
 });
 
 // -MAE를 뺀 예상 가격 리스트 계산
-var predictedPriceListMinusMAE = predictedPriceList_10000.map(function(price) {
+var predictedPriceListMinusMAE_10000 = predictedPriceList_10000.map(function(price) {
     return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
 });
 
@@ -606,17 +635,26 @@ var chartDom2 = document.getElementById('futurePrice1');
 var myChart2 = echarts.init(chartDom2);
 var option2;
 
+var minValue1 = Math.min(...predictedPriceListMinusMAE_10000);
+
 option2 = {
     title: { // 제목 추가
     text: 'AI 예측 미래 변동 가격(1년 10000km)', // 제목 내용
     left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
     },
     xAxis: {
         type: 'category',
         data: years // 연도를 x축으로 설정
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        min: Math.floor(minValue1 * 0.9)
     },
     legend: { // 범례 설정
         data: ['최대', '최소'], // 범례에 표시될 항목들
@@ -625,7 +663,7 @@ option2 = {
     series: [
         {
             name: '최대',
-            data: predictedPriceListPlusMAE.map(function(price, index) {
+            data: predictedPriceListPlusMAE_10000.map(function(price, index) {
                 return {
                     value: price,
                     itemStyle: {
@@ -643,7 +681,7 @@ option2 = {
         },
         {
             name: '최소',
-            data: predictedPriceListMinusMAE.map(function(price, index) {
+            data: predictedPriceListMinusMAE_10000.map(function(price, index) {
                 return {
                     value: price,
                     itemStyle: {
@@ -683,17 +721,26 @@ var chartDom3 = document.getElementById('futurePrice2');
 var myChart3 = echarts.init(chartDom3);
 var option3;
 
+var minValue2 = Math.min(...predictedPriceListMinusMAE_20000);
+
 option3 = {
     title: { // 제목 추가
     text: 'AI 예측 미래 변동 가격(1년 20000km)', // 제목 내용
     left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
     },
     xAxis: {
         type: 'category',
         data: years // 연도를 x축으로 설정
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        min: Math.floor(minValue2 * 0.9)
     },
     legend: { // 범례 설정
         data: ['최대', '최소'], // 범례에 표시될 항목들
@@ -760,17 +807,26 @@ var chartDom4 = document.getElementById('futurePrice3');
 var myChart4 = echarts.init(chartDom4);
 var option4;
 
+var minValue3 = Math.min(...predictedPriceListMinusMAE_30000);
+
 option4 = {
     title: { // 제목 추가
     text: 'AI 예측 미래 변동 가격(1년 30000km)', // 제목 내용
     left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
     },
     xAxis: {
         type: 'category',
         data: years // 연도를 x축으로 설정
     },
     yAxis: {
-        type: 'value'
+        type: 'value',
+        min: Math.floor(minValue3 * 0.9)
     },
     legend: { // 범례 설정
         data: ['최대', '최소'], // 범례에 표시될 항목들
@@ -818,6 +874,20 @@ option4 = {
 
 // 차트에 옵션 적용
 myChart4.setOption(option4);
+
+document.addEventListener('DOMContentLoaded', function() {
+    var infoTrigger = document.getElementById('info-trigger');
+    var infoContent = document.getElementById('info-content');
+
+    infoTrigger.addEventListener('mouseenter', function() {
+        infoContent.style.display = 'block';
+    });
+
+    infoTrigger.addEventListener('mouseleave', function() {
+        infoContent.style.display = 'none';
+    });
+});
+
 
 </script>
 {% endblock %}
