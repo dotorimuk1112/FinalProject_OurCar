@@ -36,6 +36,5 @@ urlpatterns = [
         # car_determination_views.py
     path('car_determination/', 
          car_determination_views.car_determination, name='car_determination'),  # '/' 에 해당되는 path
-    
 
 ]   

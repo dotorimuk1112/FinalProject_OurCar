@@ -7,6 +7,7 @@ with open('budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)
 
 def budget_rec_func(user_id):
+    min_budget, max_budget, budget_rec_result = 0, 0, 0
     try:
         test_sangmin_instance = TestSangmin.objects.get(id=user_id)
         data = {
@@ -25,6 +26,7 @@ def budget_rec_func(user_id):
         print(data_df)
         
         if budget_rec_model:
+            print('★★★★예산 추천 모델 작동★★★★')
             budget_rec_result = budget_rec_model.predict(data_df)
             budget_rec_result = np.squeeze(budget_rec_result)
             budget_rec_result = int(budget_rec_result)
@@ -34,8 +36,9 @@ def budget_rec_func(user_id):
             return min_budget, max_budget, budget_rec_result
         else:
             print("budget_rec_model is None")
-            budget_rec_result = None
+            budget_rec_result = '모델을 찾지 못 했습니다.'
             
     except TestSangmin.DoesNotExist:
         test_sangmin_instance = None
         print('데이터가 존재하지 않습니다.')
+        return min_budget, max_budget, budget_rec_result
