@@ -195,10 +195,35 @@
                     
                     
                     
-                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
-                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
-                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
-                    </a> 
+                    <!-- 구매 의사 모달 버튼 -->
+                    <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        구매 의사
+                        <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
+                    </button>
+
+                    <!-- 모달 창 -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">구매 의사 확인</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center" style="font-weight: bold;">
+                                    <p>정말로 구매 의사가 있으신가요?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- 아니오 버튼 클릭 -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                                    <!-- 예 버튼 클릭 -->
+                                    <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
                     {% if request.user == CarSalesPost.seller %}                        
                     <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
                        class="btn btn-sm btn-outline-secondary">수정</a> 
@@ -371,15 +396,6 @@ const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element) {
     element.addEventListener('click', function() {
         if(confirm("정말 삭제하시겠습니까?")) {  // 여기서 확인 대화상자 메시지 변경
-            location.href = this.dataset.uri;
-        };
-    });
-});
-document.title = "차량 상세 정보"; // 이 부분이 제목을 변경하는 부분입니다.
-const recommend_elements = document.getElementsByClassName("recommend");
-Array.from(recommend_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("정말로 구매 의사가 있으신가요?")) {
             location.href = this.dataset.uri;
         };
     });
