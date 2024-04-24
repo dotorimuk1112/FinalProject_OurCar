@@ -16,6 +16,7 @@ from ..static.budget_rec import budget_rec_func
 from django.http import HttpResponse
 from django.contrib import messages
 from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000, car_price_pred_model_20000, car_price_pred_model_30000
+from sales.static.card_scoring import scoring_data
 
 
 from django.http import JsonResponse
@@ -215,6 +216,7 @@ def my_page(request):
     buyer_proposed_cars_count = buyer_proposed_cars.count()
     # 사용자의 프로필 이미지를 가져옵니다.
     profile_image = user.profile_image
+    user_credit_score = scoring_data(user_id=user_id)
     print(user_buyer_messages)
     if request.method == 'POST':
         form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
@@ -230,7 +232,7 @@ def my_page(request):
                 'profile_image_form': form,
                 'liked_car_count': liked_car_count,
                 'user_cars_for_sale_count': user_cars_for_sale_count,
-                'user_buyer_price' : user_buyer_price,
+                'user_buyer_price' : user_buyer_price
                 
             })  
     else:
@@ -248,7 +250,8 @@ def my_page(request):
         'liked_car_count': liked_car_count,
         'user_cars_for_sale_count': user_cars_for_sale_count,
         'buyer_proposed_cars_count' : buyer_proposed_cars_count,
-        'user_buyer_price' : user_buyer_price
+        'user_buyer_price' : user_buyer_price,
+        'user_credit_score' : user_credit_score
 
     })
 
