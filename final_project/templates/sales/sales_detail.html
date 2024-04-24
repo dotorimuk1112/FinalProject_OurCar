@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load pybo_filter %}
 {% block content %}
+
 <div class="container my-3">
      <!-- message 표시 -->
      {% if messages %}
@@ -22,7 +23,6 @@
      {% endfor %}
      </div>
      {% endif %}
-
 
     <div class="row">
         <div class="col-md-6">
@@ -170,20 +170,25 @@
             <div class="row mt-2">
                 <!-- 좌측 요소 -->
                 <div class="col-md-6 mr-md-2 mb-2">
-                    <div class="bg-light text-dark p-2 text-center ">
-                        고객님 추천 예산: <br> 
-                        {{ min_budget }}만 원 ~ {{ max_budget }}만 원
-                        <div>
-                            {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
-                                <p>적정 가격입니다.</p>
-                            {% elif CarSalesPost.PRICE > max_budget %}
-                            <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
-                            {% else %}
-                            <p>고객님의 적정 예산보다 싼 차량입니다.</p>
-                            {% endif %}
-                        </div>
+                    <div class="bg-light text-dark p-2 text-center">
+                        {% if user.is_authenticated %}
+                            고객님 추천 예산: <br> 
+                            {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                            <div>
+                                {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
+                                    <p>적정 가격입니다.</p>
+                                {% elif CarSalesPost.PRICE > max_budget %}
+                                    <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
+                                {% else %}
+                                    <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <p>로그인이 필요합니다.</p>
+                        {% endif %}
                     </div>
                 </div>
+                
                 
                 <!-- 우측 요소 -->
                 <div class="col-md-6 ml-md-2 mb-2">
@@ -392,8 +397,18 @@
         </div>
         <div class="col-md-4">
             <div class="text-center mt-1">
-                <!-- 예상 가격 그래프 -->
-                <canvas id="futurePrice" width="468" height="300"></canvas>
+                <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
+                <div id="Paris" class="tabcontent2">
+                    <canvas id="futurePrice1" width="450" height="300"></canvas>
+                </div>
+                <div id="London" class="tabcontent2">
+                    <canvas id="futurePrice2" width="450" height="300"></canvas>
+                </div>
+                <div id="Seoul" class="tabcontent2">
+                    <canvas id="futurePrice3" width="450" height="300"></canvas>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -402,7 +417,7 @@
                 {% if CarSalesPost.MYERAR > 0 and CarSalesPost.MILEAGE %}
                     {% if CarSalesPost.MYERAR %}
                         {% if CarSalesPost.MILEAGE %}
-                            <h3>연평균 주행거리: {{average_mileage}}</h3>
+                            <h3>연평균 주행거리: {{average_mileage}}km</h3>
                             {% if average_mileage < 7000 %}
                                 <h3>주행거리가 평균보다 짧음</h3>
                             {% elif average_mileage >= 7000 and average_mileage <= 15000 %}
@@ -421,6 +436,7 @@
 
 
 
+
 {% if not request.user == CarSalesPost.seller %}                        
 
   <!-- "가격 제안하기" 버튼 -->
@@ -434,6 +450,7 @@
 
 {% endblock%}
 {% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.2/echarts.min.js"></script>
 <script type='text/javascript'>
  // 약관 동의 체크박스 상태 변경 이벤트 리스너
  document.getElementById("agreeCheckbox").addEventListener("change", function() {
@@ -466,84 +483,238 @@ Array.from(recommend_elements).forEach(function(element) {
     });
 });
 
-    // 예상 가격 리스트와 각 인덱스에 해당하는 연도
-    var predictedPriceList = {{ predicted_list|safe }};
-    var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
-    var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
 
-    var predictedPriceListPlusMAE = predictedPriceList.map(function(price) {
-        return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
-    });
+// 1년당 10,000km
+var predictedPriceList_10000 = {{ predicted_list_10000|safe }};
+var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
 
-    // -MAE를 뺀 예상 가격 리스트 계산
-    var predictedPriceListMinusMAE = predictedPriceList.map(function(price) {
-        return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
-    });
+var predictedPriceListPlusMAE = predictedPriceList_10000.map(function(price) {
+    return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
+});
 
-    // 차트 그리기
-    var chartDom2 = document.getElementById('futurePrice');
-    var myChart2 = echarts.init(chartDom2);
-    var option;
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE = predictedPriceList_10000.map(function(price) {
+    return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
+});
 
-    option2 = {
-        title: { // 제목 추가
-        text: 'AI 예측 미래 변동 가격', // 제목 내용
-        left: 'center' // 가운데 정렬
-        },
-        xAxis: {
-            type: 'category',
-            data: years // 연도를 x축으로 설정
-        },
-        yAxis: {
-            type: 'value'
-        },
-        legend: { // 범례 설정
-            data: ['최대', '최소'], // 범례에 표시될 항목들
-            top: '10%' // 위에서 5% 위치에 제목 표시
-        },
-        series: [
-            {
-                name: '최대',
-                data: predictedPriceListPlusMAE.map(function(price, index) {
-                    return {
-                        value: price,
-                        itemStyle: {
-                            color: '#007bff' // 파란색
-                        }
-                    };
-                }),
-                type: 'line',
-                label: {
-                    show: true,
-                    position: 'top',
-                    formatter: '{c}',
-                    fontSize: 14
-                }
-            },
-            {
-                name: '최소',
-                data: predictedPriceListMinusMAE.map(function(price, index) {
-                    return {
-                        value: price,
-                        itemStyle: {
-                            color: '#ff0000' // 빨간색
-                        }
-                    };
-                }),
-                type: 'line',
-                label: {
-                    show: true,
-                    position: 'top',
-                    formatter: '{c}',
-                    fontSize: 14
-                }
+// 차트 그리기
+var chartDom2 = document.getElementById('futurePrice1');
+var myChart2 = echarts.init(chartDom2);
+var option2;
+
+option2 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(1년 10000km)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value'
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '10%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
             }
-        ]
-    };
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
 
+// 차트에 옵션 적용
+myChart2.setOption(option2);
 
-    // 차트에 옵션 적용
-    myChart2.setOption(option2);
+// 1년당 20,000km
+var predictedPriceList_20000 = {{ predicted_list_20000|safe }};
+var mae20000 = {{ mae_20000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+var predictedPriceListPlusMAE_20000 = predictedPriceList_20000.map(function(price) {
+    return Math.floor(price + mae20000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE_20000 = predictedPriceList_20000.map(function(price) {
+    return Math.floor(price - mae20000); // 소수점 이하를 버리고 정수로 변환
+});
+
+var chartDom3 = document.getElementById('futurePrice2');
+var myChart3 = echarts.init(chartDom3);
+var option3;
+
+option3 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(1년 20000km)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value'
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '10%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE_20000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE_20000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
+
+// 차트에 옵션 적용
+myChart3.setOption(option3);
+
+// 1년당 30,000km
+var predictedPriceList_30000 = {{ predicted_list_30000|safe }};
+var mae30000 = {{ mae_30000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+var predictedPriceListPlusMAE_30000 = predictedPriceList_30000.map(function(price) {
+    return Math.floor(price + mae30000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE_30000 = predictedPriceList_30000.map(function(price) {
+    return Math.floor(price - mae30000); // 소수점 이하를 버리고 정수로 변환
+});
+
+var chartDom4 = document.getElementById('futurePrice3');
+var myChart4 = echarts.init(chartDom4);
+var option4;
+
+option4 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(1년 30000km)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value'
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '10%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE_30000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE_30000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
+
+// 차트에 옵션 적용
+myChart4.setOption(option4);
 
 </script>
 {% endblock %}

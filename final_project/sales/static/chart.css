@@ -1,0 +1,52 @@
+  /* 차트 */
+#London {
+    width: 100%; /* 부모 요소의 가로 폭을 100%로 설정 */
+    height: 300px; /* 부모 요소의 높이를 고정 값으로 설정 */
+    position: relative; /* 부모 요소의 위치를 상대적으로 설정 */
+}
+
+#Paris {
+    width: 100%; /* 부모 요소의 가로 폭을 100%로 설정 */
+    height: 300px; /* 부모 요소의 높이를 고정 값으로 설정 */
+    position: relative; /* 부모 요소의 위치를 상대적으로 설정 */
+}
+
+.tab2 {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab2 button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab2 button:hover {
+    background-color: #ddd;
+}
+
+.tab2 button.active {
+    background-color: #ccc;
+}
+
+.tabcontent2 {
+    display: none;
+    padding: 6px 12px;
+
+    border-top: none;
+}
+
+.topright2 {
+    float: right;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.topright2:hover {color: red;}
