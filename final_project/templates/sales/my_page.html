@@ -99,7 +99,8 @@
                 <button class="tablinks" onclick="openCity(event, 'Paris')">나의 소비 내역<span id="carCount"></span></button>
                 <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
                 <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen">관심있는 차량({{ liked_car_count }})</button>
-                <button class="tablinks" onclick="openCity(event, 'Seoul')" id="defaultOpen">내 구매 제안 내역({{buyer_proposed_cars_count}})</button>
+                <button class="tablinks" onclick="openCity(event, 'Seoul')">내 구매 제안 내역({{buyer_proposed_cars_count}})</button>
+                <button class="tablinks" onclick="openCity(event, 'Busan')">거래 중({{buyer_proposed_cars_count}})</button>
             </div>
             <!-- 내 판매 내역 탭 -->
             <div id="MySales" class="tabcontent" style="display: none;">
