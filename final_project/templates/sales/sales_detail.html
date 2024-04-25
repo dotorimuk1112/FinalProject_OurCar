@@ -65,7 +65,7 @@
                 </div>
             </div>
             <!-- 모달 버튼 -->
-            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 %}
+            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 or CarSalesPost.detected_image5 or CarSalesPost.detected_image6 or CarSalesPost.detected_image7 or CarSalesPost.detected_image8 %}
             <div class="col-md-6 mb-3 text-center">
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
                     차량 파손이 탐지되었습니다.
@@ -107,6 +107,26 @@
                                     {% if CarSalesPost.detected_image4 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
                                         <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image5 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 %}active{% endif %}">
+                                        <img src="{{ CarSalesPost.detected_image5.url }}" class="d-block img-fluid w-100" alt="Detected Image 5">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image6 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 %}active{% endif %}">
+                                        <img src="{{ CarSalesPost.detected_image6.url }}" class="d-block img-fluid w-100" alt="Detected Image 6">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image7 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 %}active{% endif %}">
+                                        <img src="{{ CarSalesPost.detected_image7.url }}" class="d-block img-fluid w-100" alt="Detected Image 7">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image8 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 and not CarSalesPost.detected_image7 %}active{% endif %}">
+                                        <img src="{{ CarSalesPost.detected_image8.url }}" class="d-block img-fluid w-100" alt="Detected Image 8">
                                     </div>
                                     {% endif %}
                                 </div>
@@ -533,7 +553,7 @@
             <div class="text-center mt-4 mb-5" style="position: relative;">
                 <button id="info-trigger" style="position: absolute; top: 0; right: 0;">?</button>
 
-                <div id="info-content" style="width:100px;">
+                <div id="info-content" style="width:50px;">
                     해당 매물의 연 평균 주행거리가<br>
                     7,500km ~ 20,000km에 해당하는지를 분석하여<br>
                     주행거리 적정 여부를 제공해드리고 있습니다.<br>
