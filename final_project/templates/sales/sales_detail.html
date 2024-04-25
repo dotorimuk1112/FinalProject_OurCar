@@ -32,25 +32,25 @@
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
                             <p>차량 앞</p>
-                            <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid w-100" alt="Image 1">
+                            <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
                             <p>차량 뒤</p>
-                            <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid w-100" alt="Image 2">
+                            <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
                             <p>차량 좌</p>
-                            <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid w-100" alt="Image 3">
+                            <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
                             <p>차량 우</p>
-                            <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid w-100" alt="Image 4">
+                            <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
                         </div>
                         {% endif %}
                     </div>
@@ -196,11 +196,7 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
-<<<<<<< HEAD
                         <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
-=======
-                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
->>>>>>> develop
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
