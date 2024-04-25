@@ -22,3 +22,8 @@ def add_commas(value):
 @register.filter
 def truncate_decimal(value):
     return int(value)
+
+# 부동 소수점 변환
+@register.filter
+def to_float(value):
+    return float(value)
