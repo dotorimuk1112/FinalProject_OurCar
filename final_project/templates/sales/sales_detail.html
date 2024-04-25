@@ -200,7 +200,7 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
-                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 155px; height: 155px; object-fit: cover;">
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
@@ -568,22 +568,30 @@
     
     // 주행거리에 따라 라벨 및 비율 조정
     var label, num;
-    if (average_mileage < 7000) {
+    if (average_mileage < 7500) {
         label = "적음";
-        num = 0.333; // 맨 왼쪽 3분의 1 영역 활성화
-    } else if (average_mileage >= 7000 && average_mileage <= 15000) {
+        num = 0.2; // 맨 왼쪽 3분의 1 영역 활성화
+    } else if (average_mileage >= 7500 && average_mileage <= 20000) {
         label = "적정";
         num = 0.5; // 가운데 3분의 1 영역 활성화
     } else {
         label = "많음";
         num = 0.9; // 맨 오른쪽 3분의 1 영역 활성화
     }
+    var color;
+    if (num == 0.2) {
+        color = '#87CEEB'; // 하늘색
+    } else if (num == 0.5) {
+        color = '#00FF00'; // 노란색
+    } else {
+        color = '#D1180B'; // 빨간색
+    }
     
     var data = {
         labels: ["적음", "적정", "많음"],
         datasets: [{
             data: [num, 1 - num, 0], // 주어진 조건에 따라 데이터를 조절
-            backgroundColor: ['#D1180B', '#D3D3D3', '#D3D3D3'], // 각 영역에 맞는 색상 지정
+            backgroundColor: [color, '#D3D3D3', '#D3D3D3'], // 각 영역에 맞는 색상 지정
         }]
     };
     

@@ -151,7 +151,8 @@
                                         </div>
                                     {% else %}
                                         <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
-                                    {% endif %}                                    <p class="card-text"> </p>
+                                    {% endif %}                                    
+                                    <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
                                             <strong>{{ car.MNAME }}</strong>
