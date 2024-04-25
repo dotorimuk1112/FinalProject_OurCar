@@ -196,21 +196,21 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
-                        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 70%; max-width: 160px;">
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
                         <div>
                             <div>주소 : {{ CarSalesPost.seller.address }}</div>
                          <!-- 주소 버튼 -->
-                         <button type="button" class="btn btn-primary" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">주소 확인하기</button>
+                         <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
 
                          <!-- 모달 창 -->
                          <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
                              <div class="modal-dialog modal-dialog-centered modal-lg">
                                  <div class="modal-content">
                                      <div class="modal-header">
-                                         <h5 class="modal-title" id="mapModalLabel">주소 지도</h5>
+                                         <h5 class="modal-title" id="mapModalLabel">{{ CarSalesPost.seller.address }}</h5>
                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                      </div>
                                      <div class="modal-body">
@@ -224,92 +224,118 @@
                         <div>게시일 : {{ CarSalesPost.create_date }}</div>
                     </div>
                 </div>
-                <div class="my-3 text-end">
-                    {% if request.user == CarSalesPost.seller %}    
-                        <!-- "구매 제안서 보기" 버튼 -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서 보기</button>
-                    {% endif %}
-                    <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white">
-                                    <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서 보기</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" class="text-center">이름</th>
-                                                <th scope="col" class="text-center">성별</th>
-                                                <th scope="col" class="text-center">주소</th>
-                                                <th scope="col" class="text-center">전화번호</th>
-                                                <th scope="col" class="text-center">구매 제안 가격</th>
-                                                <th scope="col" class="text-center">수락</th>
-                                                <th scope="col" class="text-center">거절</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for proposal, buyer_info in buyer_proposals_with_info %}
-                                            <tr>
-                                                <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
-                                                <td class="text-center">{{ buyer_info.get_gender_display }}</td>
-                                                <td class="text-center">{{ buyer_info.address }}</td>
-                                                <td class="text-center">{{ buyer_info.phone_number }}</td>
-                                                <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
-                                                <td class="text-center">
-                                                    {% if proposal.accepted is not None %}
-                                                        {% if proposal.accepted == 0 %}
-                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
-                                                            {% csrf_token %}
-                                                            <input type="hidden" name="accepted" value="True">
-                                                            <button type="submit" class="btn btn-success btn-sm">수락</button>
-                                                        </form>
-                                                        {% else %}
-                                                        <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
-                                                        {% endif %}
-                                                    {% else %}
+                
+            </div>
+            <div class="my-3 text-end">
+                {% if request.user == CarSalesPost.seller %}    
+                    <!-- "구매 제안서 보기" 버튼 -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서 보기</button>
+                {% endif %}
+                <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서 보기</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">이름</th>
+                                            <th scope="col" class="text-center">성별</th>
+                                            <th scope="col" class="text-center">주소</th>
+                                            <th scope="col" class="text-center">전화번호</th>
+                                            <th scope="col" class="text-center">구매 제안 가격</th>
+                                            <th scope="col" class="text-center">수락</th>
+                                            <th scope="col" class="text-center">거절</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for proposal, buyer_info in buyer_proposals_with_info %}
+                                        <tr>
+                                            <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
+                                            <td class="text-center">{{ buyer_info.get_gender_display }}</td>
+                                            <td class="text-center">{{ buyer_info.address }}</td>
+                                            <td class="text-center">{{ buyer_info.phone_number }}</td>
+                                            <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
+                                            <td class="text-center">
+                                                {% if proposal.accepted is not None %}
+                                                    {% if proposal.accepted == 0 %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="True">
                                                         <button type="submit" class="btn btn-success btn-sm">수락</button>
                                                     </form>
-                                                    {% endif %}
-                                                </td>
-                                                <td class="text-center">
-                                                    {% if proposal.accepted is not None %}
-                                                        {% if proposal.accepted == 1 %}
-                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
-                                                            {% csrf_token %}
-                                                            <input type="hidden" name="accepted" value="False">
-                                                            <button type="submit" class="btn btn-danger btn-sm">거절</button>
-                                                        </form>
-                                                        {% else %}
-                                                        <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
-                                                        {% endif %}
                                                     {% else %}
+                                                    <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
+                                                    {% endif %}
+                                                {% else %}
+                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accepted" value="True">
+                                                    <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                {% if proposal.accepted is not None %}
+                                                    {% if proposal.accepted == 1 %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="False">
                                                         <button type="submit" class="btn btn-danger btn-sm">거절</button>
                                                     </form>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
                                                     {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                {% else %}
+                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accepted" value="False">
+                                                    <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                     
                     
+                    <!-- 광열 수정 부분 -->
+                    <!-- 구매 의사 모달 버튼 -->
+                    <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        구매 의사
+                        <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
+                    </button>
+
+                    <!-- 모달 창 -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">구매 의사 확인</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center" style="font-weight: bold;">
+                                    <p>정말로 구매 의사가 있으신가요?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- 아니오 버튼 클릭 -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                                    <!-- 예 버튼 클릭 -->
+                                    <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 광열 수정부분-->
                     
-                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
-                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
-                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
-                    </a> 
                     {% if request.user == CarSalesPost.seller %}                        
                     <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
                        class="btn btn-sm btn-outline-secondary">수정</a> 
@@ -318,6 +344,20 @@
                        data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
                     {% endif %} 
                 </div>
+                
+                
+                
+                <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                    class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
+                    <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                </a> 
+                {% if request.user == CarSalesPost.seller %}                        
+                <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                   class="btn btn-sm btn-outline-secondary">수정</a> 
+
+                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                {% endif %} 
             </div>
             </div>
 
@@ -408,19 +448,21 @@
                 <div id="info-container">
                 </div>
                 <!-- AI 추천 적정 가격 -->
-                <h3 class="mt-4">해당 매물의 AI 추천 적정 가격:</h3>
-                <h3>{{ min_price }} ~ {{ max_price }}만 원</h3>
-                {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
-                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 안전 범위에 속합니다. </h3>
-                {% elif CarSalesPost.PRICE < min_price %}
-                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 너무 저렴합니다. </h3>
-                {% else %}
-                <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 너무 비쌉니다. </h3>
-                {% endif %}
-                <button id="info-trigger">?</button>
-                <div id="info-content">
-                    15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 AI 모델이 제공하는<br>
-                    해당 매물의 적정 가격입니다.
+                <div class="price-info">
+                    <h3 class="info-title" style = "fontStyle:bold"><AI 추천 적정 가격</h3>
+                    <h3 class="price-range">{{ min_price }} ~ {{ max_price }}만 원</h3>
+                    {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 안전 범위에 속합니다. </h3>
+                    {% elif CarSalesPost.PRICE < min_price %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 저렴합니다</span>. </h3>
+                    {% else %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 비쌉니다</span>. </h3>
+                    {% endif %}
+                    <button id="info-trigger">?</button>
+                    <div id="info-content">
+                        15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 AI 모델이 제공하는<br>
+                        해당 매물의 적정 가격입니다.
+                    </div>
                 </div>
             </div>
         </div>
@@ -429,41 +471,51 @@
                 <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
                 <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
                 <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
-                <div id="Paris" class="tabcontent2">
+                <div id="Paris" class="tabcontent2 mt-3">
                     <canvas id="futurePrice1" width="450" height="300"></canvas>
                 </div>
-                <div id="London" class="tabcontent2">
+                <div id="London" class="tabcontent2 mt-3">
                     <canvas id="futurePrice2" width="450" height="300"></canvas>
                 </div>
-                <div id="Seoul" class="tabcontent2">
+                <div id="Seoul" class="tabcontent2 mt-3">
                     <canvas id="futurePrice3" width="450" height="300"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="text-center mt-4 mb-5">
+            <div class="text-center mt-4 mb-5" style="position: relative;">
+                <button id="info-trigger" style="position: absolute; top: 0; right: 0;">?</button>
+
+                <div id="info-content" style="width:100px;">
+                    해당 매물의 연 평균 주행거리가<br>
+                    7,500km ~ 20,000km에 해당하는지를 분석하여<br>
+                    주행거리 적정 여부를 제공해드리고 있습니다.<br>
+                    <span class="emphasis">기준:  국내 차량 연 평균 주행거리인 13,322km</span><br>
+                </div>
+                <canvas id="mileageChart" width="150" height="75" style="padding-top: 0px;"></canvas>
                 <!-- 연평균 주행거리 -->
                 {% if CarSalesPost.MYERAR > 0 and CarSalesPost.MILEAGE %}
                     {% if CarSalesPost.MYERAR %}
                         {% if CarSalesPost.MILEAGE %}
-                            <h3>연평균 주행거리: {{average_mileage}}km</h3>
-                            {% if average_mileage < 7500 %}
-                                <h3>평균 주행거리가 짧습니다.</h3>
-                            {% elif average_mileage >= 7500 and average_mileage <= 20000 %}
-                                <h3>평균 주행거리가 적정합니다.</h3>
-                            {% else %}
-                                <h3>평균 주행거리가 깁니다.</h3>
-                            {% endif %}
+                            <div class="mileage-info mt-4">
+                                <h3 class="mileage-title">연평균 주행거리: {{average_mileage}}km</h3>
+                                <div class="mileage-status">
+                                    {% if average_mileage < 7500 %}
+                                        <span class="status-icon">⚠️</span>
+                                        <span class="status-text">평균 주행거리가 짧습니다.</span>
+                                    {% elif average_mileage >= 7500 and average_mileage <= 20000 %}
+                                        <span class="status-icon">✅</span>
+                                        <span class="status-text">평균 주행거리가 적정합니다.</span>
+                                    {% else %}
+                                        <span class="status-icon">🚩</span>
+                                        <span class="status-text">평균 주행거리가 깁니다.</span>
+                                    {% endif %}
+                                </div>
+                            </div>
                         {% endif %}
                     {% endif %}
                 {% endif %}
-                <button id="info-trigger">?</button>
-                <div id="info-content">
-                    해당 매물의 연 평균 주행거리가<br>
-                    7,500km ~ 20,000km에 해당하는지를 분석하여<br>
-                    주행거리 적정 여부를 제공해드리고 있습니다.<br>
-                    기준은 2022년 한국 차량 1대당 연 평균 주행거리인 13,322km입니다.<br>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -505,9 +557,60 @@
 {% block script %}
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.2.2/echarts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script type='text/javascript'>
-
+    var ctx = document.getElementById('mileageChart').getContext('2d');
+    var average_mileage = {{average_mileage}}; // 연평균 주행거리 값
+    
+    // 주행거리에 따라 라벨 및 비율 조정
+    var label, num;
+    if (average_mileage < 7000) {
+        label = "적음";
+        num = 0.333; // 맨 왼쪽 3분의 1 영역 활성화
+    } else if (average_mileage >= 7000 && average_mileage <= 15000) {
+        label = "적정";
+        num = 0.5; // 가운데 3분의 1 영역 활성화
+    } else {
+        label = "많음";
+        num = 0.9; // 맨 오른쪽 3분의 1 영역 활성화
+    }
+    
+    var data = {
+        labels: ["적음", "적정", "많음"],
+        datasets: [{
+            data: [num, 1 - num, 0], // 주어진 조건에 따라 데이터를 조절
+            backgroundColor: ['#D1180B', '#D3D3D3', '#D3D3D3'], // 각 영역에 맞는 색상 지정
+        }]
+    };
+    
+    var options = {
+        responsive: true,
+        cutoutPercentage: 75,
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        tooltips: {
+            enabled: false
+        },
+        hover: {
+            mode: null
+        },
+        elements: {
+            center: {
+                text: label,
+                fontStyle: 'Arial',
+                sidePadding: 20
+            }
+        },
+        legend: {
+            display: false
+        }
+    };
+    
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
     // 구글 맵 API 키
     var googleApiKey = 'AIzaSyD1dqZBt2Fz3Bh2KOrLEEGT2Z_3PDU5Ps8';
 
@@ -602,7 +705,7 @@ option2 = {
     },
     legend: { // 범례 설정
         data: ['최대', '최소'], // 범례에 표시될 항목들
-        top: '10%' // 위에서 5% 위치에 제목 표시
+        top: '7%' // 위에서 5% 위치에 제목 표시
     },
     series: [
         {

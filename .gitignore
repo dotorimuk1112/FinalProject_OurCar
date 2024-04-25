@@ -1,6 +1,7 @@
 venvs/
 venv2/
 .venv/
+venvv/
 
 ourcar/my_settings.py
 
