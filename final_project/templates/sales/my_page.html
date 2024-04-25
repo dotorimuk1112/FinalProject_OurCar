@@ -113,7 +113,7 @@
                         {% for car in user_cars_for_sale %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
-                                <div class="card-body clickable-card">
+                                <div class="card-body clickable-card {% if car.make_deal == 1 %}border border-success border-5{% endif %}">
                                     <div class="text-end">
                                         {% if car.buyers_count != 0 %}
                                         <div class="position-relative">
@@ -129,7 +129,8 @@
                                         {% else %}
                                             
                                         {% endif %} {% endcomment %}
-                                    </div>                               
+                                    </div>  
+                                                                 
                                     <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
