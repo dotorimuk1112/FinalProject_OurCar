@@ -1,6 +1,7 @@
 # pybo/views/base_views.py
 
 from django.core.paginator import Paginator
+from django.core import serializers
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -17,6 +18,8 @@ from django.http import HttpResponse
 from django.contrib import messages
 from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000, car_price_pred_model_20000, car_price_pred_model_30000
 from sales.static.card_scoring import scoring_data
+from common.models import loan_rate_list
+import math
 
 
 from django.http import JsonResponse
@@ -117,6 +120,23 @@ def cancel_proposal(request, post_id):
     # 삭제 후에 어디로 리다이렉트할지 선택합니다.
     return redirect('sales:detail', post_id)
 
+# 대출 상품 데이터 가져오기
+def load_loans(term, score):
+    score_00 = math.floor(score/100)*100
+    list_filtered = loan_rate_list.objects.filter(loan_period=term).filter(credit_range=score_00)
+    list_ordered = list_filtered.order_by('min_rate')[:5]
+    woori_loan = list_filtered.filter(company_name="우리금융캐피탈")
+    return list_ordered, woori_loan
+
+def show_loan_table(request, post_id):
+    user = request.user
+    input_term = request.GET.get('term')
+    user_credit_score = scoring_data(user_id=user.id)
+    print(user_credit_score)
+    loans, woori_loan = load_loans(input_term, user_credit_score)
+    loan_list = serializers.serialize('json', loans)
+    return HttpResponse(loan_list, content_type="text/json-comment-filtered")
+
 # 질문 상세 보기
 def detail(request, post_id):
     user = request.user
@@ -145,6 +165,12 @@ def detail(request, post_id):
         # 구매 제안서와 구매자 정보를 함께 저장합니다.
         buyer_proposals_with_info.append((proposal, buyer_info))
     
+    # 사용자에게 맞는 대출 상품 목록 가져오기
+    user_credit_score, loan_list, woori_loan = 0, 0, 0
+    if user.is_authenticated:
+        user_credit_score = scoring_data(user_id=user.id)
+        loan_list, woori_loan = load_loans(24, user_credit_score)
+
     context = {
         'user': user,
         'CarSalesPost': car_sales_post,
@@ -162,7 +188,9 @@ def detail(request, post_id):
         'mae_30000': mae_30000,
         'car': car,
         'average_mileage': average_mileage,
-        'buyer_list' : buyer_list
+        'buyer_list' : buyer_list,
+        'loan_list' : loan_list,
+        'woori_loan' : woori_loan
     }
     return render(request, 'sales/sales_detail.html', context)
 
@@ -201,7 +229,8 @@ def my_page(request):
     liked_car_page = request.GET.get('liked_car_page', 1)  # 좋아하는 차량 페이지 번호
     user_cars_for_sale_page = request.GET.get('user_cars_for_sale_page', 1)  # 판매 중인 차량 페이지 번호
     buyer_proposed_cars_page = request.GET.get('buyer_proposed_cars_page',1)
-    
+    accepted_count = BuyerMessages.objects.filter(accepted=1, post_id__in=[car.post_id for car in buyer_proposed_cars]).count()
+
     liked_car_paginator = Paginator(liked_car, 8)  # 좋아하는 차량 페이지당 8개씩 보여주기
     user_cars_for_sale_paginator = Paginator(user_cars_for_sale, 8)  # 판매 중인 차량 페이지당 8개씩 보여주기
     buyer_proposed_cars_paginator = Paginator(buyer_proposed_cars, 8)
@@ -214,10 +243,11 @@ def my_page(request):
     liked_car_count = liked_car.count()
     user_cars_for_sale_count = user_cars_for_sale.count()
     buyer_proposed_cars_count = buyer_proposed_cars.count()
+
     # 사용자의 프로필 이미지를 가져옵니다.
     profile_image = user.profile_image
+    # 사용자의 신용 점수 가져오기
     user_credit_score = scoring_data(user_id=user_id)
-    print(user_buyer_messages)
     if request.method == 'POST':
         form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -232,7 +262,7 @@ def my_page(request):
                 'profile_image_form': form,
                 'liked_car_count': liked_car_count,
                 'user_cars_for_sale_count': user_cars_for_sale_count,
-                'user_buyer_price' : user_buyer_price
+                'accepted_count':accepted_count
                 
             })  
     else:
@@ -250,8 +280,9 @@ def my_page(request):
         'liked_car_count': liked_car_count,
         'user_cars_for_sale_count': user_cars_for_sale_count,
         'buyer_proposed_cars_count' : buyer_proposed_cars_count,
-        'user_buyer_price' : user_buyer_price,
-        'user_credit_score' : user_credit_score
+        'user_credit_score' : user_credit_score,
+        'accepted_count':accepted_count
+
 
     })
 

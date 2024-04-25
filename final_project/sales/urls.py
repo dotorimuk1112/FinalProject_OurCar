@@ -24,6 +24,10 @@ urlpatterns = [
     
     path('cancel_proposal/<int:post_id>/',
          base_views.cancel_proposal, name='cancel_proposal'),
+         
+    path('detail/<int:post_id>/show_loan_table/', 
+         base_views.show_loan_table, name='show_loan_table'),
+
     # question_views.py
     path('create/<str:car_VNUM>/',
          question_views.question_create, name='question_create'),
@@ -33,7 +37,6 @@ urlpatterns = [
          question_views.sales_delete, name='sales_delete'),
 
     path('buy/<int:post_id>/', question_views.buy_car, name='buy_car'),
-    
     
 
         # car_determination_views.py
