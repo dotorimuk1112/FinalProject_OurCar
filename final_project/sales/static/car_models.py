@@ -21,6 +21,8 @@ def car_determination_and_damage_detection(img):
                 for r in results1:
                     determination_result = str(int(r.boxes.cls[0])) # 탐지 결과 None이면 여기서 에러 발생
                 
+                determination_list = list(map(lambda num : str(int(num)), r.boxes.cls))
+                
                 try:
                     for dr in results2:
                         detection_class = str(int(dr.boxes.cls[0]))
@@ -29,7 +31,7 @@ def car_determination_and_damage_detection(img):
                     detection_class = None
 
                 # 사진 판독 결과가 차량이고, 파손이 감지됐을 경우
-                if (determination_result == '2') and detection_class:
+                if ('2' in determination_list) and detection_class:
                     for r in results2:
                         im_array = r.plot()  # plot a BGR numpy array of predictions
                         im = Image.fromarray(im_array[..., ::-1])  # RGB PIL image
@@ -38,9 +40,9 @@ def car_determination_and_damage_detection(img):
                         detection_results = f'detection_results/{file_name}_results.jpg'
                 else:
                     detection_results = None
-                    return determination_result, detection_results
+                    return determination_list, detection_results
 
-                return determination_result, detection_results
+                return determination_list, detection_results
             else:
                 return None, None  # 처리된 결과가 없을 경우 None 반환
         # 아무것도 탐지 안됐을 때 에러 처리
