@@ -196,11 +196,7 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
-<<<<<<< HEAD
                         <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
-=======
-                        <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 70%; max-width: 160px;">
->>>>>>> aafd72bd86644697cc852df374bdcc4ef753d22d
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
@@ -328,52 +324,95 @@
             
     </div>
 </div>
-<table class="table table-striped table-bordered">
-    <tbody>
-        <tr>
-            <th scope="row">연식</th>
-            <td>{{ CarSalesPost.MYERAR }}</td>
-            <th scope="row">주행거리</th>
-            <td>{{ CarSalesPost.MILEAGE| add_commas }}</td>
-        </tr>
-        <tr>
-            <th scope="row">색상</th>
-            <td>{{ CarSalesPost.COLOR }}</td>
-            <th scope="row">변속기</th>
-            <td>{{ CarSalesPost.TRANS }}</td>
-        </tr>
-        <tr>
-            <th scope="row">연료</th>
-            <td>{{ CarSalesPost.F_TYPE }}</td>
-            <th scope="row">배기량</th>
-            <td>{{ CarSalesPost.DISP| add_commas }}</td>
-        </tr>
-        <tr>
-            <th scope="row">차종</th>
-            <td>{{ CarSalesPost.VTYPE }}</td>
-            <th scope="row">차량번호</th>
-            <td>{{ CarSalesPost.VNUM }}</td>
-        </tr>
-        <tr>
-            <th scope="row">용도변경 이력</th>
-            <td>{{ CarSalesPost.CU_HIS|floatformat }}회</td>
-            <th scope="row">자차피해 이력</th>
-            <td>{{ CarSalesPost.MVD_HIS|floatformat }}회</td>
-        </tr>
-        <tr>
-            <th scope="row">타차피해 이력</th>
-            <td>{{ CarSalesPost.AVD_HIS|floatformat }}회</td>
-            <th scope="row">침수 이력</th>
-            <td>{{ CarSalesPost.FD_HIS|floatformat }}회</td>
-        </tr>
-        <tr>
-            <th scope="row">도난 이력</th>
-            <td>{{ CarSalesPost.VT_HIS|floatformat }}회</td>
-            <th scope="row">소유자 변경 횟수</th>
-            <td>{{ CarSalesPost.US_HIS|floatformat }}회</td>
-        </tr>
-    </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">연식</th>
+                        <td>{{ CarSalesPost.MYERAR }}</td>
+                        <th scope="row">주행거리</th>
+                        <td>{{ CarSalesPost.MILEAGE| add_commas }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">색상</th>
+                        <td>{{ CarSalesPost.COLOR }}</td>
+                        <th scope="row">변속기</th>
+                        <td>{{ CarSalesPost.TRANS }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">연료</th>
+                        <td>{{ CarSalesPost.F_TYPE }}</td>
+                        <th scope="row">배기량</th>
+                        <td>{{ CarSalesPost.DISP| add_commas }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">차종</th>
+                        <td>{{ CarSalesPost.VTYPE }}</td>
+                        <th scope="row">차량번호</th>
+                        <td>{{ CarSalesPost.VNUM }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">용도변경 이력</th>
+                        <td>{{ CarSalesPost.CU_HIS|floatformat }}회</td>
+                        <th scope="row">자차피해 이력</th>
+                        <td>{{ CarSalesPost.MVD_HIS|floatformat }}회</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">타차피해 이력</th>
+                        <td>{{ CarSalesPost.AVD_HIS|floatformat }}회</td>
+                        <th scope="row">침수 이력</th>
+                        <td>{{ CarSalesPost.FD_HIS|floatformat }}회</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">도난 이력</th>
+                        <td>{{ CarSalesPost.VT_HIS|floatformat }}회</td>
+                        <th scope="row">소유자 변경 횟수</th>
+                        <td>{{ CarSalesPost.US_HIS|floatformat }}회</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            {% if user.is_authenticated %}
+            {% if loan_list %}
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>회사명</th>
+                            <th>최저금리</th>
+                            <th>최대금리</th>
+                            <th>중도상환수수료율</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loan_table_body">
+                        {% for loan in loan_list %}
+                        <tr>
+                            <td>{{ loan.company_name }}</td>
+                            <td>{{ loan.min_rate }}</td>
+                            <td>{{ loan.max_rate }}</td>
+                            <td>{{ loan.late_payment_rate }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="number" id="loan_term" name="loan_term">
+                <button class="btn btn-primary" onclick="loan_table()" type="button">기간 설정</button>
+            </form>
+            {% else %}
+            <p>이용 가능한 대출 상품이 없습니다</p>
+            {% endif %}
+            {% else %}
+            <p>이용 가능한 대출 상품을 확인하시려면 로그인하세요</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
     <!-- 모달 폼 -->
 
 <div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
@@ -888,6 +927,29 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-
+// 대출 상품 기한 선택
+function loan_table(){
+    var term_val = document.querySelector('input[name="loan_term"]');
+    $.ajax({
+        url: 'show_loan_table',
+        type: "GET",
+        data: {
+            'term': term_val.value
+        },
+        datatype: 'json',
+        success: function(data){
+            var table_code = "";
+            for (var i = 0; i < data.length; i++) {
+                table_code += "<tr>"
+                table_code += "<td>" + data[i].fields.company_name + "</td>"
+                table_code += "<td>" + data[i].fields.min_rate + "</td>"
+                table_code += "<td>" + data[i].fields.max_rate + "</td>"
+                table_code += "<td>" + data[i].fields.late_payment_rate + "</td>"
+                table_code += "</tr>"
+            }
+            $('[id="loan_table_body"]').html(table_code);
+        }
+    });
+}
 </script>
 {% endblock %}

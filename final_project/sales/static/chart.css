@@ -50,7 +50,7 @@
     border-radius: 20px; /* 버튼을 둥글게 만들기 */
 }
 
-.topright2:hover {color: red;}
+.topright2:hover {color: red;} /*여기까지 AJAX (임시)*/
 
 .address-container {
     display: flex; /* 부모 요소를 플렉스 박스로 설정하여 자식 요소를 나란히 배치 */
