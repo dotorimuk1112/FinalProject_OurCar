@@ -1,0 +1,67 @@
+.price-info {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.price-info h3 {
+    margin: 10px 0;
+}
+
+#info-trigger {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#info-content {
+    display: none;
+    margin-top: 10px;
+}
+
+#info-trigger:hover + #info-content {
+    display: block;
+}
+
+
+.mileage-info {
+    margin-bottom: 20px;
+}
+
+.mileage-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.status-icon {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.status-text {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.emphasis {
+    font-weight: bold;
+    color: red; /* Choose a color that suits your design */
+}
+
+.navbar .nav_son {
+    background-color: rgb(0, 128, 230); /* CMYK: 100 50 0 10 -> RGB: 0 128 230 */
+}
+
+.navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-brand {
+    color: white;
+}

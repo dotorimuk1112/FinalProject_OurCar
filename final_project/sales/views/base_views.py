@@ -229,7 +229,8 @@ def my_page(request):
     liked_car_page = request.GET.get('liked_car_page', 1)  # 좋아하는 차량 페이지 번호
     user_cars_for_sale_page = request.GET.get('user_cars_for_sale_page', 1)  # 판매 중인 차량 페이지 번호
     buyer_proposed_cars_page = request.GET.get('buyer_proposed_cars_page',1)
-    
+    accepted_count = BuyerMessages.objects.filter(accepted=1, post_id__in=[car.post_id for car in buyer_proposed_cars]).count()
+
     liked_car_paginator = Paginator(liked_car, 8)  # 좋아하는 차량 페이지당 8개씩 보여주기
     user_cars_for_sale_paginator = Paginator(user_cars_for_sale, 8)  # 판매 중인 차량 페이지당 8개씩 보여주기
     buyer_proposed_cars_paginator = Paginator(buyer_proposed_cars, 8)
@@ -242,11 +243,11 @@ def my_page(request):
     liked_car_count = liked_car.count()
     user_cars_for_sale_count = user_cars_for_sale.count()
     buyer_proposed_cars_count = buyer_proposed_cars.count()
+
     # 사용자의 프로필 이미지를 가져옵니다.
     profile_image = user.profile_image
     # 사용자의 신용 점수 가져오기
     user_credit_score = scoring_data(user_id=user_id)
-    print(user_buyer_messages)
     if request.method == 'POST':
         form = ProfileImageForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -261,7 +262,7 @@ def my_page(request):
                 'profile_image_form': form,
                 'liked_car_count': liked_car_count,
                 'user_cars_for_sale_count': user_cars_for_sale_count,
-                'user_buyer_price' : user_buyer_price
+                'accepted_count':accepted_count
                 
             })  
     else:
@@ -279,8 +280,9 @@ def my_page(request):
         'liked_car_count': liked_car_count,
         'user_cars_for_sale_count': user_cars_for_sale_count,
         'buyer_proposed_cars_count' : buyer_proposed_cars_count,
-        'user_buyer_price' : user_buyer_price,
-        'user_credit_score' : user_credit_score
+        'user_credit_score' : user_credit_score,
+        'accepted_count':accepted_count
+
 
     })
 
