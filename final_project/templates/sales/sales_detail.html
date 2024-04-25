@@ -329,15 +329,15 @@
                                     <p>정말로 구매 의사가 있으신가요?</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <!-- 아니오 버튼 클릭 -->
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                                     <!-- 예 버튼 클릭 -->
                                     <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
-                                    
+                                    <!-- 아니오 버튼 클릭 -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- 광열 수정부분-->
                     
                     {% if request.user == CarSalesPost.seller %}                        
@@ -363,7 +363,7 @@
                    data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
                 {% endif %} 
             </div>
-            </div>
+        </div>
 
             
     </div>
@@ -707,15 +707,7 @@ Array.from(delete_elements).forEach(function(element) {
         };
     });
 });
-document.title = "차량 상세 정보"; // 이 부분이 제목을 변경하는 부분입니다.
-const recommend_elements = document.getElementsByClassName("recommend");
-Array.from(recommend_elements).forEach(function(element) {
-    element.addEventListener('click', function() {
-        if(confirm("정말로 구매 의사가 있으신가요?")) {
-            location.href = this.dataset.uri;
-        };
-    });
-});
+
 
 
 // 1년당 10,000km
