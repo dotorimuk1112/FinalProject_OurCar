@@ -175,7 +175,11 @@
                     <div class="bg-light text-dark p-2 text-center">
                         {% if user.is_authenticated %}
                             고객님 추천 예산: <br> 
-                            {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                            {% if min_budget > 0 %}
+                                {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                            {% else %}
+                                0만 원 ~ {{ max_budget }}만 원
+                            {% endif %}
                             <div>
                                 {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
                                     <p>적정 가격입니다.</p>
