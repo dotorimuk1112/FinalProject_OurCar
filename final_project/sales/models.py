@@ -36,12 +36,20 @@ class CarSalesPost(models.Model):
     Image2 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     Image3 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     Image4 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image5 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image6 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image7 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
+    Image8 = models.ImageField(upload_to='vehicle_images', blank=True, null=True)
     
     detected_thumbnail = models.ImageField(upload_to='detected_results', blank=True, null=True)
     detected_image1 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image2 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image3 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     detected_image4 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image5 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image6 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image7 = models.ImageField(upload_to='detection_results', blank=True, null=True)
+    detected_image8 = models.ImageField(upload_to='detection_results', blank=True, null=True)
     buyers_count = models.IntegerField(default=0)
     make_deal = models.BooleanField(default=False)  # 새로 추가된 필드
 
