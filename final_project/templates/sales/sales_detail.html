@@ -194,7 +194,7 @@
                     </div>
                     
                     
-                    
+                    <!-- 광열 수정 부분 -->
                     <!-- 구매 의사 모달 버튼 -->
                     <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                         구매 의사
@@ -222,7 +222,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- 광열 수정부분-->
                     
                     {% if request.user == CarSalesPost.seller %}                        
                     <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
