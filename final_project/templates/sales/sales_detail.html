@@ -196,11 +196,7 @@
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
                         <h4>판매자 정보</h4>
-<<<<<<< HEAD
                         <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
-=======
-                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
->>>>>>> develop
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
