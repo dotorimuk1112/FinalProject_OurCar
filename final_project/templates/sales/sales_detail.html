@@ -463,10 +463,9 @@
                     </tbody>
                 </table>
             </div>
-            <form method="POST">
+            <form>
                 {% csrf_token %}
-                <input type="number" id="loan_term" name="loan_term">
-                <button class="btn btn-primary" onclick="loan_table()" type="button">기간 설정</button>
+                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
             </form>
             {% else %}
             <p>이용 가능한 대출 상품이 없습니다</p>
