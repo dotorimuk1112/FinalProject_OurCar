@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center {% if not car %} d-flex align-items-center vh-100{% endif %}">
         <div class="col-md-12">
-            <h1 class="text-center mb-4">차량 정보 조회</h1>
+            <h1 class="text-center mb-4 mt-0">차량 정보 조회</h1>
             <form method="post" class="text-center">
                 {% csrf_token %}
                 <div class="row justify-content-center">
@@ -26,6 +26,12 @@
             
         </div>
     </div>
+
+    {% if already_registered %}
+    <div class="alert alert-danger text-center mt-3" role="alert" style="border-radius: 5px; max-width: 300px; margin: 0 auto;">
+        <strong>경고!</strong> 이미 등록된 차량입니다.
+    </div>
+{% endif %}
     <div class="row justify-content-center mt-2">
         <div class="col-md-6">
             {% if car %}
@@ -86,12 +92,16 @@
         <div class="col-md-6">
           
                 <div class="text-center mt-4 mb-5">
-                    <div class="text-center mt-1">
-                        <h3>AI 예측 적정 가격: {{ min_price }} ~ {{ max_price }}만 원</h3>
+                    <div class="text-center mt-1 mb-5">
+                        <h3 class="mb-5">AI 예측 적정 가격: {{ min_price }} ~ {{ max_price }}만 원</h3>
                         <canvas id="futurePrice" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
                     </div>
+                    {% if already_registered %}
+                    <button type="button" class="btn btn-danger" disabled>이미 등록된 매물</button>
+                {% else %}
                     <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
-                </div>
+                {% endif %}
+                                </div>
             {% elif error_message %}
                 <p class="text-center">{{ error_message }}</p>
             {% endif %}
