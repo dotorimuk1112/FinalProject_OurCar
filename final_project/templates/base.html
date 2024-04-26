@@ -1,0 +1,44 @@
+
+{% load static %}
+<!doctype html>
+<html lang="ko">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="{% static 'style1.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'chart.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'detail.css' %}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
+    <!-- pybo CSS -->
+
+
+    <title>Hello, pybo!</title>
+</head>
+<body>
+<!-- 네비게이션바 -->
+<div>
+{% include "navbar.html" %}
+</div>
+<!-- 기본 템플릿 안에 삽입될 내용 Start -->
+{% block content %}
+{% endblock %}
+<!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- Bootstrap JS -->
+
+<script src="{% static 'bootstrap.min.js' %}"></script>
+<script src="{% static 'javascripts.js' %}"></script>
+<script src="{% static 'chart.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.0/dist/echarts.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!-- 자바스크립트 Start -->
+{% block script %}
+{% endblock %}
+<!-- 자바스크립트 End -->
+</body>
+</html>

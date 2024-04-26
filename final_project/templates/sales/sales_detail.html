@@ -1,0 +1,1063 @@
+{% extends 'base.html' %}
+{% load pybo_filter %}
+{% block content %}
+
+<div class="container my-3">
+     <!-- message 표시 -->
+     {% if messages %}
+     <div class="alert my-3" role="alert">
+     {% for message in messages %}
+        <div class="alert
+            {% if message.level_tag == "debug" %}
+                alert-secondary
+            {% elif message.level_tag == "error" %}
+                alert-danger
+            {% elif message.level_tag == "success" %}
+                alert-success
+            {% else %}
+                alert-{{ message.level_tag }}
+            {% endif %}">
+            {{ message.message }}
+        </div>
+ 
+     {% endfor %}
+     </div>
+     {% endif %}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card my-3">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                    <div class="carousel-inner">
+                        {% if CarSalesPost.Image1 %}
+                        <div class="carousel-item active">
+                            <p>차량 전방</p>
+                            <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image2 %}
+                        <div class="carousel-item">
+                            <p>차량 좌측</p>
+                            <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image3 %}
+                        <div class="carousel-item">
+                            <p>차량 우측</p>
+                            <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image4 %}
+                        <div class="carousel-item">
+                            <p>차량 후방</p>
+                            <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image5 %}
+                        <div class="carousel-item">
+                            <p>차량 내부</p>
+                            <img src="{{ CarSalesPost.Image5.url }}" class="d-block img-fluid" alt="Image 5">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image6 %}
+                        <div class="carousel-item">
+                            <p>차량 대각 방향1</p>
+                            <img src="{{ CarSalesPost.Image6.url }}" class="d-block img-fluid" alt="Image 6">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image7 %}
+                        <div class="carousel-item">
+                            <p>차량 대각 방향2</p>
+                            <img src="{{ CarSalesPost.Image7.url }}" class="d-block img-fluid" alt="Image 7">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image8 %}
+                        <div class="carousel-item">
+                            <p>엔진룸</p>
+                            <img src="{{ CarSalesPost.Image8.url }}" class="d-block img-fluid" alt="Image 8">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <!-- 모달 버튼 -->
+            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 or CarSalesPost.detected_image5 or CarSalesPost.detected_image6 or CarSalesPost.detected_image7 or CarSalesPost.detected_image8 %}
+            <div class="col-md-6 mb-3 text-center">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
+                    차량 파손이 탐지되었습니다.
+                </button>
+            </div>
+            {% endif %}
+
+            <!-- 모달 -->
+            <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detectedModalLabel">AI 탐지 파손 부위</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                                <div class="carousel-inner">
+                                    {% if CarSalesPost.detected_thumbnail %}
+                                    <div class="carousel-item active">
+                                        <p>대표 사진</p>
+                                        <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image1 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail %}active{% endif %}">
+                                        <p>차량 전방</p>
+                                        <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image2 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 %}active{% endif %}">
+                                        <p>차량 좌측</p>
+                                        <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image3 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 %}active{% endif %}">
+                                        <p>차량 우측</p>
+                                        <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image4 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
+                                        <p>차량 후방</p>
+                                        <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image5 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 %}active{% endif %}">
+                                        <p>차량 내부</p>
+                                        <img src="{{ CarSalesPost.detected_image5.url }}" class="d-block img-fluid w-100" alt="Detected Image 5">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image6 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 %}active{% endif %}">
+                                        <p>차량 대각 방향1</p>
+                                        <img src="{{ CarSalesPost.detected_image6.url }}" class="d-block img-fluid w-100" alt="Detected Image 6">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image7 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 %}active{% endif %}">
+                                        <p>차량 대각 방향2</p>
+                                        <img src="{{ CarSalesPost.detected_image7.url }}" class="d-block img-fluid w-100" alt="Detected Image 7">
+                                    </div>
+                                    {% endif %}
+                                    {% if CarSalesPost.detected_image8 %}
+                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 and not CarSalesPost.detected_image7 %}active{% endif %}">
+                                        <p>엔진룸</p>
+                                        <img src="{{ CarSalesPost.detected_image8.url }}" class="d-block img-fluid w-100" alt="Detected Image 8">
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class=" my-3">
+                <div >
+                    <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
+                    <div class="d-flex">
+                        {% if CarSalesPost.modify_date %}
+                        <div class="badge bg-light text-dark p-2 text-start mx-3">
+                            <div class="mb-2">modified at</div>
+                            <div>{{ CarSalesPost.modify_date }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="">
+                                {% if CarSalesPost.modify_date %}
+                                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                                    <div class="mb-2">modified at</div>
+                                    <div>{{ CarSalesPost.modify_date }}</div>
+                                </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="text-dark text-start">
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">[{{ CarSalesPost.VNUM }}]</div>
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">{{ CarSalesPost.MNAME }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-dark text-end">
+                                            <div class= "fs-6 mt-3"> 판매가격  <span style="color: red; font-size: 30px;">{{ CarSalesPost.PRICE }}만원</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <span class="text-secondary" style="font-size: 13px;">{{ CarSalesPost.MYERAR }}년식 | {{ CarSalesPost.MILEAGE }}km | {{ CarSalesPost.F_TYPE }}</span>
+                            
+                        </div>
+                    </div>
+
+                    
+                    
+                
+            </div>
+
+            <div class="row mt-2">
+                <!-- 좌측 요소 -->
+                <div class="col-md-6 mr-md-2 mb-2">
+                    <div class="bg-light text-dark p-2 text-center">
+                        {% if user.is_authenticated %}
+                            고객님 추천 예산: <br> 
+                            {% if min_budget > 0 %}
+                                {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                            {% else %}
+                                0만 원 ~ {{ max_budget }}만 원
+                            {% endif %}
+                            <div>
+                                {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
+                                    <p>적정 가격입니다.</p>
+                                {% elif CarSalesPost.PRICE > max_budget %}
+                                    <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
+                                {% else %}
+                                    <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <p>로그인이 필요합니다.</p>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                
+                <!-- 우측 요소 -->
+                <div class="col-md-6 ml-md-2 mb-2">
+                    <div class="bg-light text-dark p-2 text-center ">
+                        <h4>판매자 정보</h4>
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+                        <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
+                        <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
+                        <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
+                        <div>
+                            <div>주소 : {{ CarSalesPost.seller.address }}</div>
+                         <!-- 주소 버튼 -->
+                         <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
+
+                         <!-- 모달 창 -->
+                         <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
+                             <div class="modal-dialog modal-dialog-centered modal-lg">
+                                 <div class="modal-content">
+                                     <div class="modal-header">
+                                         <h5 class="modal-title" id="mapModalLabel">{{ CarSalesPost.seller.address }}</h5>
+                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                     </div>
+                                     <div class="modal-body">
+                                         <!-- 구글 맵을 표시할 iframe -->
+                                         <iframe id="googleMap" width="100%" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+ 
+                        <div>게시일 : {{ CarSalesPost.create_date }}</div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="my-3 text-end">
+                {% if request.user == CarSalesPost.seller %}    
+                    <!-- "구매 제안서 보기" 버튼 -->
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서 보기</button>
+                {% endif %}
+                <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary text-white">
+                                <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서 보기</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="text-center">이름</th>
+                                            <th scope="col" class="text-center">성별</th>
+                                            <th scope="col" class="text-center">주소</th>
+                                            <th scope="col" class="text-center">전화번호</th>
+                                            <th scope="col" class="text-center">구매 제안 가격</th>
+                                            <th scope="col" class="text-center">수락</th>
+                                            <th scope="col" class="text-center">거절</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for proposal, buyer_info in buyer_proposals_with_info %}
+                                        <tr>
+                                            <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
+                                            <td class="text-center">{{ buyer_info.get_gender_display }}</td>
+                                            <td class="text-center">{{ buyer_info.address }}</td>
+                                            <td class="text-center">{{ buyer_info.phone_number }}</td>
+                                            <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
+                                            <td class="text-center">
+                                                {% if proposal.accepted is not None %}
+                                                    {% if proposal.accepted == 0 %}
+                                                    <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="accepted" value="True">
+                                                        <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                    </form>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
+                                                    {% endif %}
+                                                {% else %}
+                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accepted" value="True">
+                                                    <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                {% if proposal.accepted is not None %}
+                                                    {% if proposal.accepted == 1 %}
+                                                    <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="accepted" value="False">
+                                                        <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                    </form>
+                                                    {% else %}
+                                                    <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
+                                                    {% endif %}
+                                                {% else %}
+                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="accepted" value="False">
+                                                    <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                </form>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- 광열 수정 부분 -->
+                    <!-- 구매 의사 모달 버튼 -->
+                    <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                        구매 의사
+                        <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
+                    </button>
+
+                    <!-- 모달 창 -->
+                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">구매 의사 확인</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body text-center" style="font-weight: bold;">
+                                    <p>정말로 구매 의사가 있으신가요?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <!-- 예 버튼 클릭 -->
+                                    <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
+                                    <!-- 아니오 버튼 클릭 -->
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 광열 수정부분-->
+                    
+                    {% if request.user == CarSalesPost.seller %}                        
+                    <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                       class="btn btn-sm btn-outline-secondary">수정</a> 
+ 
+                    <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                       data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                    {% endif %} 
+                </div>
+                
+                
+                
+                <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                    class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
+                    <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                </a> 
+                {% if request.user == CarSalesPost.seller %}                        
+                <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                   class="btn btn-sm btn-outline-secondary">수정</a> 
+
+                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                   data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                {% endif %} 
+            </div>
+        </div>
+
+            
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">연식</th>
+                        <td>{{ CarSalesPost.MYERAR }}</td>
+                        <th scope="row">주행거리</th>
+                        <td>{{ CarSalesPost.MILEAGE| add_commas }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">색상</th>
+                        <td>{{ CarSalesPost.COLOR }}</td>
+                        <th scope="row">변속기</th>
+                        <td>{{ CarSalesPost.TRANS }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">연료</th>
+                        <td>{{ CarSalesPost.F_TYPE }}</td>
+                        <th scope="row">배기량</th>
+                        <td>{{ CarSalesPost.DISP| add_commas }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">차종</th>
+                        <td>{{ CarSalesPost.VTYPE }}</td>
+                        <th scope="row">차량번호</th>
+                        <td>{{ CarSalesPost.VNUM }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">용도변경 이력</th>
+                        <td>{{ CarSalesPost.CU_HIS|floatformat }}회</td>
+                        <th scope="row">자차피해 이력</th>
+                        <td>{{ CarSalesPost.MVD_HIS|floatformat }}회</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">타차피해 이력</th>
+                        <td>{{ CarSalesPost.AVD_HIS|floatformat }}회</td>
+                        <th scope="row">침수 이력</th>
+                        <td>{{ CarSalesPost.FD_HIS|floatformat }}회</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">도난 이력</th>
+                        <td>{{ CarSalesPost.VT_HIS|floatformat }}회</td>
+                        <th scope="row">소유자 변경 횟수</th>
+                        <td>{{ CarSalesPost.US_HIS|floatformat }}회</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            {% if user.is_authenticated %}
+            {% if loan_list %}
+            <div>
+                <table class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th>회사명</th>
+                            <th>최저금리</th>
+                            <th>최대금리</th>
+                            <th>중도상환수수료율</th>
+                        </tr>
+                    </thead>
+                    <tbody id="loan_table_body">
+                        {% for loan in loan_list %}
+                        <tr>
+                            <td>{{ loan.company_name }}</td>
+                            <td>{{ loan.min_rate }}</td>
+                            <td>{{ loan.max_rate }}</td>
+                            <td>{{ loan.late_payment_rate }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <form>
+                {% csrf_token %}
+                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
+            </form>
+            {% else %}
+            <p>이용 가능한 대출 상품이 없습니다</p>
+            {% endif %}
+            {% else %}
+            <p>이용 가능한 대출 상품을 확인하시려면 로그인하세요</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <!-- 모달 폼 -->
+
+<div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 약관 동의 체크박스 -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
+                    <label class="form-check-label" for="agreeCheckbox">
+                        판매자에게 당신의 정보를 제공하는 것에 동의합니다.
+                    </label>
+                </div>
+
+                <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
+                        <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitProposalBtn" disabled>제안하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="text-center mt-4 mb-5">
+                <div id="info-container">
+                </div>
+                <!-- AI 추천 적정 가격 -->
+                <div class="price-info">
+                    <h3 class="info-title" style = "fontStyle:bold"><AI 추천 적정 가격</h3>
+                    <h3 class="price-range">{{ min_price }} ~ {{ max_price }}만 원</h3>
+                    {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 안전 범위에 속합니다. </h3>
+                    {% elif CarSalesPost.PRICE < min_price %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 저렴합니다</span>. </h3>
+                    {% else %}
+                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 비쌉니다</span>. </h3>
+                    {% endif %}
+                    <button id="info-trigger">?</button>
+                    <div id="info-content">
+                        <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center mt-1">
+                <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
+                <div id="Paris" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice1" width="450" height="300"></canvas>
+                </div>
+                <div id="London" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice2" width="450" height="300"></canvas>
+                </div>
+                <div id="Seoul" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice3" width="450" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="text-center mt-4 mb-5" style="position: relative;">
+                <button id="info-trigger" style="position: absolute; right: 0;">?</button>
+
+                <div id="info-content" style="width:50px;">
+                    해당 매물의 연 평균 주행거리가<br>
+                    7,500km ~ 20,000km에 해당하는지를 분석하여<br>
+                    주행거리 적정 여부를 제공해드리고 있습니다.<br>
+                    <span class="emphasis">기준:  국내 차량 연 평균 주행거리인 13,322km</span><br>
+                </div>
+                <canvas id="mileageChart" width="150" height="75" style="padding-top: 0px;"></canvas>
+                <!-- 연평균 주행거리 -->
+                {% if CarSalesPost.MYERAR > 0 and CarSalesPost.MILEAGE %}
+                    {% if CarSalesPost.MYERAR %}
+                        {% if CarSalesPost.MILEAGE %}
+                            <div class="mileage-info mt-4">
+                                <h3 class="mileage-title">연평균 주행거리: {{average_mileage}}km</h3>
+                                <div class="mileage-status">
+                                    {% if average_mileage < 7500 %}
+                                        <span class="status-icon">⚠️</span>
+                                        <span class="status-text">평균 주행거리가 짧습니다.</span>
+                                    {% elif average_mileage >= 7500 and average_mileage <= 20000 %}
+                                        <span class="status-icon">✅</span>
+                                        <span class="status-text">평균 주행거리가 적정합니다.</span>
+                                    {% else %}
+                                        <span class="status-icon">🚩</span>
+                                        <span class="status-text">평균 주행거리가 깁니다.</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% if not request.user == CarSalesPost.seller %}
+    <div class="d-flex justify-content-end">
+        {% if CarSalesPost.make_deal %}
+            <button type="button" class="btn btn-secondary" id="reservationBtn">예약 중</button>
+        {% else %}
+            {% if request.user.id in buyer_list %}
+                <div class="btn-group">
+                    <!-- 가격 제안 수정하기 버튼 -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안 수정하기</button>
+                </div>
+                <!-- 가격 제안 취소하기 버튼 -->
+                <button type="button" class="btn btn-danger ml-5" onclick="cancelProposal({{ CarSalesPost.post_id }})">
+                    <a href="{% url 'sales:cancel_proposal' post_id=CarSalesPost.post_id %}" style="color: white; text-decoration: none;">가격 제안 취소</a>
+                </button>
+            {% else %}
+                <!-- "가격 제안하기" 버튼 -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안하기</button>
+            {% endif %}
+        {% endif %}
+    </div>
+
+
+{% endif %}
+
+
+
+
+
+
+
+{% endblock%}
+{% block script %}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script type='text/javascript'>
+    var ctx = document.getElementById('mileageChart').getContext('2d');
+    var average_mileage = {{average_mileage}}; // 연평균 주행거리 값
+    
+    // 주행거리에 따라 라벨 및 비율 조정
+    var label, num;
+    if (average_mileage < 7500) {
+        label = "적음";
+        num = 0.2; // 맨 왼쪽 3분의 1 영역 활성화
+    } else if (average_mileage >= 7500 && average_mileage <= 20000) {
+        label = "적정";
+        num = 0.5; // 가운데 3분의 1 영역 활성화
+    } else {
+        label = "많음";
+        num = 0.9; // 맨 오른쪽 3분의 1 영역 활성화
+    }
+    var color;
+    if (num == 0.2) {
+        color = '#87CEEB'; // 하늘색
+    } else if (num == 0.5) {
+        color = '#00FF00'; // 노란색
+    } else {
+        color = '#D1180B'; // 빨간색
+    }
+    
+    var data = {
+        labels: ["적음", "적정", "많음"],
+        datasets: [{
+            data: [num, 1 - num, 0], // 주어진 조건에 따라 데이터를 조절
+            backgroundColor: [color, '#D3D3D3', '#D3D3D3'], // 각 영역에 맞는 색상 지정
+        }]
+    };
+    
+    var options = {
+        responsive: true,
+        cutoutPercentage: 75,
+        rotation: 1 * Math.PI,
+        circumference: 1 * Math.PI,
+        tooltips: {
+            enabled: false
+        },
+        hover: {
+            mode: null
+        },
+        elements: {
+            center: {
+                text: label,
+                fontStyle: 'Arial',
+                sidePadding: 20
+            }
+        },
+        legend: {
+            display: false
+        }
+    };
+    
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: options
+    });
+    // 구글 맵 API 키
+    var googleApiKey = 'AIzaSyD1dqZBt2Fz3Bh2KOrLEEGT2Z_3PDU5Ps8';
+
+    function showMapModal(address) {
+        // 주소를 구글 맵 API의 쿼리 형식에 맞게 인코딩합니다.
+        var encodedAddress = encodeURIComponent(address);
+
+        // 구글 맵을 표시할 URL 생성
+        var googleMapUrl = 'https://www.google.com/maps/embed/v1/place?key=' + googleApiKey + '&q=' + encodedAddress;
+
+        // 모달 창에 구글 맵을 표시합니다.
+        var mapModal = document.getElementById("mapModal");
+        var googleMapIframe = mapModal.querySelector("#googleMap");
+        googleMapIframe.src = googleMapUrl;
+
+        // 모달 창을 엽니다.
+        var modal = new bootstrap.Modal(mapModal);
+        modal.show();
+    }
+
+ // 약관 동의 체크박스 상태 변경 이벤트 리스너
+ document.getElementById("agreeCheckbox").addEventListener("change", function() {
+    // 체크박스가 체크되어 있는지 확인
+    if (this.checked) {
+        // 체크되어 있다면 제안하기 버튼 활성화
+        document.getElementById("submitProposalBtn").disabled = false;
+    } else {
+        // 체크되어 있지 않다면 제안하기 버튼 비활성화
+        document.getElementById("submitProposalBtn").disabled = true;
+        // 사용자에게 체크하라는 메시지 표시
+        alert("판매자에게 당신의 정보를 제공하는 것에 동의하셔야 제안하기 버튼을 누를 수 있습니다.");
+    }
+});
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말 삭제하시겠습니까?")) {  // 여기서 확인 대화상자 메시지 변경
+            location.href = this.dataset.uri;
+        };
+    });
+});
+
+
+
+// 1년당 10,000km
+var predictedPriceList_10000 = {{ predicted_list_10000|safe }};
+var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+var predictedPriceListPlusMAE_10000 = predictedPriceList_10000.map(function(price) {
+    return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE_10000 = predictedPriceList_10000.map(function(price) {
+    return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// 차트 그리기
+var chartDom2 = document.getElementById('futurePrice1');
+var myChart2 = echarts.init(chartDom2);
+var option2;
+
+var minValue1 = Math.min(...predictedPriceListMinusMAE_10000);
+
+option2 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(10000km/1년)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value',
+        min: Math.floor(minValue1 * 0.9)
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '7%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE_10000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE_10000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
+
+// 차트에 옵션 적용
+myChart2.setOption(option2);
+
+// 1년당 20,000km
+var predictedPriceList_20000 = {{ predicted_list_20000|safe }};
+var mae20000 = {{ mae_20000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+var predictedPriceListPlusMAE_20000 = predictedPriceList_20000.map(function(price) {
+    return Math.floor(price + mae20000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE_20000 = predictedPriceList_20000.map(function(price) {
+    return Math.floor(price - mae20000); // 소수점 이하를 버리고 정수로 변환
+});
+
+var chartDom3 = document.getElementById('futurePrice2');
+var myChart3 = echarts.init(chartDom3);
+var option3;
+
+var minValue2 = Math.min(...predictedPriceListMinusMAE_20000);
+
+option3 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(20000km/1년)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value',
+        min: Math.floor(minValue2 * 0.9)
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '10%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE_20000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE_20000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
+
+// 차트에 옵션 적용
+myChart3.setOption(option3);
+
+// 1년당 30,000km
+var predictedPriceList_30000 = {{ predicted_list_30000|safe }};
+var mae30000 = {{ mae_30000|safe }}; // mae_10000 값을 가져옴
+var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+var predictedPriceListPlusMAE_30000 = predictedPriceList_30000.map(function(price) {
+    return Math.floor(price + mae30000); // 소수점 이하를 버리고 정수로 변환
+});
+
+// -MAE를 뺀 예상 가격 리스트 계산
+var predictedPriceListMinusMAE_30000 = predictedPriceList_30000.map(function(price) {
+    return Math.floor(price - mae30000); // 소수점 이하를 버리고 정수로 변환
+});
+
+var chartDom4 = document.getElementById('futurePrice3');
+var myChart4 = echarts.init(chartDom4);
+var option4;
+
+var minValue3 = Math.min(...predictedPriceListMinusMAE_30000);
+
+option4 = {
+    title: { // 제목 추가
+    text: 'AI 예측 미래 변동 가격(30000km/1년)', // 제목 내용
+    left: 'center' // 가운데 정렬
+    },
+    grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
+    },
+    xAxis: {
+        type: 'category',
+        data: years // 연도를 x축으로 설정
+    },
+    yAxis: {
+        type: 'value',
+        min: Math.floor(minValue3 * 0.9)
+    },
+    legend: { // 범례 설정
+        data: ['최대', '최소'], // 범례에 표시될 항목들
+        top: '10%' // 위에서 5% 위치에 제목 표시
+    },
+    series: [
+        {
+            name: '최대',
+            data: predictedPriceListPlusMAE_30000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: '#007bff' // 파란색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        },
+        {
+            name: '최소',
+            data: predictedPriceListMinusMAE_30000.map(function(price, index) {
+                return {
+                    value: price,
+                    itemStyle: {
+                        color: 'green' // 빨간색
+                    }
+                };
+            }),
+            type: 'line',
+            label: {
+                show: true,
+                position: 'top',
+                formatter: '{c}',
+                fontSize: 14
+            }
+        }
+    ]
+};
+
+// 차트에 옵션 적용
+myChart4.setOption(option4);
+
+document.addEventListener('DOMContentLoaded', function() {
+    var infoTrigger = document.getElementById('info-trigger');
+    var infoContent = document.getElementById('info-content');
+
+    infoTrigger.addEventListener('mouseenter', function() {
+        infoContent.style.display = 'block';
+    });
+
+    infoTrigger.addEventListener('mouseleave', function() {
+        infoContent.style.display = 'none';
+    });
+});
+
+// 대출 상품 기한 선택
+function loan_table(){
+    var term_val = document.querySelector('input[name="loan_term"]');
+    $.ajax({
+        url: 'show_loan_table',
+        type: "GET",
+        data: {
+            'term': term_val.value
+        },
+        datatype: 'json',
+        success: function(data){
+            var table_code = "";
+            for (var i = 0; i < data.length; i++) {
+                table_code += "<tr>"
+                table_code += "<td>" + data[i].fields.company_name + "</td>"
+                table_code += "<td>" + data[i].fields.min_rate + "</td>"
+                table_code += "<td>" + data[i].fields.max_rate + "</td>"
+                table_code += "<td>" + data[i].fields.late_payment_rate + "</td>"
+                table_code += "</tr>"
+            }
+            $('[id="loan_table_body"]').html(table_code);
+        }
+    });
+}
+</script>
+{% endblock %}
