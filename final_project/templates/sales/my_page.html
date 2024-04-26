@@ -98,11 +98,11 @@
         
         <div class="col-md-9" style="border-radius: 20px;">
             <div class="tab" style="display: flex; justify-content: flex-end; border-top-left-radius: 20px; border-top-right-radius: 20px;">
-                <button class="tablinks" onclick="openCity(event, 'Paris')" style="flex-grow: 1;">나의 예산 추천<span id="carCount"></span></button>
+                <button class="tablinks" onclick="openCity(event, 'Paris')" style="flex-grow: 1;">나의 소비 내역<span id="carCount"></span></button>
                 <button class="tablinks" onclick="openCity(event, 'MySales')" style="flex-grow: 1;">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
                 <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen" style="flex-grow: 1;">관심있는 차량({{ liked_car_count }})</button>
-                <button class="tablinks" onclick="openCity(event, 'Seoul')" style="flex-grow: 1;">내 구매 제안 내역({{buyer_proposed_cars_count}})</button>
-                <button class="tablinks" onclick="openCity(event, 'Busan')" style="flex-grow: 1;">거래 중({{accepted_count}})</button>
+                <button class="tablinks" onclick="openCity(event, 'Seoul')" style="flex-grow: 1;">구매 제안 내역({{buyer_proposed_cars_count}})</button>
+                <button class="tablinks" onclick="openCity(event, 'Busan')" style="flex-grow: 1;">구매 승인 내역({{accepted_count}})</button>
             </div>
             <!-- 내 판매 내역 탭 -->
             <div id="MySales" class="tabcontent" style="display: none;">
@@ -113,7 +113,7 @@
                         {% for car in user_cars_for_sale %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
-                                <div class="card-body clickable-card {% if car.make_deal == 1 %}border border-success border-5{% endif %}">
+                                <div class="card-body clickable-card {% if car.make_deal == 1 %}bg-success p-2 text-white bg-opacity-65{% endif %}">
                                     <div class="text-end">
                                         {% if car.buyers_count != 0 %}
                                         <div class="position-relative">
@@ -256,6 +256,7 @@
                     {% endif %}
                     {% endfor %}
                     {% if liked_car.has_next %}
+                    <li class="page-item">
                         <a class="page-link" href="?page={{ liked_car.paginator.num_pages }}">&raquo;</a>
                     </li>
                     {% else %}
@@ -266,31 +267,15 @@
                 </ul>
                 {% endif %}
             </div>
-            
+
             <!-- 내 소비 내역 탭 -->
             <div id="Paris" class="tabcontent">
-                <div class="container h-100">
-                    <div class="row align-items-center h-100">
-                        <div class="col-md-6">
-                            <div id="chart-container" class="text-center" style="position:relative; height:50vh; width:100%">
-                                <canvas id="myChart" width="200" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="text-center mt-4">
-                                <h5>
-                                    {% if min_budget > 0 %}
-                                        고객님 추천 예산: {{ min_budget }}만 원 ~ {{ max_budget }}만 원
-                                    {% else %}
-                                        고객님 추천 예산: 0만 원 ~ {{ max_budget }}만 원
-                                    {% endif %}
-                                </h5>
-                                <p>이 수치는 단순히 참고 목적으로 산정됐으며, <br> 실질적인 수입과 소비 패턴을 분석해 예산을 너무 크게 책정하지 않도록 주의하시길 권장 드립니다.</p>
-                            </div>
-                        </div>
-                    </div>
+                <div class="text-center ">
+                    <h3>TestSangmin 정보</h3>
+                    <h5>예산 추천 결과: {{ min_budget }}만 원 ~ {{ max_budget }}만 원</h5>
+                    <p>이 수치는 단순히 참고 목적으로 산정됐으며, <br> 실질적인 수입과 소비 패턴을 분석해 예산을 너무 크게 책정하지 않도록 주의하시길 권장 드립니다.</p>
+                    <canvas id="myChart" width="200" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
                 </div>
-                
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
                     var ctx = document.getElementById('myChart').getContext('2d');
@@ -355,11 +340,7 @@
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)'
                                 ],
-                                borderWidth: 1,
-                                options: {
-                                responsive: false,
-                                maintainAspectRatio: false
-                            }
+                                borderWidth: 1
                             }]
                         }
                     });
@@ -374,7 +355,7 @@
                     <div class="row">
                         {% for car in buyer_proposed_cars %}
                         <div class="col-md-3 mb-4">
-                            <div class="card {% if car.accepted == 1 %}border-success{% elif car.accepted == 0 %}border-danger{% endif %}" style="border-width: 6px;">
+                            <div class="card {% if car.accepted == 1 %}border-success bg-success text-dark bg-opacity-10{% elif car.accepted == 0 %}border-danger bg-danger text-dark bg-opacity-10{% endif %}" style="border-width: 6px;">
                                 <div class="card-body clickable-card">
                                     {% if car.accepted == 0 %}
                                         <div class="position-relative">
@@ -474,7 +455,7 @@
                         {% for car in buyer_proposed_cars %}
                             {% if car.accepted == 1 %}
                                 <div class="col-md-3 mb-4">
-                                    <div class="card {% if car.accepted == 1 %}{% elif car.accepted == 0 %}border-danger{% endif %}" style="border-width: 6px; border-color: skyblue;">
+                                    <div class="card {% if car.accepted == 1 %}{% elif car.accepted == 0 %}border-danger{% endif %} bg-info text-dark bg-opacity-10" style="border-width: 6px; border-color: skyblue;">
                                         <div class="card-body clickable-card">
                                             
                                             
