@@ -27,53 +27,69 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card my-3">
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
-                            <p>차량 전방</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 전방</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
-                            <p>차량 좌측</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 좌측</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
-                            <p>차량 우측</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 우측</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
-                            <p>차량 후방</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 후방</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image5 %}
                         <div class="carousel-item">
-                            <p>차량 내부</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 내부</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image5.url }}" class="d-block img-fluid" alt="Image 5">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image6 %}
                         <div class="carousel-item">
-                            <p>차량 대각 방향1</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 대각 방향1</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image6.url }}" class="d-block img-fluid" alt="Image 6">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image7 %}
                         <div class="carousel-item">
-                            <p>차량 대각 방향2</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 대각 방향2</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image7.url }}" class="d-block img-fluid" alt="Image 7">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image8 %}
                         <div class="carousel-item">
-                            <p>엔진룸</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">엔진룸</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image8.url }}" class="d-block img-fluid" alt="Image 8">
                         </div>
                         {% endif %}
