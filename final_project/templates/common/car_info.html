@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center {% if not car %} d-flex align-items-center vh-100{% endif %}">
         <div class="col-md-12">
-            <h1 class="text-center mb-4">차량 정보 조회</h1>
+            <h1 class="text-center mb-4 mt-0">차량 정보 조회</h1>
             <form method="post" class="text-center">
                 {% csrf_token %}
                 <div class="row justify-content-center">
@@ -26,6 +26,12 @@
             
         </div>
     </div>
+
+    {% if already_registered %}
+    <div class="alert alert-danger text-center mt-3" role="alert" style="border-radius: 5px; max-width: 300px; margin: 0 auto;">
+        <strong>경고!</strong> 이미 등록된 차량입니다.
+    </div>
+{% endif %}
     <div class="row justify-content-center mt-2">
         <div class="col-md-6">
             {% if car %}
@@ -40,6 +46,10 @@
                         <tr>
                             <th scope="row" class="bg-success text-white">가격</th>
                             <td>{{ car.PRICE }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" class="bg-success text-white">연식</th>
+                            <td>{{ car.MYERAR }}</td>
                         </tr>
                         <tr>
                             <th scope="row" class="bg-success text-white">주행거리</th>
@@ -77,65 +87,109 @@
                     </tbody>
                 </table>
             </div>
-            
+        
         </div>
         <div class="col-md-6">
           
-                <div class="text-center mt-4">
-                    <h2>예상 가격</h2>
-                    <div class="text-center">
-                        <canvas id="predictedPriceChart" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
+                <div class="text-center mt-4 mb-5">
+                    <div class="text-center mt-1 mb-5">
+                        <h3 class="mb-5">AI 예측 적정 가격: {{ min_price }} ~ {{ max_price }}만 원</h3>
+                        <canvas id="futurePrice" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
                     </div>
-                    <p>예상 가격: {{ predicted_price }}만원</p>
+                    {% if already_registered %}
+                    <button type="button" class="btn btn-danger" disabled>이미 등록된 매물</button>
+                {% else %}
                     <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
-                </div>
+                {% endif %}
+                                </div>
             {% elif error_message %}
                 <p class="text-center">{{ error_message }}</p>
             {% endif %}
         </div>
     </div>
-</div>
            
 {% endblock %}
 {% block script %}
 <script>
-    // 예상 가격 데이터
-    var predictedPrice = {{ predicted_price }};
-    var lowerBound = Math.round(predictedPrice * 0.9 * 10) / 10; // -10% 범위, 소수점 첫째 자리에서 반올림
-    var upperBound = Math.round(predictedPrice * 1.1 * 10) / 10; // +10% 범위, 소수점 첫째 자리에서 반올림
-    
-    
+    // 예상 가격 리스트와 각 인덱스에 해당하는 연도
+    var predictedPriceList = {{ predicted_list|safe }};
+    var mae10000 = {{ mae_10000|safe }}; // mae_10000 값을 가져옴
+    var years = ['현재', '1년 뒤', '2년 뒤', '3년 뒤', '4년 뒤', '5년 뒤'];
+
+    var predictedPriceListPlusMAE = predictedPriceList.map(function(price) {
+        return Math.floor(price + mae10000); // 소수점 이하를 버리고 정수로 변환
+    });
+
+    // -MAE를 뺀 예상 가격 리스트 계산
+    var predictedPriceListMinusMAE = predictedPriceList.map(function(price) {
+        return Math.floor(price - mae10000); // 소수점 이하를 버리고 정수로 변환
+    });
 
     // 차트 그리기
-    var chartDom = document.getElementById('predictedPriceChart');
-    var myChart = echarts.init(chartDom);
+    var chartDom2 = document.getElementById('futurePrice');
+    var myChart2 = echarts.init(chartDom2);
     var option;
 
-    option = {
+    option2 = {
+        title: { // 제목 추가
+        text: 'AI 예측 미래 변동 가격', // 제목 내용
+        left: 'center' // 가운데 정렬
+        },
         xAxis: {
             type: 'category',
-            data: ['최소 가격', '최대 가격']
+            data: years // 연도를 x축으로 설정
         },
         yAxis: {
             type: 'value'
         },
-        series: [{
-            data: [
-                { value: lowerBound, itemStyle: { color: '#007bff' } }, // 최소 - 파란색
-                { value: upperBound, itemStyle: { color: '#007bff' } } // 최대 - 파란색
-            ],
-            type: 'line',
-            label: {
-                show: true,
-                position: 'top',
-                formatter: '{c}',
-                fontSize: 14
+        legend: { // 범례 설정
+            data: ['최대', '최소'], // 범례에 표시될 항목들
+            top: '10%' // 위에서 5% 위치에 제목 표시
+        },
+        series: [
+            {
+                name: '최대',
+                data: predictedPriceListPlusMAE.map(function(price, index) {
+                    return {
+                        value: price,
+                        itemStyle: {
+                            color: '#007bff' // 파란색
+                        }
+                    };
+                }),
+                type: 'line',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}',
+                    fontSize: 14
+                }
+            },
+            {
+                name: '최소',
+                data: predictedPriceListMinusMAE.map(function(price, index) {
+                    return {
+                        value: price,
+                        itemStyle: {
+                            color: '#ff0000' // 빨간색
+                        }
+                    };
+                }),
+                type: 'line',
+                label: {
+                    show: true,
+                    position: 'top',
+                    formatter: '{c}',
+                    fontSize: 14
+                }
             }
-        }]
+        ]
     };
 
+
     // 차트에 옵션 적용
-    myChart.setOption(option);
+    myChart2.setOption(option2);
+
 </script>
 
 {% endblock %}

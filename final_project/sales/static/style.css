@@ -1,3 +1,23 @@
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d0e9c6;
+    color: #3c763d;
+}
+
+#filter-section {
+    position: sticky;
+    top: 100px; /* Adjust this value according to your layout */
+}
+
+.phone-icon, .phone-number {
+    color: red;
+    font-size: 16px; /* 원하는 크기로 조절합니다. */
+    font-weight: bold; /* 볼드체로 설정합니다. */
+}
+.carousel-inner {
+    width: 25%; /* 부모 요소인 carouselExampleIndicators의 너비의 25%로 설정 */
+}
+
 .image-upload-container {
     display: flex;
 }
@@ -47,4 +67,29 @@
 
 .text-custom-purple {
     color: #8a2be2; /* 보라색 */
+}
+
+#info-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 10px;
+    z-index: 1;
+    min-width: 450px; /* 최소 너비 설정 */
+    max-width: 200px; /* 최대 너비 설정 */
+}
+
+#info-container {
+    position: relative;
+    display: inline-block;
+}
+
+#info-trigger:hover + #info-content {
+    display: block;
+}
+
+.carousel-item img {
+    width: 100%; /* 이미지를 부모 요소의 가로 너비에 맞게 조정 */
+    height: 300px; /* 이미지의 세로 비율을 유지하여 가로 너비에 맞게 조정 */
 }

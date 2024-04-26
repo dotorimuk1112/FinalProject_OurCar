@@ -22,8 +22,6 @@ function openCity(evt, cityName) {
   // Get the element with id="defaultOpen" and click on it
   document.getElementById("defaultOpen").click();
 
-
-
 function showSlide(slideIndex) {
     swiper.style.transform = `translateX(-${slideIndex * 300}px)`;
     currentSlide = slideIndex;

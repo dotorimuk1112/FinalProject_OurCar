@@ -12,37 +12,89 @@
     </div>
     {% endif %}
     <h4 class="my-3 border-bottom pb-2">차량 등록</h5>
-    <h5 class="my-3 border-bottom pb-2">사진 등록</h5>
-    <h2>Image Upload</h2>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <div class="image-upload-container mt-4 mb-5">
-            <input type="file" accept="image/*" onchange="previewImage(event, 'thumbnail_image-preview')" name="thumbnail_image">
-            <div id="thumbnail_image-preview" class="image-preview"></div>
-        </div>
-
-        <div class="image-upload-container mt-4 mb-5">
-            <div class="image-upload">
-                <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" name="image1">
-                <div id="preview1" class="image-preview"></div>
+        <div class="row mt-4 mb-5">
+            <!-- 좌측 썸네일 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="image-upload-container text-center" style="display: flex; align-items: center; justify-content: center;">
+                    <div>
+                        <div id="thumbnail_image-preview" class="image-preview" style="width: 100%; height: 300px;">대표 사진</div>
+                        <input type="file" accept="image/*" onchange="previewImage(event, 'thumbnail_image-preview')" name="thumbnail_image" style="width: 100%;">
+                    </div>
+                </div>
             </div>
-            
-            <div class="image-upload">
-                <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" name="image2">
-                <div id="preview2" class="image-preview"></div>
+            <!-- 우측 2x4 사진 입력 칸 -->
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview1" class="image-preview">차량 전방</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview1')" name="image1">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview2" class="image-preview">차량 좌측</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview2')" name="image2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview3" class="image-preview">차량 우측</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" name="image3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview4" class="image-preview">차량 후방</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview4')" name="image4">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview5" class="image-preview">차량 내부</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview5')" name="image5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview6" class="image-preview">차량 대각 방향1</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview6')" name="image6">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview7" class="image-preview">차량 대각 방향2</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview7')" name="image7">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mt-4">
+                        <div class="image-upload-container">
+                            <div>
+                                <div id="preview8" class="image-preview">엔진룸</div>
+                                <input type="file" accept="image/*" onchange="previewImage(event, 'preview8')" name="image8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            
-            <div class="image-upload">
-                <input type="file" accept="image/*" onchange="previewImage(event, 'preview3')" name="image3">
-                <div id="preview3" class="image-preview"></div>
-            </div>
-            
-            <div class="image-upload">
-                <input type="file" accept="image/*" onchange="previewImage(event, 'preview4')" name="image4">
-                <div id="preview4" class="image-preview"></div>
-            </div>
-        </div>
+        </div>        
 
         {% csrf_token %}
         <!-- 오류 표시 시작 -->

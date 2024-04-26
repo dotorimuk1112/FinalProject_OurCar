@@ -1,3 +1,25 @@
+.alert-success {
+  background-color: #dff0d8;
+  border-color: #d0e9c6;
+  color: #3c763d;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 2px solid #dddddd; /* 굵은 테두리 설정 */
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2; /* 헤더 색상 설정 */
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* 짝수 행 배경색 설정 */
+}
+
 .clickable-card {
   cursor: pointer;
 }
@@ -70,3 +92,48 @@ body {
   
   .topright:hover {color: red;}
 
+  /* 차트 */
+  .tab2 {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+.tab2 button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab2 button:hover {
+    background-color: #ddd;
+}
+
+.tab2 button.active {
+    background-color: #ccc;
+}
+
+.tabcontent2 {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.topright2 {
+    float: right;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.topright2:hover {color: red;}
+
+.carousel-item img {
+  width: 100%; /* 이미지를 부모 요소의 가로 너비에 맞게 조정 */
+  height: 300px; /* 이미지의 세로 비율을 유지하여 가로 너비에 맞게 조정 */
+}
