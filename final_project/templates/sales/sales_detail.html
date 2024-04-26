@@ -242,6 +242,9 @@
                                     <p>고객님의 적정 예산보다 싼 차량입니다.</p>
                                 {% endif %}
                             </div>
+                            <p>우리은행 중고차 대출 예상 금리</p>
+                            <p>{{ woori_loan.min_rate }} %</p>
+                            <p onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">6개월, 2000만원 기준입니다. 자세한 사항은 <strong>홈페이지</strong>에서 확인하세요!</p>
                         {% else %}
                             <p>로그인이 필요합니다.</p>
                         {% endif %}
@@ -475,6 +478,11 @@
             {% if user.is_authenticated %}
             {% if loan_list %}
             <div>
+                <form>
+                    {% csrf_token %}
+                    <output>36</output> 개월
+                    <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()" oninput="this.previousElementSibling.value = this.value">
+                </form>
                 <table class="table">
                     <thead>
                         <tr class="table-dark">
@@ -482,11 +490,10 @@
                             <th>최저금리</th>
                             <th>최대금리</th>
                             <th>중도상환수수료율</th>
-                        </tr>
                     </thead>
                     <tbody id="loan_table_body">
                         {% for loan in loan_list %}
-                        <tr>
+                        <tr onClick="window.open('{{ loan.link }}', '', '');" style="cursor:pointer;">
                             <td>{{ loan.company_name }}</td>
                             <td>{{ loan.min_rate }}</td>
                             <td>{{ loan.max_rate }}</td>
@@ -496,10 +503,6 @@
                     </tbody>
                 </table>
             </div>
-            <form>
-                {% csrf_token %}
-                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
-            </form>
             {% else %}
             <p>이용 가능한 대출 상품이 없습니다</p>
             {% endif %}
@@ -1048,7 +1051,7 @@ function loan_table(){
         success: function(data){
             var table_code = "";
             for (var i = 0; i < data.length; i++) {
-                table_code += "<tr>"
+                table_code += "<tr onClick=\"window.open('" + data[i].fields.link + "', '', '');\" style='cursor:pointer;'>"
                 table_code += "<td>" + data[i].fields.company_name + "</td>"
                 table_code += "<td>" + data[i].fields.min_rate + "</td>"
                 table_code += "<td>" + data[i].fields.max_rate + "</td>"

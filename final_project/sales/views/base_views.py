@@ -117,11 +117,13 @@ def cancel_proposal(request, post_id):
 # 대출 상품 데이터 가져오기
 def load_loans(term, score):
     score_00 = math.floor(score/100)*100
-    list_filtered = loan_rate_list.objects.filter(loan_period=term).filter(credit_range=score_00)
+    list_filtered_credit = loan_rate_list.objects.filter(credit_range=score_00)
+    list_filtered = list_filtered_credit.filter(loan_period=term)
     list_ordered = list_filtered.order_by('min_rate')[:5]
-    woori_loan = list_filtered.filter(company_name="우리금융캐피탈")
+    woori_loan = list_filtered_credit.get(company_name="우리은행")
     return list_ordered, woori_loan
 
+# 대출 상품 데이터 전송
 def show_loan_table(request, post_id):
     user = request.user
     input_term = request.GET.get('term')
@@ -163,7 +165,7 @@ def detail(request, post_id):
     user_credit_score, loan_list, woori_loan = 0, 0, 0
     if user.is_authenticated:
         user_credit_score = scoring_data(user_id=user.id)
-        loan_list, woori_loan = load_loans(24, user_credit_score)
+        loan_list, woori_loan = load_loans(36, user_credit_score)
 
     context = {
         'user': user,

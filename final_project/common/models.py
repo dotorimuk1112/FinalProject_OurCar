@@ -93,3 +93,4 @@ class loan_rate_list(models.Model):
     reference_date = models.DateField()
     credit_range = models.IntegerField()
     loan_period = models.IntegerField()
+    link = models.TextField(null=True)
