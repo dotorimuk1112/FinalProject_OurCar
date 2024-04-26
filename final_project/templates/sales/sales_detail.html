@@ -31,26 +31,50 @@
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
-                            <p>차량 앞</p>
+                            <p>차량 전방</p>
                             <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
-                            <p>차량 뒤</p>
+                            <p>차량 좌측</p>
                             <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
-                            <p>차량 좌</p>
+                            <p>차량 우측</p>
                             <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
-                            <p>차량 우</p>
+                            <p>차량 후방</p>
                             <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image5 %}
+                        <div class="carousel-item">
+                            <p>차량 내부</p>
+                            <img src="{{ CarSalesPost.Image5.url }}" class="d-block img-fluid" alt="Image 5">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image6 %}
+                        <div class="carousel-item">
+                            <p>차량 대각 방향1</p>
+                            <img src="{{ CarSalesPost.Image6.url }}" class="d-block img-fluid" alt="Image 6">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image7 %}
+                        <div class="carousel-item">
+                            <p>차량 대각 방향2</p>
+                            <img src="{{ CarSalesPost.Image7.url }}" class="d-block img-fluid" alt="Image 7">
+                        </div>
+                        {% endif %}
+                        {% if CarSalesPost.Image8 %}
+                        <div class="carousel-item">
+                            <p>엔진룸</p>
+                            <img src="{{ CarSalesPost.Image8.url }}" class="d-block img-fluid" alt="Image 8">
                         </div>
                         {% endif %}
                     </div>
@@ -86,46 +110,55 @@
                                 <div class="carousel-inner">
                                     {% if CarSalesPost.detected_thumbnail %}
                                     <div class="carousel-item active">
+                                        <p>대표 사진</p>
                                         <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image1 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail %}active{% endif %}">
+                                        <p>차량 전방</p>
                                         <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image2 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 %}active{% endif %}">
+                                        <p>차량 좌측</p>
                                         <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image3 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 %}active{% endif %}">
+                                        <p>차량 우측</p>
                                         <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image4 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
+                                        <p>차량 후방</p>
                                         <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image5 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 %}active{% endif %}">
+                                        <p>차량 내부</p>
                                         <img src="{{ CarSalesPost.detected_image5.url }}" class="d-block img-fluid w-100" alt="Detected Image 5">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image6 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 %}active{% endif %}">
+                                        <p>차량 대각 방향1</p>
                                         <img src="{{ CarSalesPost.detected_image6.url }}" class="d-block img-fluid w-100" alt="Detected Image 6">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image7 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 %}active{% endif %}">
+                                        <p>차량 대각 방향2</p>
                                         <img src="{{ CarSalesPost.detected_image7.url }}" class="d-block img-fluid w-100" alt="Detected Image 7">
                                     </div>
                                     {% endif %}
                                     {% if CarSalesPost.detected_image8 %}
                                     <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 and not CarSalesPost.detected_image7 %}active{% endif %}">
+                                        <p>엔진룸</p>
                                         <img src="{{ CarSalesPost.detected_image8.url }}" class="d-block img-fluid w-100" alt="Detected Image 8">
                                     </div>
                                     {% endif %}
@@ -507,6 +540,8 @@
     </div>
 </div>
 
+<hr>
+
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
@@ -526,8 +561,7 @@
                     {% endif %}
                     <button id="info-trigger">?</button>
                     <div id="info-content">
-                        15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 AI 모델이 제공하는<br>
-                        해당 매물의 적정 가격입니다.
+                        <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
                     </div>
                 </div>
             </div>
@@ -550,7 +584,7 @@
         </div>
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5" style="position: relative;">
-                <button id="info-trigger" style="position: absolute; top: 0; right: 0;">?</button>
+                <button id="info-trigger" style="position: absolute; right: 0;">?</button>
 
                 <div id="info-content" style="width:50px;">
                     해당 매물의 연 평균 주행거리가<br>
@@ -752,7 +786,7 @@ var minValue1 = Math.min(...predictedPriceListMinusMAE_10000);
 
 option2 = {
     title: { // 제목 추가
-    text: 'AI 예측 미래 변동 가격(1년 10000km)', // 제목 내용
+    text: 'AI 예측 미래 변동 가격(10000km/1년)', // 제목 내용
     left: 'center' // 가운데 정렬
     },
     grid: {
@@ -838,7 +872,7 @@ var minValue2 = Math.min(...predictedPriceListMinusMAE_20000);
 
 option3 = {
     title: { // 제목 추가
-    text: 'AI 예측 미래 변동 가격(1년 20000km)', // 제목 내용
+    text: 'AI 예측 미래 변동 가격(20000km/1년)', // 제목 내용
     left: 'center' // 가운데 정렬
     },
     grid: {
@@ -924,7 +958,7 @@ var minValue3 = Math.min(...predictedPriceListMinusMAE_30000);
 
 option4 = {
     title: { // 제목 추가
-    text: 'AI 예측 미래 변동 가격(1년 30000km)', // 제목 내용
+    text: 'AI 예측 미래 변동 가격(30000km/1년)', // 제목 내용
     left: 'center' // 가운데 정렬
     },
     grid: {

@@ -129,7 +129,7 @@ def question_create(request, car_VNUM):
             image8 = request.FILES.get("image8")
             img8_result, damage_result8 = car_determination_and_damage_detection(image8)
             print(img8_result, damage_result8)
-            if image8 and ('2' in img8_result):
+            if image8:
                 car_sales_post.Image8 = image8
                 print('8번 이미지 자동차 확인. 업로드 성공.')
                 if damage_result8:

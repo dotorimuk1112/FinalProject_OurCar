@@ -31,7 +31,7 @@ def car_determination_and_damage_detection(img):
                     detection_class = None
 
                 # 사진 판독 결과가 차량이고, 파손이 감지됐을 경우
-                if ('2' in determination_list) and detection_class:
+                if determination_list and detection_class:
                     for r in results2:
                         im_array = r.plot()  # plot a BGR numpy array of predictions
                         im = Image.fromarray(im_array[..., ::-1])  # RGB PIL image
