@@ -11,6 +11,7 @@ from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해
 from django.contrib import messages
 from sales.forms import SalesForm
 from .models import Car, CustomUser
+from sales.models import CarSalesPost
 import pickle
 import pandas as pd
 from django.http import HttpResponse
@@ -53,7 +54,7 @@ def car_info(request):
     mae_10000 = None
     min_price = None
     max_price = None
-
+    already_registered = None
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
         car = Car.objects.get(VNUM=car_number)
@@ -62,8 +63,8 @@ def car_info(request):
         
         min_price = int(predicted_price - float(mae))
         max_price = int(predicted_price + float(mae))
-    
-    return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000})
+        already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+    return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000, 'already_registered':already_registered})
 
 
 # 회원 정보 수정
