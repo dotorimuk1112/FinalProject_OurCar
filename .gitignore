@@ -1,16 +1,27 @@
 venvs/
 venv2/
+.venv/
+venvv/
 
 ourcar/my_settings.py
 
-
 final_project/my_settings.py
 
-final_project/sales/views/__pycache__
-final_project/sales/__pycache__
-final_project/config/__pycache__
-final_project/common/__pycache__
-final_project/common/migrations/__pycache__
-final_project/chat/__pycache__
-final_project/chat/migrations/__pycache__
-final_project/__pycache__
+final_project/sales/views/__pycache__/
+final_project/sales/__pycache__/
+final_project/config/__pycache__/
+final_project/common/__pycache__/
+final_project/common/migrations/__pycache__/
+final_project/chat/__pycache__/
+final_project/chat/migrations/__pycache__/
+final_project/__pycache__/
+
+**/__pycache__/
+
+final_project/ai_models/yolov8s.pt
+final_project/ai_models/best.pt
+final_project/ai_models/car_price_prediction_models_xgb.pkl
+final_project/ai_models/car_price_prediction_models_RF.pkl
+final_project/ai_models/budget_recommend_models.pkl
+final_project/ai_models/*
+

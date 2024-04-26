@@ -1,13 +1,24 @@
 {% extends 'base.html' %}
-
+{% load pybo_filter %}
 {% block content %}
 <div class="container-fluid my-3 px-5">
     <!-- message 표시 -->
     {% if messages %}
-    <div class="alert alert-danger my-3" role="alert">
+    <div class="alert my-3" role="alert">
     {% for message in messages %}
-        <strong>{{ message.tags }}</strong>
-        <ul><li>{{ message.message }}</li></ul>
+       <div class="alert
+           {% if message.level_tag == "debug" %}
+               alert-secondary
+           {% elif message.level_tag == "error" %}
+               alert-danger
+           {% elif message.level_tag == "success" %}
+               alert-success
+           {% else %}
+               alert-{{ message.level_tag }}
+           {% endif %}">
+           {{ message.message }}
+       </div>
+
     {% endfor %}
     </div>
     {% endif %}
@@ -15,9 +26,9 @@
         <!-- 왼쪽 열: 사용자 정보 -->
         <div class="col-md-2" style="background-color:skyblue; border-radius: 10px; height: 600px;">
             <div class="text-center mt-4">
-                <h3>사용자 정보</h3>
+                <h3>{{ user.real_name }}님 정보</h3>
                 <!-- 사용자가 선택한 이미지 or 디폴트 이미지 -->
-                <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+                <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="file" name="profile_image"> <!-- 파일 업로드 필드 -->
@@ -26,12 +37,14 @@
                 <p><strong>이름:</strong> {{ user.username }}</p>
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
+                <p><strong>주소:</strong> {{ user.address }}</p>
+                <p><strong>신용점수:</strong> {{ user_credit_score }}</p>
                 <div class="d-flex justify-content-center">
                     <div class="col-md-6 mb-2">
-                        <a href="{% url 'common:edit_profile'%}" class="btn btn-sm btn-outline-secondary btn-block" style="font-size: 13px">개인정보 수정</a>
+                        <a href="{% url 'common:edit_profile'%}" class="btn btn-success btn-outline-secondary btn-block" style="font-size: 13px; color:black">개인정보 수정</a>
                     </div>
                     <div class="col-md-6 mb-2">
-                        <a href="{% url 'common:password_update'%}" class="btn btn-sm btn-outline-secondary btn-block" style="font-size: 13px">비밀번호 변경</a>
+                        <a href="{% url 'common:password_update'%}" class="btn btn-success btn-outline-secondary btn-block" style="font-size: 13px; color:black">비밀번호 변경</a>
                     </div>
                 </div>
                 <!-- 기타 사용자 정보 필드들을 추가로 출력할 수 있음 -->
@@ -85,27 +98,47 @@
         
         <div class="col-md-9" style="border-radius: 20px;">
             <div class="tab" style="display: flex; justify-content: flex-end; border-top-left-radius: 20px; border-top-right-radius: 20px;">
-                <button class="tablinks" onclick="openCity(event, 'Paris')">나의 소비 내역<span id="carCount"></span></button>
-                <button class="tablinks" onclick="openCity(event, 'MySales')">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
-
-                <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen">관심있는 차량({{ liked_car_count }})</button>
+                <button class="tablinks" onclick="openCity(event, 'Paris')" style="flex-grow: 1;">나의 예산 추천<span id="carCount"></span></button>
+                <button class="tablinks" onclick="openCity(event, 'MySales')" style="flex-grow: 1;">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>
+                <button class="tablinks active" onclick="openCity(event, 'London')" id="defaultOpen" style="flex-grow: 1;">관심있는 차량({{ liked_car_count }})</button>
+                <button class="tablinks" onclick="openCity(event, 'Seoul')" style="flex-grow: 1;">내 구매 제안 내역({{buyer_proposed_cars_count}})</button>
+                <button class="tablinks" onclick="openCity(event, 'Busan')" style="flex-grow: 1;">거래 중({{accepted_count}})</button>
             </div>
             <!-- 내 판매 내역 탭 -->
             <div id="MySales" class="tabcontent" style="display: none;">
                 <div class="user-sales">
+                    
                     {% if user_cars_for_sale %}
                     <div class="row">
                         {% for car in user_cars_for_sale %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
-                                <div class="card-body clickable-card">
-                                    <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
+                                <div class="card-body clickable-card {% if car.make_deal == 1 %}bg-success p-2 text-white bg-opacity-65{% endif %}">
+                                    <div class="text-end">
+                                        {% if car.buyers_count != 0 %}
+                                        <div class="position-relative">
+                                            <span class="bg-danger text-white rounded-circle px-2 position-absolute top-0 start-100 translate-middle">
+                                                
+                                                <span class="">{{ car.buyers_count }}</span>
+                                            </span>
+                                        </div>
+                                        {% endif %}
+                                        {% comment %} {% if car.buyer.count != 0 %}
+                                            <i class="fas fa-bell text-danger"></i>
+                                            <span class="text-danger d-inline">{{ car.buyer.count }}</span>
+                                        {% else %}
+                                            
+                                        {% endif %} {% endcomment %}
+                                    </div>  
+                                                                 
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
                                             <strong>{{ car.MNAME }}</strong>
                                         </a>
                                     </div>
+                                    
                                     <div>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
@@ -170,7 +203,7 @@
                         <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body clickable-card">
-                                    <img src="/static/uploads/sampleCAR.jpg" class="card-img-top" alt="대표 사진" width="200" height="200">
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
@@ -234,15 +267,31 @@
                 </ul>
                 {% endif %}
             </div>
-
             
+            <!-- 내 소비 내역 탭 -->
             <div id="Paris" class="tabcontent">
-                <div class="text-center ">
-                    <h3>TestSangmin 정보</h3>
-                    <h5>예산 추천 결과: {{ min_budget }}만 원 ~ {{ max_budget }}만 원</h5>
-                    <p>이 수치는 단순히 참고 목적으로 산정됐으며, <br> 실질적인 수입과 소비 패턴을 분석해 예산을 너무 크게 책정하지 않도록 주의하시길 권장 드립니다.</p>
-                    <canvas id="myChart" width="200" height="200"></canvas>
+                <div class="container h-100">
+                    <div class="row align-items-center h-100">
+                        <div class="col-md-6">
+                            <div id="chart-container" class="text-center" style="position:relative; height:50vh; width:100%">
+                                <canvas id="myChart" width="200" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center mt-4">
+                                <h5>
+                                    {% if min_budget > 0 %}
+                                        고객님 추천 예산: {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                                    {% else %}
+                                        고객님 추천 예산: 0만 원 ~ {{ max_budget }}만 원
+                                    {% endif %}
+                                </h5>
+                                <p>이 수치는 단순히 참고 목적으로 산정됐으며, <br> 실질적인 수입과 소비 패턴을 분석해 예산을 너무 크게 책정하지 않도록 주의하시길 권장 드립니다.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                
                 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                 <script>
                     var ctx = document.getElementById('myChart').getContext('2d');
@@ -307,13 +356,210 @@
                                     'rgba(75, 192, 192, 1)',
                                     'rgba(153, 102, 255, 1)'
                                 ],
-                                borderWidth: 1
+                                borderWidth: 1,
+                                options: {
+                                responsive: false,
+                                maintainAspectRatio: false
+                            }
                             }]
                         }
                     });
                 </script>
             </div>
             
+            <!-- 내 구매 내역 탭-->
+            <!-- 내가 사고자 하는 차량 탭-->
+            <div id="Seoul" class="tabcontent">
+                <div class="liked-posts ">
+                    {% if buyer_proposed_cars %}
+                    <div class="row">
+                        {% for car in buyer_proposed_cars %}
+                        <div class="col-md-3 mb-4">
+                            <div class="card {% if car.accepted == 1 %}border-success bg-success text-dark bg-opacity-10{% elif car.accepted == 0 %}border-danger bg-danger text-dark bg-opacity-10{% endif %}" style="border-width: 6px;">
+                                <div class="card-body clickable-card">
+                                    {% if car.accepted == 0 %}
+                                        <div class="position-relative">
+                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                            <img src="/static/uploads/rejected.png" class="position-absolute top-0 start-0" alt="거절된 이미지" style="width: 100px; height: 100px;">
+                                        </div>
+                                    {% elif car.accepted == 1 %}
+                                        <div class="position-relative">
+                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                            <img src="/static/uploads/accepted.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
+                                        </div>
+                                    {% else %}
+                                        <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                    {% endif %}
+                                    <p class="card-text"> </p>
+                                    <div class="card-title my-3" style="height: 40px;">
+                                        <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                            <strong>{{ car.MNAME }}</strong>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                                    </div>
+                                    {% comment %} <div class="text-end">
+                                        <p style="font-size: 12px; margin-right: 10px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 요청가격: {{ car.buyer_price }}</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
+                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div> {% endcomment %}
+                                    <div class="text-end">
+                                        <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; {% if car.accepted == 0 %}color: red;{% elif car.accepted == 1 %}color: green;{% else %}color: black;{% endif %}; font-weight: bold; display: inline-block;">요청가 : {{ car.buyer_price }}만원</p>
+                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
+                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                        </p>   
+                                    </div>
+                                    
+                                    
+                                    
+                                                   
+                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div><div class="row">
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>구매 제시한 게시글이 없습니다.</p>
+                    {% endif %}
+                </div>
+                <!-- 페이징처리 -->
+                {% if buyer_proposed_cars.has_other_pages %}
+                <ul class="pagination justify-content-center mt-4">
+                    {% if buyer_proposed_cars.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    {% endif %}
+                    {% for num in buyer_proposed_cars.paginator.page_range %}
+                    {% if buyer_proposed_cars.number == num %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}<span class="sr-only"></span></span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if liked_car.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ buyer_proposed_cars.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+
+
+            <!-- 거래중 탭-->
+            <!-- 구매자 판매자 모두 승낙한 거래중 탭-->
+            <div id="Busan" class="tabcontent">
+                <div class="liked-posts ">
+                    {% if buyer_proposed_cars %}
+                    <div class="row">
+                        {% for car in buyer_proposed_cars %}
+                            {% if car.accepted == 1 %}
+                                <div class="col-md-3 mb-4">
+                                    <div class="card {% if car.accepted == 1 %}{% elif car.accepted == 0 %}border-danger{% endif %} bg-info text-dark bg-opacity-10" style="border-width: 6px; border-color: skyblue;">
+                                        <div class="card-body clickable-card">
+                                            
+                                            
+                                                <div class="position-relative">
+                                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                                    <img src="/static/uploads/reserved.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
+                                                </div>
+                                          
+                                           
+                                            <p class="card-text"> </p>
+                                            <div class="card-title my-3" style="height: 40px;">
+                                                <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
+                                                    <strong>{{ car.MNAME }}</strong>
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
+                                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
+                                            </div>
+                                            {% comment %} <div class="text-end">
+                                                <p style="font-size: 12px; margin-right: 10px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 요청가격: {{ car.buyer_price }}</p>
+                                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
+                                                    <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                                </p>   
+                                            </div> {% endcomment %}
+                                            <div class="text-end">
+                                                <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; {% if car.accepted == 0 %}color: red;{% elif car.accepted == 1 %}color: green;{% else %}color: black;{% endif %}; font-weight: bold; display: inline-block;">요청가 : {{ car.buyer_price }}만원</p>
+                                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
+                                                    <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
+                                                </p>   
+                                            </div>
+                                            
+                                            
+                                            
+                                                        
+                                            {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
+                                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
+                                            {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% if forloop.counter|divisibleby:4 %}
+                            </div><div class="row">
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>구매 제시한 게시글이 없습니다.</p>
+                    {% endif %}
+                </div>
+                <!-- 페이징처리 -->
+                {% if buyer_proposed_cars.has_other_pages %}
+                <ul class="pagination justify-content-center mt-4">
+                    {% if buyer_proposed_cars.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&laquo;</span>
+                    </li>
+                    {% endif %}
+                    {% for num in buyer_proposed_cars.paginator.page_range %}
+                    {% if buyer_proposed_cars.number == num %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}<span class="sr-only"></span></span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if liked_car.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ buyer_proposed_cars.paginator.num_pages }}">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">&raquo;</span>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
               
               
             
