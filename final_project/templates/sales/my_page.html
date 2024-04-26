@@ -113,7 +113,7 @@
                         {% for car in user_cars_for_sale %}
                         <div class="col-md-3 mb-4">
                             <div class="card">
-                                <div class="card-body clickable-card {% if car.make_deal == 1 %}border border-success border-5{% endif %}">
+                                <div class="card-body clickable-card {% if car.make_deal == 1 %}bg-success p-2 text-white bg-opacity-65{% endif %}">
                                     <div class="text-end">
                                         {% if car.buyers_count != 0 %}
                                         <div class="position-relative">
@@ -256,6 +256,7 @@
                     {% endif %}
                     {% endfor %}
                     {% if liked_car.has_next %}
+                    <li class="page-item">
                         <a class="page-link" href="?page={{ liked_car.paginator.num_pages }}">&raquo;</a>
                     </li>
                     {% else %}
@@ -374,7 +375,7 @@
                     <div class="row">
                         {% for car in buyer_proposed_cars %}
                         <div class="col-md-3 mb-4">
-                            <div class="card {% if car.accepted == 1 %}border-success{% elif car.accepted == 0 %}border-danger{% endif %}" style="border-width: 6px;">
+                            <div class="card {% if car.accepted == 1 %}border-success bg-success text-dark bg-opacity-10{% elif car.accepted == 0 %}border-danger bg-danger text-dark bg-opacity-10{% endif %}" style="border-width: 6px;">
                                 <div class="card-body clickable-card">
                                     {% if car.accepted == 0 %}
                                         <div class="position-relative">
@@ -474,7 +475,7 @@
                         {% for car in buyer_proposed_cars %}
                             {% if car.accepted == 1 %}
                                 <div class="col-md-3 mb-4">
-                                    <div class="card {% if car.accepted == 1 %}{% elif car.accepted == 0 %}border-danger{% endif %}" style="border-width: 6px; border-color: skyblue;">
+                                    <div class="card {% if car.accepted == 1 %}{% elif car.accepted == 0 %}border-danger{% endif %} bg-info text-dark bg-opacity-10" style="border-width: 6px; border-color: skyblue;">
                                         <div class="card-body clickable-card">
                                             
                                             
