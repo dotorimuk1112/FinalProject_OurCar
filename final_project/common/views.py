@@ -1,23 +1,13 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import (
-    UserCreationForm,
-    UserChangeForm,
-    AuthenticationForm,
-    PasswordChangeForm,
-)
 from django.shortcuts import render, redirect, get_object_or_404
 from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해 import
 from django.contrib import messages
-from sales.forms import SalesForm
 from .models import Car, CustomUser
 from sales.models import CarSalesPost
-import pickle
-import pandas as pd
 from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
 from django.contrib.auth import update_session_auth_hash
-import csv
 from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000
 
 def index(request):

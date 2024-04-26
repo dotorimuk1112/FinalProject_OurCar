@@ -7,7 +7,6 @@ from ..models import CarSalesPost
 from common.models import Car
 from PIL import Image
 from ..static.car_models import car_determination_and_damage_detection
-from django.http import HttpResponse
 
 # 질문 생성
 @login_required(login_url='common:login')

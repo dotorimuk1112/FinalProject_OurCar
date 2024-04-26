@@ -5,9 +5,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
 class CarSalesPost(models.Model):
-    post_id = models.AutoField(primary_key=True)  # 자동으로 1씩 증가하는 필드로 지정
+    post_id = models.AutoField(primary_key=True)
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='author_question')
-    # subject = models.CharField(max_length=300) ## 제목은 MNAME 으로 일단 대체해볼게요
     ############차량 상세정보 ##############
     MNAME = models.TextField(null=False)
     MYERAR = models.IntegerField(null=False)
@@ -61,21 +60,6 @@ class CarSalesPost(models.Model):
 def update_buyers_count(sender, instance, **kwargs):
     buyers_count = BuyerMessages.objects.filter(post_id=instance.post_id).count()
     CarSalesPost.objects.filter(post_id=instance.post_id).update(buyers_count=buyers_count)
-
-
-# class Answer(models.Model):
-#     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='author_answer')
-#     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-#     content = models.TextField()
-#     modify_date = models.DateTimeField(null=True, blank=True)
-#     create_date = models.DateTimeField()
-#     voter = models.ManyToManyField(CustomUser, related_name='voter_answer')
-    
-# class UploadedImage(models.Model):
-#     uploadedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')
-#     processedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')
-#     has_car = models.BooleanField(default=False)
-#     is_processed = models.BooleanField(default=False)
 
 
 class UploadedImage2(models.Model):

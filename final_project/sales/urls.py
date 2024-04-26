@@ -1,8 +1,6 @@
 from django.urls import path
 
 from .views import base_views, question_views, consume_views
-from sales.views import car_determination_views
-
 
 app_name = 'sales'
 
@@ -37,10 +35,4 @@ urlpatterns = [
          question_views.sales_delete, name='sales_delete'),
 
     path('buy/<int:post_id>/', question_views.buy_car, name='buy_car'),
-    
-
-        # car_determination_views.py
-    path('car_determination/', 
-         car_determination_views.car_determination, name='car_determination'),  # '/' 에 해당되는 path
-
 ]   

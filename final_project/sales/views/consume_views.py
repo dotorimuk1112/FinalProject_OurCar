@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from ..models import BuyerMessages, CarSalesPost
 from ..forms import BuyerMessagesForm
 from django.shortcuts import render, redirect, get_object_or_404

@@ -9,8 +9,6 @@ from ..models import CarSalesPost, BuyerMessages
 from common.models import predict_budget, CustomUser, Car
 from ..forms import ProfileImageForm
 import pickle
-import pandas as pd
-import numpy as np
 import seul_car_list
 from django.db.models import Count
 from ..static.budget_rec import budget_rec_func
@@ -20,10 +18,6 @@ from common.static.car_price_pred import car_price_pred_model, car_price_pred_mo
 from sales.static.card_scoring import scoring_data
 from common.models import loan_rate_list
 import math
-
-
-from django.http import JsonResponse
-
 
 with open('budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)

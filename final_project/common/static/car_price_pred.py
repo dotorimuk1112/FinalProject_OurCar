@@ -58,20 +58,14 @@ def car_price_pred_model(car):
                 break
         
         if target_model:
-            # 예측을 위한 입력 데이터 준비
-            # 예를 들어, 입력 데이터는 DataFrame 형태여야 하며, 모델을 훈련할 때와 동일한 특성을 가져야 합니다.
             input_data = data_df
 
-            # 모델을 사용하여 예측 수행
-            # predictions = target_model.predict(input_data)
             predicted_price = int(round(float(target_model.predict(input_data)), 1))
 
             # 딕셔너리로 데이터를 저장할 변수 초기화
             target_model_mae = None
 
             csv_file_path = 'common/static/car_price_pred_mae.csv'
-
-            print(target_model_name)
 
             # CSV 파일 열기
             with open(csv_file_path, newline='', encoding='cp949') as csvfile:
@@ -82,7 +76,6 @@ def car_price_pred_model(car):
                         target_model_mae = row[1]
                         break
                 else:
-                    print(f"{target_model_name}에 해당하는 값이 없습니다.")
                     target_model_mae = None
             return predicted_price, target_model_mae
 
@@ -138,10 +131,6 @@ def car_price_pred_model_10000(car):
                 input_data['MILEAGE'] = init_mil + (i * 10000)
                 year.append(input_data['MYEAR'])
                 mil.append(input_data['MILEAGE'])
-                # 모델을 사용하여 예측 수행
-                # predictions = target_model.predict(input_data)
-                print(f"{i}회차 예측 데이터:", input_data['MYEAR'], input_data['MILEAGE'])
-
                 predicted_price = int(round(float(target_model.predict(input_data)), 1))
 
                 if len(prediction_list) > 0 and predicted_price < prediction_list[-1]:
@@ -150,10 +139,6 @@ def car_price_pred_model_10000(car):
                     prediction_list.append(predicted_price)
                 else:
                     prediction_list.append(prediction_list[-1])
-
-            print('mil, year:', mil, year)
-                
-            print('prediction_list', prediction_list)
             
             return prediction_list, target_model_mae
 
@@ -197,7 +182,7 @@ def car_price_pred_model_20000(car):
                 target_model_mae = None
 
         if target_model:
-            print("☆car_price_pred_model_10000 모델 작동")
+            print("☆car_price_pred_model_20000 모델 작동")
             input_data = data_df
             init_year = data_df['MYEAR'].iloc[0]
             init_mil = data_df['MILEAGE'].iloc[0]
@@ -208,10 +193,6 @@ def car_price_pred_model_20000(car):
                 input_data['MILEAGE'] = init_mil + (i * 20000)
                 year.append(input_data['MYEAR'])
                 mil.append(input_data['MILEAGE'])
-                # 모델을 사용하여 예측 수행
-                # predictions = target_model.predict(input_data)
-                print(f"{i}회차 예측 데이터:", input_data['MYEAR'], input_data['MILEAGE'])
-
                 predicted_price = int(round(float(target_model.predict(input_data)), 1))
 
                 if len(prediction_list) > 0 and predicted_price < prediction_list[-1]:
@@ -220,10 +201,6 @@ def car_price_pred_model_20000(car):
                     prediction_list.append(predicted_price)
                 else:
                     prediction_list.append(prediction_list[-1])
-
-            print('mil, year:', mil, year)
-                
-            print('prediction_list', prediction_list)
             
             return prediction_list, target_model_mae
 
@@ -266,7 +243,7 @@ def car_price_pred_model_30000(car):
                 target_model_mae = None
 
         if target_model:
-            print("☆car_price_pred_model_10000 모델 작동")
+            print("☆car_price_pred_model_30000 모델 작동")
             input_data = data_df
             init_year = data_df['MYEAR'].iloc[0]
             init_mil = data_df['MILEAGE'].iloc[0]
@@ -277,10 +254,6 @@ def car_price_pred_model_30000(car):
                 input_data['MILEAGE'] = init_mil + (i * 30000)
                 year.append(input_data['MYEAR'])
                 mil.append(input_data['MILEAGE'])
-                # 모델을 사용하여 예측 수행
-                # predictions = target_model.predict(input_data)
-                print(f"{i}회차 예측 데이터:", input_data['MYEAR'], input_data['MILEAGE'])
-
                 predicted_price = int(round(float(target_model.predict(input_data)), 1))
 
                 if len(prediction_list) > 0 and predicted_price < prediction_list[-1]:
@@ -289,10 +262,6 @@ def car_price_pred_model_30000(car):
                     prediction_list.append(predicted_price)
                 else:
                     prediction_list.append(prediction_list[-1])
-
-            print('mil, year:', mil, year)
-                
-            print('prediction_list', prediction_list)
             
             return prediction_list, target_model_mae
 
