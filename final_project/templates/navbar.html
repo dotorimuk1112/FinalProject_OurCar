@@ -1,23 +1,27 @@
 <!-- 네비게이션바 -->
 <div>
-    <nav class="navbar  fixed-top navbar-expand-lg">
-        <div class="test container-fluid  navbar-expand-lg nav_son">
-            <a class="navbar-brand" href="{% url 'sales:index' %}">아워카</a>
+    <nav class="navbar nav-link fixed-top navbar-expand-lg navbar-dark">
+        <div class="test container-fluid  navbar-expand-lg nav_son" style="background-color: rgb(0, 103, 172); margin-left: -1rem" >
+            <a class="navbar-brand" href="{% url 'sales:index' %}">
+                <img src="/static/uploads/woori_logo_circle.png" width="30" height="30" class="d-inline-block align-text-top">
+                아워카
+            </a>
             <button class="navbar-toggler" type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent"
                     aria-controls="navbarSupportedContent"
                     aria-expanded="false"
-                    aria-label="Toggle navigation">
+                    aria-label="Toggle navigation" 
+                >
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="background-color: rgba(0, 103, 172,0.5);">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 10px;" >
                     <li class="nav-item">
-                        <a class="nav-link text-end" style="font-weight: bold;" href="#">검색</a>
+                        <a class="nav-link text-end text-white" style="font-weight: bold;" href="#">검색</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-end" style="font-weight: bold;" href="#">팔 때</a>
+                        <a class="nav-link text-end " style="font-weight: bold;" href="#">팔 때</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-end" style="font-weight: bold;" href="#">살 때</a>
@@ -26,21 +30,21 @@
                         <a class="nav-link text-end" style="font-weight: bold;" href="#">시세</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" style="padding-right: 10px;">
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+                        <a class="nav-link  text-end" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'sales:my_page' %}">마이페이지</a>
+                        <a class="nav-link  text-end" href="{% url 'sales:my_page' %}">마이페이지</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+                        <a class="nav-link  text-end" href="{% url 'common:login' %}">로그인</a>
                     </li>
                     {% endif %}
                     {% if not user.is_authenticated %}
-                    <li class="nav-item">
+                    <li class="nav-item  text-end">
                         <a class="nav-link" href="{% url 'common:signup' %}">회원가입</a>
                     </li>
                     {% endif %}
