@@ -4,14 +4,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from ..forms import SalesForm
 from ..models import CarSalesPost
-from common.models import Car
+from common.models import CarAPI
 from PIL import Image
 from ..static.car_models import car_determination_and_damage_detection
 
 # 질문 생성
 @login_required(login_url='common:login')
 def question_create(request, car_VNUM):
-    car = get_object_or_404(Car, VNUM=car_VNUM)
+    car = get_object_or_404(CarAPI, VNUM=car_VNUM)
     if request.method == 'POST':
         form = SalesForm(request.POST, request.FILES)
         if form.is_valid():

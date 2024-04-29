@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import CarSalesPost, BuyerMessages
-from common.models import predict_budget, CustomUser, Car
+from common.models import predict_budget, CustomUser, CarAPI
 from ..forms import ProfileImageForm
 import pickle
 import seul_car_list
@@ -211,7 +211,7 @@ def detail(request, post_id):
     user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
     vnum_value = car_sales_post.VNUM
-    car = Car.objects.get(VNUM=vnum_value)
+    car = CarAPI.objects.get(VNUM=vnum_value)
     predicted_price, mae = car_price_pred_model(car)
     min_price = int(predicted_price - float(mae))
     max_price = int(predicted_price + float(mae))

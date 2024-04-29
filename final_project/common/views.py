@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해 import
 from django.contrib import messages
-from .models import Car, CustomUser
+from .models import CarAPI, CustomUser
 from sales.models import CarSalesPost
 from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
@@ -43,7 +43,7 @@ def car_info(request):
     already_registered = None
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
-        car = Car.objects.get(VNUM=car_number)
+        car = CarAPI.objects.get(VNUM=car_number)
         predicted_price, mae = car_price_pred_model(car)
         predicted_list, mae_10000 = car_price_pred_model_10000(car)
         
