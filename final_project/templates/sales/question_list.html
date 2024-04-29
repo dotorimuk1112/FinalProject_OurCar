@@ -42,6 +42,42 @@
     </button>
 </div>
 
+<!-- "맞춤 차량 보기" 버튼 -->
+
+{% if budget_filter != '-1' or personal_page == 'True' %}
+<div id="custom-car-btn2" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+    <a href="" class="btn btn-secondary" style="display: inline-block;
+        width: 70px;
+        height: 70px;
+        line-height: 50px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: #6c757d; /* 버튼 배경색 */
+        color: #fff; /* 버튼 텍스트 색상 */
+        font-size: 18px; /* 버튼 텍스트 크기 */
+        text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */"><strong>ALL</strong></a>
+</div>
+{% else %}
+<!-- 예산 필터가 비활성화된 경우 -->
+<div id="custom-car-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+    <a href="" class="btn btn-primary" style="display: inline-block;
+        width: 70px;
+        height: 70px;
+        line-height: 55px;
+        border-radius: 50%;
+        text-align: center;
+        background-color: #D0FC5C; /* 연두색 배경 */
+        color: #fff; /* 버튼 텍스트 색상 */
+        font-size: 18px; /* 버튼 텍스트 크기 */
+        text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+        border: none; /* 테두리 없음 */"><strong>맞춤</strong></a>
+</div>
+
+<!-- 예산 필터가 활성화된 경우 -->
+
+{% endif %}
 
 <div class="container my-3">
     <div class="row my-3">
@@ -116,7 +152,7 @@
         <!-- 왼쪽에 브랜드 필터 버튼들 -->
         <div class="col-md-2" id="filter-section">
             <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode"  style="width: 100%;">
-                    <label for="brandFilter">브랜드 필터:</label>
+                    <label for="brandFilter">브랜드 필터</label>
                     <select class="form-control" name="search_mode" id="search_mode">
                         <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
                         {% for brand_name in ko_brands %}
@@ -127,7 +163,7 @@
             {% if selected_brand_values %}
             <!-- 추가적인 select box -->
             <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode2"  style="width: 100%;">
-                    <label for="brandFilter">세부 차종 명:</label>
+                    <label for="brandFilter">세부 차종 명</label>
                     <select class="form-control" name="search_mode2" id="search_mode2">
                         <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
                         {% for brand_value in selected_brand_values %}
@@ -136,7 +172,64 @@
                     </select>
             </form>
             {% endif %}
+                <!-- 연식 -->
+                <form action="{% url 'index' %}" method="get" class="ml-0"id="mile_mode"  style="width: 100%;">
+                        <label for="mileFilter" class ="mt-3">연식 필터</label>
+                        <select class="form-control" name="mile_mode" id="mile_mode">
+                            <option value="전체" {% if not mile_mode %}selected{% endif %}>전체</option>
+                            {% for miles in myerar_list %}
+                            <option value="{{ miles }}" {% if mile_mode == miles %}selected{% endif %}>{{ miles }}</option>
+                            {% endfor %}
+                        </select>
+                </form>
+                <!-- 차크기 -->
+                <form action="{% url 'index' %}" method="get" class="ml-0"id="vtype_mode"  style="width: 100%;">
+                    <label for="mileFilter" class ="mt-3">크기 필터</label>
+                    <select class="form-control" name="vtype_mode" id="vtype_mode">
+                        <option value="전체" {% if not vtype_mode %}selected{% endif %}>전체</option>
+                        {% for vtype in vtype_values %}
+                        <option value="{{ vtype }}" {% if vtype_mode == vtype %}selected{% endif %}>{{ vtype }}</option>
+                        {% endfor %}
+                    </select>
+            </form>
+            <!-- 주행 거리 최소값 및 최대값-->
+            <form action="{% url 'index' %}" method="get" class="ml-0" id="mileage_filter" style="width: 100%;">
+                <label for="mileFilter" class="mt-3">주행거리 필터</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="min_mileage" placeholder="최소" value="{{ request.GET.min_mileage }} " style="width: 50%;">
+                    <input type="number" class="form-control" name="max_mileage" placeholder="최대" value="{{ request.GET.max_mileage }}" style="width: 50%;">
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    <button type="submit" class="btn btn-dark">적용</button>
+                </div>
+                <label for="mileFilter" class ="mt-3">가격 필터 (단위:만원)</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" name="min_price" placeholder="최소" value="{% if budget_filter == '1' %}{{ min_budget }}{% else %}{{ request.GET.min_price | add_commas2}}{% endif %}">
+                    <div class="input-group-prepend input-group-append">
+                        <span class="input-group-text">~</span>
+                    </div>
+                    <input type="number" class="form-control" name="max_price" placeholder="최대" value="{% if budget_filter == '1' %}{{ max_budget }}{% else %}{{ request.GET.max_price }}{% endif %}">
+
+                </div>
+                <div class="d-flex justify-content-end mt-2">
+                    
+                    
+                    <button type="submit" class="btn btn-dark">적용</button>
+                </div>
+            </form>
+             <!-- 가격 최소값 및 최대값 -->
+             <form action="{% url 'index' %}" method="get" class="ml-0" id="price_filter" style="width: 100%;">
+                
+            </form>
+            <button type="submit" class="btn btn-warning">
+                <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
+            </button>
+
         </div>
+
+        
+
+
         <div class="col-md-10">
             <div class="row">
                 {% if car_list %}
@@ -238,6 +331,48 @@
 {% block script %}
 
 <script type='text/javascript'>
+    function addCommas(input) {
+        // 입력값에서 숫자와 .만 남기고 모두 제거합니다.
+        var num = input.value.replace(/\D/g, "");
+        
+        // 천 단위마다 쉼표를 추가합니다.
+        input.value = num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+
+// "맞춤 차량 보기" 버튼 클릭 이벤트 처리
+document.addEventListener("DOMContentLoaded", function() {
+    // "내 예산" 버튼 클릭 이벤트 처리
+    document.getElementById('custom-car-btn').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지 (페이지 새로고침 방지)
+
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+
+        // URL에 budget_option 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('budget_option', '1'); // 예산 필터링을 활성화하기 위해 budget_option 값을 1로 설정
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });
+});
+document.addEventListener("DOMContentLoaded", function() {
+    // "전체보기" 버튼 클릭 이벤트 처리
+    document.getElementById('custom-car-btn2').addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 동작 방지 (페이지 새로고침 방지)
+
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+
+        // URL에 budget_option 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('budget_option', '-1'); // 예산 필터링을 비활성화하기 위해 budget_option 값을 -1로 설정
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });
+});
     const page_elements = document.getElementsByClassName("page-link");
     Array.from(page_elements).forEach(function(element) {
         element.addEventListener('click', function() {
@@ -265,18 +400,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 document.addEventListener("DOMContentLoaded", function() {
-
-const searchModeSelect = document.querySelector("select[name=search_mode]");
-
-searchModeSelect.addEventListener("change", function () {
-    document.getElementById("search_mode").submit();
+    const searchModeSelect = document.querySelector("select[name=search_mode]");
     
-    // 선택한 값을 기본값으로 설정
-    const selectedValue = this.value;
-    document.getElementById("search_mode").value = selectedValue;
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('search_mode', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
     });      
 });
-
 document.addEventListener("DOMContentLoaded", function() {
     const searchModeSelect = document.querySelector("select[name=search_mode2]");
     
@@ -295,6 +435,47 @@ document.addEventListener("DOMContentLoaded", function() {
         window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
     });      
 });
+/////
+document.addEventListener("DOMContentLoaded", function() {
+    const searchModeSelect = document.querySelector("select[name=vtype_mode]");
+    
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('vtype_mode', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
+
+/////
+document.addEventListener("DOMContentLoaded", function() {
+    const searchModeSelect = document.querySelector("select[name=mile_mode]");
+    
+    searchModeSelect.addEventListener("change", function () {
+        // 현재 페이지 URL 가져오기
+        let url = window.location.href;
+        
+        // 선택한 값을 기본값으로 설정
+        const selectedValue = this.value;
+        
+        // URL에 search_mode2 값 추가 또는 갱신
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('mile_mode', selectedValue);
+        
+        // 만들어진 URL로 페이지 이동
+        window.location.href = `${url.split('?')[0]}?${urlParams.toString()}`;
+    });      
+});
+
+
 document.addEventListener("DOMContentLoaded", function() {
     const searchModeSelect = document.querySelector("select[name=sorting_option]");
     
