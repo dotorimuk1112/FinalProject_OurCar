@@ -19,7 +19,9 @@ def load_record(user_id):
             'avg_cur_bal' : current_user_record.avg_cur_bal,
             'acc_open_past_24mths' : current_user_record.acc_open_past_24mths,
             'total_bc_limit' : current_user_record.total_bc_limit,
-            'bc_util' : current_user_record.bc_util
+            'bc_util' : current_user_record.bc_util,
+            'avg_fico' : current_user_record.avg_fico,
+            'last_avg_fico' : current_user_record.last_avg_fico
         }]
 
         return data

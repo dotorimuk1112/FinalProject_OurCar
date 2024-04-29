@@ -82,6 +82,8 @@ class scoring(models.Model):
     acc_open_past_24mths = models.IntegerField()
     total_bc_limit = models.IntegerField()
     bc_util = models.DecimalField(max_digits=5, decimal_places=1)
+    last_avg_fico = models.DecimalField(max_digits=4, decimal_places=1)
+    avg_fico = models.DecimalField(max_digits=4, decimal_places=1)
     
 class loan_rate_list(models.Model):
     company_name = models.CharField(max_length=255)
