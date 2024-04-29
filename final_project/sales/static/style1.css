@@ -11,7 +11,7 @@ table {
 th, td {
   border: 2px solid #dddddd; /* 굵은 테두리 설정 */
   padding: 8px;
-  text-align: left;
+  text-align: right;
 }
 th {
   background-color: #f2f2f2; /* 헤더 색상 설정 */

@@ -13,7 +13,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="col-md-4">
-                        <input type="text" id="car_number" name="car_number" height="100px" style="border-top:none; border-left: none; border-right: none; border-bottom: 3px solid #0067ac;" placeholder="12가3456" class="form">
+                        <input type="text" id="car_number" name="car_number" height="300px" style="border-top:none; border-left: none; border-right: none; border-bottom: 3px solid #0067ac; outline: none;"  placeholder="12가3456" class="form">
                     </div>
                 </div>
                 <div class="d-flex justify-content-center mt-3">
@@ -37,51 +37,51 @@
             {% if car %}
             <div class="container mt-4">
                 <h2 class="text-center">차량 정보</h2>
-                <table class="table table-bordered text-center">
-                    <tbody>
+                <table class="table align-right text-end">
+                    <tbody >
                         <tr>
-                            <th scope="row" class="bg-success text-white">차량 이름</th>
-                            <td>{{ car.MNAME }}</td>
+                            <th clscope="row">차량 이름</th>
+                            <td class="text-end">{{ car.MNAME }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">가격</th>
-                            <td>{{ car.PRICE }}</td>
+                            <th scope="row">가격</th>
+                            <td class="text-end">{{ car.PRICE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">연식</th>
-                            <td>{{ car.MYERAR }}</td>
+                            <th scope="row">연식</th>
+                            <td class="text-end">{{ car.MYERAR }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">주행거리</th>
-                            <td>{{ car.MILEAGE }}</td>
+                            <th scope="row">주행거리</th>
+                            <td class="text-end">{{ car.MILEAGE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">배기량</th>
-                            <td>{{ car.DISP }}</td>
+                            <th scope="row">배기량</th>
+                            <td class="text-end">{{ car.DISP }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">용도변경 이력</th>
-                            <td>{{ car.CU_HIS|floatformat }}</td>
+                            <th scope="row">용도변경 이력</th>
+                            <td class="text-end">{{ car.CU_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">자차피해이력</th>
-                            <td>{{ car.MVD_HIS|floatformat }}</td>
+                            <th scope="row">자차피해이력</th>
+                            <td class="text-end">{{ car.MVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">타차피해이력</th>
-                            <td>{{ car.AVD_HIS|floatformat }}</td>
+                            <th scope="row">타차피해이력</th>
+                            <td class="text-end">{{ car.AVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">침수 이력</th>
-                            <td>{{ car.FD_HIS|floatformat }}</td>
+                            <th scope="row">침수 이력</th>
+                            <td class="text-end">{{ car.FD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">도난 이력</th>
-                            <td>{{ car.VT_HIS|floatformat }}</td>
+                            <th scope="row">도난 이력</th>
+                            <td class="text-end">{{ car.VT_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row" class="bg-success text-white">소유자 변경 횟수</th>
-                            <td>{{ car.US_HIS|floatformat }}</td>
+                            <th scope="row">소유자 변경 횟수</th>
+                            <td class="text-end">{{ car.US_HIS|floatformat }}</td>
                         </tr>
                         <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
                     </tbody>
