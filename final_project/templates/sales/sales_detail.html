@@ -572,12 +572,19 @@
                         <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
                         {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
                         <h3 style="color: green;">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                        <img src="/static/uploads/proper_2.png" alt="예시 이미지" width="200" height="200">
-                        <img src="/static/uploads/safe.png" alt="예시 이미지" width="200" height="200">
+                        <div style="position: relative;">
+                            <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: green; color: white; padding: 5px;">
+                                적당한 가격이에요!
+                            </div>
+                        </div>
 
                         {% elif CarSalesPost.PRICE < min_price %}
-                            <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 저렴합니다</span>. </h3>
-                            <img src="/static/uploads/not_sure.png" alt="예시 이미지">
+                        <h3 style="color: green;">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                            <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: yellow; color: w햣hite; padding: 5px;">
+                                너무 저렴한 것 같네요...
+                            </div>
                         {% else %}
                             <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 비쌉니다</span>. </h3>
                             <img src="/static/uploads/not_sure.png" alt="예시 이미지">
