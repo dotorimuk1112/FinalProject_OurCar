@@ -3,7 +3,8 @@
 {% load pybo_filter %}
 {% block content %}
 <!-- HTML 코드 -->
-<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+
+<div id="carouselExampleIndicators" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-interval="3000">
 
     <!-- message 표시 -->
     {% if messages %}
@@ -14,20 +15,38 @@
     {% endfor %}
     </div>
     {% endif %}
-
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <div class="d-flex align-items-center justify-content-center" style="background-color: skyblue; height: 400px;">
-                <h1 style="font-weight: bold; font-size: 4rem;">AI 차량 파손 검수 모델 적용</h1>
+            <div class="row justify-content-center">
+                <div class="col-4 d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.5); height: 400px;">
+                    <img src="/static/uploads/3d_magnifier.png" style="width: 400px; height: 400px;"></a>
+                </div>
+                <div class="col-4 d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.5); height: 400px;">
+                    <div>
+                        <h2 style="font-weight: bold;"> 인공지능 
+                            <br> 
+                            파손 탐지 적용</h2>
+                    </div>
+          
+                        <div>
+                            <h4>직접 보지 않아도 알 수 있게</h4>
+                        </div>
+                    
+                </div>
             </div>
         </div>
         <div class="carousel-item">
-            <div class="d-flex align-items-center justify-content-center" style="background-color: lightgreen; height: 400px;">
+            <div class="d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.5); height: 400px;">
                 <h1 style="font-weight: bold; font-size: 4rem;">차량 구매 후 3년 뒤 내 차 가격 감가 예상 모델</h1>
             </div>
         </div>
         <div class="carousel-item">
-            <div class="d-flex align-items-center justify-content-center" style="background-color: coral; height: 400px;">
+            <div class="d-flex align-items-center justify-content-center" style="background-color: rgba(255, 255, 255, 0.5); height: 400px;">
                 <h1 style="font-weight: bold; font-size: 4rem;">내 소비 패턴에 맞는 금액대의 차량 맞춤 선별</h1>
             </div>
         </div>
@@ -92,6 +111,8 @@
                 <select class="form-control" name="sorting_option" id="sorting_option">
                     <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
                     <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="lowprice" {% if  sorting_option == "lowprice" %}selected{% endif %}>가격 낮은순</option>
+                    <option value="highprice" {% if  sorting_option == "highprice" %}selected{% endif %}>가격 높은순</option>
                     <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
                 </select>    
@@ -108,6 +129,7 @@
                 <select class="form-control" name="sorting_option" id="sorting_option">
                     <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
                     <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="price" {% if  sorting_option == "price" %}selected{% endif %}>가격순</option>
                     <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
                 </select>    
@@ -138,6 +160,7 @@
             </form>
         </div>
         {% endif %}
+        
         <div class="col-4">
             <div class="input-group">
                 <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
