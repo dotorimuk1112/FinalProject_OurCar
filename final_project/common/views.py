@@ -47,9 +47,14 @@ def car_info(request):
         predicted_price, mae = car_price_pred_model(car)
         predicted_list, mae_10000 = car_price_pred_model_10000(car)
         
-        min_price = int(predicted_price - float(mae))
-        max_price = int(predicted_price + float(mae))
-        already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+        if mae:
+            min_price = int(predicted_price - float(mae))
+            max_price = int(predicted_price + float(mae))
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+        else:
+            min_price = None
+            max_price = None
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
     return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000, 'already_registered':already_registered})
 
 
