@@ -91,10 +91,10 @@
                 <div class="mt-4 mb-5">
                     <div class="mt-1 mb-1">
                         {% if predicted_list %}
-                            <h3 style="font-weight: 800;">AI가 예측한 적정 가격은</h3>
-                            <p> </p>
-                            <h3 style="font-weight: 900;"><span style="font-size: larger; text-decoration: underline; text-decoration-color: #0067ac;">{{ min_price }}~{{ max_price }}</span>&nbsp;<span style="font-size: smaller;">만원</span>입니다.</h3><br>
-                            <br><br>
+                        <div style="text-align: center;">
+                            <h3 style="font-weight: 800; margin-top:50px;">AI가 예측한 적정 가격은</h3>
+                            <h3 style="font-weight: 900; margin-bottom:50px;"><span style="font-size: larger; text-decoration: underline; text-decoration-color: #0067ac;">{{ min_price }}~{{ max_price }}</span>&nbsp;<span style="font-size: smaller;">만원</span>입니다.</h3>
+                        </div>
                             <canvas id="futurePrice" width="600" height="300"></canvas>
                         {% else %}
                             <div class="text-center mt-1">
