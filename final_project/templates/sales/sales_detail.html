@@ -260,6 +260,11 @@
                         <div>
                             <div>주소 : {{ CarSalesPost.seller.address }}</div>
                          <!-- 주소 버튼 -->
+                            <a href="{{ CarSalesPost.seller.address }}" target="_blank" >
+                                <img src="final_project/sales/static/uploads/google_location_icon.png" width="3" height="3" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">
+                            </a>
+
+
                          <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
 
                          <!-- 모달 창 -->
