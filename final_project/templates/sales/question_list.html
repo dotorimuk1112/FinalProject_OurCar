@@ -79,14 +79,14 @@
     </div>
     {% else %}
     <!-- 예산 필터가 비활성화된 경우 -->
-    <div id="custom-car-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+    <div  class="shaking-image2" id="custom-car-btn" style="position: fixed; bottom: 20px; right: 40px; z-index: 999;">
         <a href="" class="btn btn-primary" style="display: inline-block;
             width: 70px;
             height: 70px;
             line-height: 55px;
             border-radius: 50%;
             text-align: center;
-            background-color: #315ebe; /* 연두색 배경 */
+            background-color: #1c408f; /* 연두색 배경 */
             color: #fff; /* 버튼 텍스트 색상 */
             font-size: 18px; /* 버튼 텍스트 크기 */
             text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
@@ -97,14 +97,15 @@
     {% endif %}
     
 {% endif %}
-<div style="position: fixed; bottom: 20px; left: 80px; z-index: 999;">
+<div style="position: fixed; bottom: 20px; left: 90px; z-index: 999;">
     <!-- 이미지 -->
     <div class="text-center">
-        <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 100px; height: 100px; margin-bottom: 10px;" class="shaking-image">
-
+        <a href="{% url 'common:car_info' %}">
+            <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 100px; height: 100px; margin-left: 10px;" class="shaking-image">
+        </a>
     </div>
     <!-- 차량 등록하기 버튼 -->
-    <a href="{% url 'common:car_info' %}" class="btn btn-dark">차량 등록하기</a>
+    <a href="{% url 'common:car_info' %}" class="btn btn-dark mt-0" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">차량 등록하기</a>
 </div>
 <!-- 예산 필터가 활성화된 경우 -->
 <div>
