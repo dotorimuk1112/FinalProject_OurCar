@@ -117,6 +117,7 @@ class CarAPI(models.Model):
     VT_HIS = models.FloatField()
     US_HIS = models.IntegerField()
     L_NAME = models.TextField(null=True)  # nullable로 설정
+    
     class Meta:
         managed = True
         db_table = 'common_carapi'
