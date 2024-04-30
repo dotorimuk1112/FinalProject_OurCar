@@ -92,6 +92,8 @@
                 <select class="form-control" name="sorting_option" id="sorting_option">
                     <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
                     <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="lowprice" {% if  sorting_option == "lowprice" %}selected{% endif %}>가격 낮은순</option>
+                    <option value="highprice" {% if  sorting_option == "highprice" %}selected{% endif %}>가격 높은순</option>
                     <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
                 </select>    
@@ -108,6 +110,7 @@
                 <select class="form-control" name="sorting_option" id="sorting_option">
                     <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
                     <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                    <option value="price" {% if  sorting_option == "price" %}selected{% endif %}>가격순</option>
                     <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
                 </select>    
@@ -138,6 +141,7 @@
             </form>
         </div>
         {% endif %}
+        
         <div class="col-4">
             <div class="input-group">
                 <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
