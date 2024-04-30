@@ -463,8 +463,10 @@
             
     </div>
 </div>
+<!--차량 정보 컨테이너 -->
 <div class="container">
-    <div class="row">
+    <div class="row mt-4">
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">차량 정보</h2>
         <div class="col">
             <table class="table table-striped table-bordered">
                 <tbody>
@@ -513,147 +515,6 @@
                 </tbody>
             </table>
         </div>
-        <div class="col"  style="position: relative;">
-            <button id="info-trigger" style="background-color: darkgray; position: absolute; right: 0; width: 25px; height: 25px;">?</button>
-
-
-            <div id="info-content" style="width: 200px; position: absolute; top: 0; right: 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
-                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">[단위:%]</p>
-                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">공시대상은 국산 승용자동차(중고차)입니다. (수입차, 상용차 제외)</p>
-                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 0;">회사명 (D)*는 회사가 고객과 직접 상담하여 판매하는 상품으로 금융거래시 발생할 수 있는 중개 수수료를 최소화한 상품입니다.</p>
-            </div>
-            
-            {% if user.is_authenticated %}
-            {% if loan_list %}
-            <div>
-                <form>
-                    {% csrf_token %}
-                    <output style="font-weight: bold; color: blue;">36</output> 개월
-                    <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()" oninput="this.previousElementSibling.value = this.value">
-                </form>
-                <table class="table">
-                    
-                    <thead>
-                        <tr class="table-dark">
-                            <th>회사명</th>
-                            <th>최저금리</th>
-                            <th>최대금리</th>
-                            <th>중도상환수수료율</th>
-                        </tr>
-                    </thead>
-                    <tbody id="loan_table_body">
-                        {% for loan in loan_list %}
-                        <tr>
-                            <td>{{ loan.company_name }}</td>
-                            <td>{{ loan.min_rate }}</td>
-                            <td>{{ loan.max_rate }}</td>
-                            <td>{{ loan.late_payment_rate }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <form>
-                {% csrf_token %}
-                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
-            </form>
-            {% else %}
-            <p>이용 가능한 대출 상품이 없습니다</p>
-            {% endif %}
-            {% else %}
-            <p>이용 가능한 대출 상품을 확인하시려면 로그인하세요</p>
-            {% endif %}
-        </div>
-    </div>
-</div>
-    <!-- 모달 폼 -->
-
-<div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- 약관 동의 체크박스 -->
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
-                    <label class="form-check-label" for="agreeCheckbox">
-                        판매자에게 당신의 정보를 제공하는 것에 동의합니다.
-                    </label>
-                </div>
-
-                <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
-                        <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submitProposalBtn" disabled>제안하기</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<hr>
-
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-4">
-            <div class="text-center mt-4 mb-5">
-                <div id="info-container">
-                    <!-- AI 추천 적정 가격 -->
-                    <div class="price-info">
-                        <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
-                        <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
-                        {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                        <div style="position: relative;">
-                            <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
-                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
-                                <strong>적당한 가격이에요!</strong>
-                            </div>
-                        </div>
-
-                        {% elif CarSalesPost.PRICE < min_price %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                            <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
-                            <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
-                                <strong>너무 저렴한 것 같네요...</strong>
-                            </div>
-                        {% else %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                        <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
-                        <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
-                            <strong>너무 비싼것 같네요...</strong>
-                        </div>
-                        {% endif %}
-                        <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
-                        <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
-                            <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="text-center mt-1">
-                <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
-                <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
-                <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
-                <div id="Paris" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice1" width="450" height="300"></canvas>
-                </div>
-                <div id="London" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice2" width="450" height="300"></canvas>
-                </div>
-                <div id="Seoul" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice3" width="450" height="300"></canvas>
-                </div>
-            </div>
-        </div>
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5" style="position: relative;">
                 <button id="info-trigger" style="position: absolute; right: 0;">?</button>
@@ -691,6 +552,150 @@
             </div>
         </div>
     </div>
+</div>
+    <!-- 모달 폼 -->
+
+<div class="modal fade" id="priceProposalModal" tabindex="-1" aria-labelledby="priceProposalModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- 약관 동의 체크박스 -->
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" value="" id="agreeCheckbox">
+                    <label class="form-check-label" for="agreeCheckbox">
+                        판매자에게 당신의 정보를 제공하는 것에 동의합니다.
+                    </label>
+                </div>
+
+                <form id="priceProposalForm" action="{% url 'sales:propose_price' CarSalesPost.post_id %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="buyer_price" class="form-label">가격 제안 (만원)</label>
+                        <input type="number" class="form-control" id="buyer_price" name="buyer_price" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitProposalBtn" disabled>제안하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<!--시세 정보 컨테이너 -->
+<div class="container mt-4">
+    <div class="row">
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">시세 정보</h2>
+        <div class="col-md-6">
+            <div class="text-center mt-4 mb-5" style="position: relative;">
+                <div id="info-container">
+                    <!-- AI 추천 적정 가격 -->
+                    <div class="price-info">
+                        <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
+                        <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
+                        {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                        <div style="position: relative;">
+                            <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                                <strong>적당한 가격이에요!</strong>
+                            </div>
+                        </div>
+
+                        {% elif CarSalesPost.PRICE < min_price %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                            <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: yellow; color: white; padding: 5px; border-radius:10px;">
+                                <strong>너무 저렴한 것 같네요...</strong>
+                            </div>
+                        {% else %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                        <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                        <div style="background-color: yellow; color: white; padding: 5px; border-radius:10px;">
+                            <strong>너무 비싼것 같네요...</strong>
+                        </div>
+                        {% endif %}
+                        <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
+                        <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
+                            <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="text-center mt-">
+                <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
+                <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
+                <div id="Paris" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice1" width="450" height="300"></canvas>
+                </div>
+                <div id="London" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice2" width="450" height="300"></canvas>
+                </div>
+                <div id="Seoul" class="tabcontent2 mt-3">
+                    <canvas id="futurePrice3" width="450" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr>
+
+<!--금융 정보 컨테이너 -->
+<div class="container mt-4">
+    <div class="row">
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">금융 정보</h2>
+        {% if user.is_authenticated %}
+        <div class="col-md-4 text-center p-2"  style="border-radius: 10px; border: solid; border-color: #ccc; border-width: 1px;">
+            <div>
+                <h3 class="info-title" style="font-weight: bold;">우리은행 중고차 대출 예상 금리</h3>
+                <p>{{ woori_loan.min_rate }} %</p>
+                <p onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">6개월, 2000만원 기준입니다. 자세한 사항은 <strong>홈페이지</strong>에서 확인하세요!</p>
+            </div>
+        </div>
+        <div class="col-md-6 p-2" style="border-radius: 10px; border: solid; border-color: #b0b0b0; border-width: thin;">
+            {% if loan_list %}
+            <form>
+                {% csrf_token %}
+                <output style="font-weight: bold; color: blue;">36</output> 개월
+                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()" oninput="this.previousElementSibling.value = this.value">
+            </form>
+            <table class="table">   
+                <thead>
+                    <tr class="table">
+                        <th>회사명</th>
+                        <th>최저금리</th>
+                        <th>최대금리</th>
+                        <th>중도상환수수료율</th>
+                </thead>
+                <tbody id="loan_table_body">
+                    {% for loan in loan_list %}
+                    <tr onClick="window.open('{{ loan.link }}', '', '');" style="cursor:pointer;">
+                        <td>{{ loan.company_name }}</td>
+                        <td>{{ loan.min_rate }}</td>
+                        <td>{{ loan.max_rate }}</td>
+                        <td>{{ loan.late_payment_rate }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p>이용 가능한 대출 상품이 없습니다</p>
+        {% endif %}
+        {% else %}
+        <p>이용 가능한 대출 상품을 확인하시려면 로그인하세요</p>
+        {% endif %}
+    </div>
+</div>
 </div>
 
 
