@@ -174,28 +174,41 @@
                 <div class="col-md-6 mr-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center">
                         {% if user.is_authenticated %}
-                            <p>고객님 추천 예산: <br>
-                            {% if min_budget > 0 %}
-                                <span style="color: green; font-weight: bold;">{{ min_budget }}만 원 ~ {{ max_budget }}만 원</span>
+                        <p><strong style="color: green;">{{ request.user.real_name }}</strong>님 추천 예산</p>
+                        {% if min_budget > 0 %}
+                                <span style="color: green; font-weight: bold; font-size : 25px">{{ min_budget }}만 원 - {{ max_budget }}만 원</span>
                             {% else %}
-                                <span style="color: green; font-weight: bold;">0만 원 ~ {{ max_budget }}만 원</span>
+                                <span style="color: green; font-weight: bold; font-size : 25px">0만 원 ~ {{ max_budget }}만 원</span>
                             {% endif %}
                             </p>
                             <div>
                                 {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
-                                    <p>적정 가격입니다.</p>
+                                <div style="position: relative;">
+                                    <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                    
+                                </div>
+                                <div style="background-color: rgb(24, 139, 192); border-radius: 10px; padding: 10px;">
+                                    <p style= " font-weight: bold;margin-bottom: 0; color: white;">고객님 적정 예산 내</p>
+                                    <h5 style="font-weight: bold; color: white;">적절한 차량</h5>
+                                </div>
                                 {% elif CarSalesPost.PRICE > max_budget %}
                                 <div style="position: relative;">
                                     <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
                                     
                                 </div>
-                                    <p>고객님 적정 예산보다 비싼 차량입니다.</p>
+                                <div style="background-color: orange; border-radius: 10px; padding: 10px;">
+                                    <p style=" font-weight: bold; margin-bottom: 0;">고객님 적정 예산보다</p>
+                                    <h5 style="font-weight: bold; color: white;">비싼 차량</h5>
+                                </div>
                                 {% else %}
                                 <div style="position: relative;">
                                     <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                                     
                                 </div>
-                                    <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                                <div style="background-color: rgb(24, 139, 192); border-radius: 10px; padding: 10px;">
+                                    <p style="font-weight: bold; margin-bottom: 0; ">고객님 적정 예산 내</p>
+                                    <h5 style="font-weight: bold; color: white;">적절한 차량</h5>
+                                </div>
                                 {% endif %}
                             </div>
                         {% else %}
@@ -348,150 +361,159 @@
                         <div>게시일 : {{ CarSalesPost.create_date }}</div>
                     </div>
                 </div>
-                
-            </div>
-            <div class="my-3 text-end">
-                {% if request.user == CarSalesPost.seller %}    
-                    <!-- "구매 제안서 보기" 버튼 -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서 보기</button>
-                {% endif %}
-                <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서 보기</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" class="text-center">이름</th>
-                                            <th scope="col" class="text-center">성별</th>
-                                            <th scope="col" class="text-center">주소</th>
-                                            <th scope="col" class="text-center">전화번호</th>
-                                            <th scope="col" class="text-center">구매 제안 가격</th>
-                                            <th scope="col" class="text-center">수락</th>
-                                            <th scope="col" class="text-center">거절</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for proposal, buyer_info in buyer_proposals_with_info %}
-                                        <tr>
-                                            <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
-                                            <td class="text-center">{{ buyer_info.get_gender_display }}</td>
-                                            <td class="text-center">{{ buyer_info.address }}</td>
-                                            <td class="text-center">{{ buyer_info.phone_number }}</td>
-                                            <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
-                                            <td class="text-center">
-                                                {% if proposal.accepted is not None %}
-                                                    {% if proposal.accepted == 0 %}
+                <div class="my-3 text-end">
+                    {% if request.user == CarSalesPost.seller %}    
+                        <!-- "구매 제안서 보기" 버튼 -->
+                        <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#buyerProposalsModal">구매 제안서</button>
+                    {% endif %}
+                    <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col" class="text-center">이름</th>
+                                                <th scope="col" class="text-center">성별</th>
+                                                <th scope="col" class="text-center">주소</th>
+                                                <th scope="col" class="text-center">전화번호</th>
+                                                <th scope="col" class="text-center">구매 제안 가격</th>
+                                                <th scope="col" class="text-center">수락</th>
+                                                <th scope="col" class="text-center">거절</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for proposal, buyer_info in buyer_proposals_with_info %}
+                                            <tr>
+                                                <td class="text-center font-weight-bold">{{ buyer_info.real_name }}</td>
+                                                <td class="text-center">{{ buyer_info.get_gender_display }}</td>
+                                                <td class="text-center">{{ buyer_info.address }}</td>
+                                                <td class="text-center">{{ buyer_info.phone_number }}</td>
+                                                <td class="text-center font-weight-bold">{{ proposal.buyer_price }}만원</td>
+                                                <td class="text-center">
+                                                    {% if proposal.accepted is not None %}
+                                                        {% if proposal.accepted == 0 %}
+                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="accepted" value="True">
+                                                            <button type="submit" class="btn btn-success btn-sm">수락</button>
+                                                        </form>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
+                                                        {% endif %}
+                                                    {% else %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="True">
                                                         <button type="submit" class="btn btn-success btn-sm">수락</button>
                                                     </form>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-success btn-sm" disabled>수락</button>
                                                     {% endif %}
-                                                {% else %}
-                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="accepted" value="True">
-                                                    <button type="submit" class="btn btn-success btn-sm">수락</button>
-                                                </form>
-                                                {% endif %}
-                                            </td>
-                                            <td class="text-center">
-                                                {% if proposal.accepted is not None %}
-                                                    {% if proposal.accepted == 1 %}
+                                                </td>
+                                                <td class="text-center">
+                                                    {% if proposal.accepted is not None %}
+                                                        {% if proposal.accepted == 1 %}
+                                                        <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="accepted" value="False">
+                                                            <button type="submit" class="btn btn-danger btn-sm">거절</button>
+                                                        </form>
+                                                        {% else %}
+                                                        <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
+                                                        {% endif %}
+                                                    {% else %}
                                                     <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="accepted" value="False">
                                                         <button type="submit" class="btn btn-danger btn-sm">거절</button>
                                                     </form>
-                                                    {% else %}
-                                                    <button type="button" class="btn btn-danger btn-sm" disabled>거절</button>
                                                     {% endif %}
-                                                {% else %}
-                                                <form method="post" action="{% url 'sales:accept_proposal' proposal.id %}">
-                                                    {% csrf_token %}
-                                                    <input type="hidden" name="accepted" value="False">
-                                                    <button type="submit" class="btn btn-danger btn-sm">거절</button>
-                                                </form>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                    <!-- 광열 수정 부분 -->
-                    <!-- 구매 의사 모달 버튼 -->
-                    <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
-                        구매 의사
-                        <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
-                    </button>
-
-                    <!-- 모달 창 -->
-                    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="confirmModalLabel">구매 의사 확인</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body text-center" style="font-weight: bold;">
-                                    <p>정말로 구매 의사가 있으신가요?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <!-- 예 버튼 클릭 -->
-                                    <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
-                                    <!-- 아니오 버튼 클릭 -->
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
+                        
+                        
+                        <!-- 광열 수정 부분 -->
+                        <!-- 구매 의사 모달 버튼 -->
+                        <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                            구매 의사
+                            <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
+                        </button>
+    
+                        <!-- 모달 창 -->
+                        <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="confirmModalLabel">구매 의사 확인</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center" style="font-weight: bold;">
+                                        <p>정말로 구매 의사가 있으신가요?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <!-- 예 버튼 클릭 -->
+                                        <a href="{% url 'sales:buy_car' CarSalesPost.post_id %}" class="btn btn-primary">예</a>
+                                        <!-- 아니오 버튼 클릭 -->
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- 광열 수정부분-->
+                        
+                        {% if request.user == CarSalesPost.seller %}                        
+                        <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
+                           class="btn btn-sm btn-outline-secondary">수정</a> 
+     
+                        <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
+                           data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
+                        {% endif %} 
                     </div>
-
-                    <!-- 광열 수정부분-->
                     
+                    
+                    
+                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
+                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                    </a> 
                     {% if request.user == CarSalesPost.seller %}                        
                     <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
                        class="btn btn-sm btn-outline-secondary">수정</a> 
- 
+    
                     <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
                        data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
                     {% endif %} 
                 </div>
-                
-                
-                
-                <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
-                    class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
-                    <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
-                </a> 
-                {% if request.user == CarSalesPost.seller %}                        
-                <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
-                   class="btn btn-sm btn-outline-secondary">수정</a> 
-
-                <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
-                   data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
-                {% endif %} 
             </div>
+            
         </div>
 
             
     </div>
 </div>
+<hr class="mt-3">
+
 <!--차량 정보 컨테이너 -->
 <div class="container">
     <div class="row mt-4">
-        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">차량 정보</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <h2 class="mb-3" style="font-weight: bold; font-size:larger;">차량 정보</h2>
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-3" style="font-weight: bold; font-size:larger;">금융 정보</h2>
+            </div>
+        </div>
         <div class="col">
             <table class="table table-striped table-bordered">
                 <tbody>
@@ -540,6 +562,7 @@
                 </tbody>
             </table>
         </div>
+        
         <div class="col"  style="position: relative;">
             <button id="info-trigger" style="background-color: darkgray; position: absolute; right: 0; width: 25px; height: 25px;">?</button>
 
@@ -621,9 +644,20 @@
     </div>
 </div>
 
-<hr>
+<hr class="mt-3">
+<div class="row mt-3">
+    <div class="col-md-4 text-center ">
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">AI 차량 가격 분석</h2>
+    </div>
+    <div class="col-md-4 text-center"> <!-- 중앙 정렬 -->
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">차량 가액 감가 그래프</h2>
+    </div>
+    <div class="col-md-4 text-center"> <!-- 우측 정렬 -->
+        <h2 class="mb-3" style="font-weight: bold; font-size:larger;">주행 거리 비교</h2>
+    </div>
+</div>
 
-<div class="container mt-4">
+<div class="container mt-0">
     <div class="row">
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5">
@@ -795,7 +829,7 @@
             {% if request.user.id in buyer_list %}
                 <div class="btn-group">
                     <!-- 가격 제안 수정하기 버튼 -->
-                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안 수정하기</button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안 수정</button>
                 </div>
                 <!-- 가격 제안 취소하기 버튼 -->
                 <button type="button" class="btn btn-danger ml-5" onclick="cancelProposal({{ CarSalesPost.post_id }})">
@@ -803,7 +837,7 @@
                 </button>
             {% else %}
                 <!-- "가격 제안하기" 버튼 -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제안하기</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#priceProposalModal">가격 제시</button>
             {% endif %}
         {% endif %}
     </div>
