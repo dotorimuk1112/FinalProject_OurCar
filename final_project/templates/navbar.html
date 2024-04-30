@@ -18,16 +18,16 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="background-color: rgba(0, 103, 172,0.5);">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" style="padding-right: 10px;" >
                     <li class="nav-item">
-                        <a class="nav-link text-end text-white" style="font-weight: bold;" href="#">검색</a>
+                        <a class="nav-link text-end text-white" style="font-weight: bold;" href="{% url 'sales:index' %}#find_car_btn" id="scrollToSearch">검색</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-end " style="font-weight: bold;" href="#">팔 때</a>
+                        <a class="nav-link text-end " style="font-weight: bold;" href="{% url 'common:car_info' %}">팔 때</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-end" style="font-weight: bold;" href="#">살 때</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-end" style="font-weight: bold;" href="#">시세</a>
+                        <a class="nav-link text-end" style="font-weight: bold;" href="{% url 'common:car_info' %}">시세</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav" style="padding-right: 10px;">
@@ -51,3 +51,9 @@
                 </ul>
             </div>
     </nav>
+
+{% block script %}
+<script>
+
+</script>
+{% endblock %}
