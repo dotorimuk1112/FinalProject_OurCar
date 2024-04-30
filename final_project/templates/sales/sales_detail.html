@@ -640,18 +640,24 @@
         </div>
         <div class="col-md-4">
             <div class="text-center mt-1">
-                <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
-                <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
-                <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
-                <div id="Paris" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice1" width="450" height="300"></canvas>
-                </div>
-                <div id="London" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice2" width="450" height="300"></canvas>
-                </div>
-                <div id="Seoul" class="tabcontent2 mt-3">
-                    <canvas id="futurePrice3" width="450" height="300"></canvas>
-                </div>
+                {% if predicted_list_10000 and predicted_list_20000 and predicted_list_30000 %}
+                    <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
+                    <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
+                    <button class="tablinks2" onclick="openCity2(event, 'Seoul')">30,000km/1년<span id="carCount"></span></button>
+                    <div id="Paris" class="tabcontent2 mt-3">
+                        <canvas id="futurePrice1" width="450" height="300"></canvas>
+                    </div>
+                    <div id="London" class="tabcontent2 mt-3">
+                        <canvas id="futurePrice2" width="450" height="300"></canvas>
+                    </div>
+                    <div id="Seoul" class="tabcontent2 mt-3">
+                        <canvas id="futurePrice3" width="450" height="300"></canvas>
+                    </div>
+                {% else %}
+                    <div class="text-center mt-1">
+                        <p>AI 예측 서비스를 지원하지 않는 차종입니다.</p>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-4">

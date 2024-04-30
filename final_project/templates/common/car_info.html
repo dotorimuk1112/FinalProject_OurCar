@@ -90,14 +90,17 @@
           
                 <div class="mt-4 mb-5">
                     <div class="mt-1 mb-1">
-                        <div style="text-align: center;">
+                        {% if predicted_list %}
                             <h3 style="font-weight: 800;">AI가 예측한 적정 가격은</h3>
-                            <h3 style="font-weight: 900;"><span style="font-size: larger; text-decoration: underline; text-decoration-color: #0067ac;">{{ min_price }}~{{ max_price }}</span>&nbsp;<span style="font-size: smaller;">만원</span>입니다.</h3>
-                        </div>
-                        <p> </p>
-                        
-                        <br><br>
-                        <canvas id="futurePrice" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
+                            <p> </p>
+                            <h3 style="font-weight: 900;"><span style="font-size: larger; text-decoration: underline; text-decoration-color: #0067ac;">{{ min_price }}~{{ max_price }}</span>&nbsp;<span style="font-size: smaller;">만원</span>입니다.</h3><br>
+                            <br><br>
+                            <canvas id="futurePrice" width="600" height="300"></canvas>
+                        {% else %}
+                            <div class="text-center mt-1">
+                                <p>AI 예측 서비스를 지원하지 않는 차종입니다.</p>
+                            </div>
+                        {% endif %}
                     </div>
                     {% if already_registered %}
                     <button type="button" class="btn btn-danger" style="float: right;" disabled>이미 등록된 매물</button>
