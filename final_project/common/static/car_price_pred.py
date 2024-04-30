@@ -51,6 +51,7 @@ def car_price_pred_model(car):
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -82,7 +83,7 @@ def car_price_pred_model(car):
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
             predicted_price = "모델을 못 찾았습니다."
-            return predicted_price
+            return predicted_price, target_model_mae
         
     except Car.DoesNotExist:
         error_message = "해당하는 차량 정보가 없습니다."
@@ -94,7 +95,8 @@ def car_price_pred_model_10000(car):
         data_df = pd.DataFrame(data)
         prediction_list = []
         target_model_name = car.L_NAME
-        target_model = None 
+        target_model = None
+        target_model_mae = None
 
 
         for model_name, model in loaded_model:
@@ -140,11 +142,10 @@ def car_price_pred_model_10000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae
 
 def car_price_pred_model_20000(car):
     try:
@@ -153,7 +154,7 @@ def car_price_pred_model_20000(car):
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None 
-
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -198,11 +199,10 @@ def car_price_pred_model_20000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae
 
 def car_price_pred_model_30000(car):
     try:
@@ -211,7 +211,7 @@ def car_price_pred_model_30000(car):
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None 
-
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -256,8 +256,7 @@ def car_price_pred_model_30000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae
