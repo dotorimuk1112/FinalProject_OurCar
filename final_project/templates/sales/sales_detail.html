@@ -27,7 +27,9 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card my-3">
-                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
@@ -61,13 +63,17 @@
                         {% endif %}
                         {% if CarSalesPost.Image6 %}
                         <div class="carousel-item">
-                            <p>차량 대각 방향1</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 우측 대각</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image6.url }}" class="d-block img-fluid" alt="Image 6">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image7 %}
                         <div class="carousel-item">
-                            <p>차량 대각 방향2</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 좌측 대각</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image7.url }}" class="d-block img-fluid" alt="Image 7">
                         </div>
                         {% endif %}
@@ -87,95 +93,24 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-            </div>
-            <!-- 모달 버튼 -->
-            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 or CarSalesPost.detected_image5 or CarSalesPost.detected_image6 or CarSalesPost.detected_image7 or CarSalesPost.detected_image8 %}
-            <div class="col-md-6 mb-3 text-center">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
-                    차량 파손이 탐지되었습니다.
-                </button>
-            </div>
-            {% endif %}
-
-            <!-- 모달 -->
-            <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="detectedModalLabel">AI 탐지 파손 부위</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
-                                <div class="carousel-inner">
-                                    {% if CarSalesPost.detected_thumbnail %}
-                                    <div class="carousel-item active">
-                                        <p>대표 사진</p>
-                                        <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image1 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail %}active{% endif %}">
-                                        <p>차량 전방</p>
-                                        <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image2 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 %}active{% endif %}">
-                                        <p>차량 좌측</p>
-                                        <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image3 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 %}active{% endif %}">
-                                        <p>차량 우측</p>
-                                        <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image4 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
-                                        <p>차량 후방</p>
-                                        <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image5 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 %}active{% endif %}">
-                                        <p>차량 내부</p>
-                                        <img src="{{ CarSalesPost.detected_image5.url }}" class="d-block img-fluid w-100" alt="Detected Image 5">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image6 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 %}active{% endif %}">
-                                        <p>차량 대각 방향1</p>
-                                        <img src="{{ CarSalesPost.detected_image6.url }}" class="d-block img-fluid w-100" alt="Detected Image 6">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image7 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 %}active{% endif %}">
-                                        <p>차량 대각 방향2</p>
-                                        <img src="{{ CarSalesPost.detected_image7.url }}" class="d-block img-fluid w-100" alt="Detected Image 7">
-                                    </div>
-                                    {% endif %}
-                                    {% if CarSalesPost.detected_image8 %}
-                                    <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 and not CarSalesPost.detected_image7 %}active{% endif %}">
-                                        <p>엔진룸</p>
-                                        <img src="{{ CarSalesPost.detected_image8.url }}" class="d-block img-fluid w-100" alt="Detected Image 8">
-                                    </div>
-                                    {% endif %}
-                                </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <div class="d-flex flex-wrap mt-2">
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('front')">전방</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('left')">좌측</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('right')">우측</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('rear')">후방</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('interior')">내부</button>
                 </div>
+                <div class="d-flex flex-wrap">
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('diagonal1')">좌측 대각</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('diagonal2')">우측 대각</button>
+                    <button class="btn btn-primary flex-grow-1 m-1" style="background-color: rgb(0, 103, 172); border:None;" onclick="goToSlide('engine')">엔진룸</button>
+                </div>
+
+                
+                
             </div>
+            
+
         </div>
 
         <div class="col-md-6">
@@ -227,12 +162,13 @@
                 <div class="col-md-6 mr-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center">
                         {% if user.is_authenticated %}
-                            고객님 추천 예산: <br> 
+                            <p>고객님 추천 예산: <br>
                             {% if min_budget > 0 %}
-                                {{ min_budget }}만 원 ~ {{ max_budget }}만 원
+                                <span style="color: green; font-weight: bold;">{{ min_budget }}만 원 ~ {{ max_budget }}만 원</span>
                             {% else %}
-                                0만 원 ~ {{ max_budget }}만 원
+                                <span style="color: green; font-weight: bold;">0만 원 ~ {{ max_budget }}만 원</span>
                             {% endif %}
+                            </p>
                             <div>
                                 {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
                                     <p>적정 가격입니다.</p>
@@ -246,14 +182,115 @@
                             <p>로그인이 필요합니다.</p>
                         {% endif %}
                     </div>
+                    <!-- 모달 버튼 -->
+            {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 or CarSalesPost.detected_image5 or CarSalesPost.detected_image6 or CarSalesPost.detected_image7 or CarSalesPost.detected_image8 %}
+            <div class="text-center mt-3 mb-3">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#detectedModal">
+                    <span style="vertical-align: middle;">😡</span> 
+                    <span style="vertical-align: middle;">차량 파손이 탐지되었습니다.</span>
+                </button>
+            </div>
+            {% else %}
+            <div style="text-align: center;" class="mt-3">
+                <div style="background-color: lightgreen; border-radius: 10px; padding: 10px; display: inline-block; text-align: center;">
+                    <span style="font-size: 24px; display: block;">😊</span>
+                    <p style="font-size: 16px; margin-top: 5px; font-weight: bold; font-family: Arial, sans-serif; color: #333;">차량 파손이 감지되지 않았습니다.</p>
+                </div>
+            </div>
+            {% endif %}
+            
+
+            <!-- 모달 -->
+            <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detectedModalLabel">AI 탐지 파손 부위</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                <div id="carouselDetected" class="carousel slide" data-bs-ride="carousel" data-bs-interval="1500">
+                                    <div class="carousel-inner">
+                                        {% if CarSalesPost.detected_thumbnail %}
+                                        <div class="carousel-item active">
+                                            <p>대표 사진</p>
+                                            <img src="{{ CarSalesPost.detected_thumbnail.url }}" class="d-block img-fluid w-100" alt="Thumbnail Image">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image1 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail %}active{% endif %}">
+                                            <p>차량 전방</p>
+                                            <img src="{{ CarSalesPost.detected_image1.url }}" class="d-block img-fluid w-100" alt="Detected Image 1">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image2 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 %}active{% endif %}">
+                                            <p>차량 좌측</p>
+                                            <img src="{{ CarSalesPost.detected_image2.url }}" class="d-block img-fluid w-100" alt="Detected Image 2">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image3 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 %}active{% endif %}">
+                                            <p>차량 우측</p>
+                                            <img src="{{ CarSalesPost.detected_image3.url }}" class="d-block img-fluid w-100" alt="Detected Image 3">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image4 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 %}active{% endif %}">
+                                            <p>차량 후방</p>
+                                            <img src="{{ CarSalesPost.detected_image4.url }}" class="d-block img-fluid w-100" alt="Detected Image 4">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image5 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 %}active{% endif %}">
+                                            <p>차량 내부</p>
+                                            <img src="{{ CarSalesPost.detected_image5.url }}" class="d-block img-fluid w-100" alt="Detected Image 5">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image6 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 %}active{% endif %}">
+                                            <p>차량 대각 방향1</p>
+                                            <img src="{{ CarSalesPost.detected_image6.url }}" class="d-block img-fluid w-100" alt="Detected Image 6">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image7 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 %}active{% endif %}">
+                                            <p>차량 대각 방향2</p>
+                                            <img src="{{ CarSalesPost.detected_image7.url }}" class="d-block img-fluid w-100" alt="Detected Image 7">
+                                        </div>
+                                        {% endif %}
+                                        {% if CarSalesPost.detected_image8 %}
+                                        <div class="carousel-item {% if not CarSalesPost.detected_thumbnail and not CarSalesPost.detected_image1 and not CarSalesPost.detected_image2 and not CarSalesPost.detected_image3 and not CarSalesPost.detected_image4 and not CarSalesPost.detected_image5 and not CarSalesPost.detected_image6 and not CarSalesPost.detected_image7 %}active{% endif %}">
+                                            <p>엔진룸</p>
+                                            <img src="{{ CarSalesPost.detected_image8.url }}" class="d-block img-fluid w-100" alt="Detected Image 8">
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetected" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselDetected" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </button>
+                                </div>
+                                
+                        </div>
+                       
+                    </div>
+                    
+                </div>
+                
+            </div>
                 </div>
                 
                 
                 <!-- 우측 요소 -->
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
-                        <h4>판매자 정보</h4>
-                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+                        <h4><strong>판매자 정보</strong></h4>
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width:150px;">
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
@@ -476,11 +513,26 @@
                 </tbody>
             </table>
         </div>
-        <div class="col">
+        <div class="col"  style="position: relative;">
+            <button id="info-trigger" style="background-color: darkgray; position: absolute; right: 0; width: 25px; height: 25px;">?</button>
+
+
+            <div id="info-content" style="width: 200px; position: absolute; top: 0; right: 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">[단위:%]</p>
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">공시대상은 국산 승용자동차(중고차)입니다. (수입차, 상용차 제외)</p>
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 0;">회사명 (D)*는 회사가 고객과 직접 상담하여 판매하는 상품으로 금융거래시 발생할 수 있는 중개 수수료를 최소화한 상품입니다.</p>
+            </div>
+            
             {% if user.is_authenticated %}
             {% if loan_list %}
             <div>
+                <form>
+                    {% csrf_token %}
+                    <output style="font-weight: bold; color: blue;">36</output> 개월
+                    <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()" oninput="this.previousElementSibling.value = this.value">
+                </form>
                 <table class="table">
+                    
                     <thead>
                         <tr class="table-dark">
                             <th>회사명</th>
@@ -552,21 +604,36 @@
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5">
                 <div id="info-container">
-                </div>
-                <!-- AI 추천 적정 가격 -->
-                <div class="price-info">
-                    <h3 class="info-title" style = "fontStyle:bold"><AI 추천 적정 가격</h3>
-                    <h3 class="price-range">{{ min_price }} ~ {{ max_price }}만 원</h3>
-                    {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
-                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 안전 범위에 속합니다. </h3>
-                    {% elif CarSalesPost.PRICE < min_price %}
-                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 저렴합니다</span>. </h3>
-                    {% else %}
-                        <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 비쌉니다</span>. </h3>
-                    {% endif %}
-                    <button id="info-trigger">?</button>
-                    <div id="info-content">
-                        <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                    <!-- AI 추천 적정 가격 -->
+                    <div class="price-info">
+                        <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
+                        <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
+                        {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                        <div style="position: relative;">
+                            <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                                <strong>적당한 가격이에요!</strong>
+                            </div>
+                        </div>
+
+                        {% elif CarSalesPost.PRICE < min_price %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                            <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                            <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
+                                <strong>너무 저렴한 것 같네요...</strong>
+                            </div>
+                        {% else %}
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                        <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                        <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
+                            <strong>너무 비싼것 같네요...</strong>
+                        </div>
+                        {% endif %}
+                        <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
+                        <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
+                            <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -664,6 +731,38 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script type='text/javascript'>
+    function goToSlide(direction) {
+        var index;
+        switch (direction) {
+            case 'front':
+                index = 0;
+                break;
+            case 'left':
+                index = 1;
+                break;
+            case 'right':
+                index = 2;
+                break;
+            case 'rear':
+                index = 3;
+                break;
+            case 'interior':
+                index = 4;
+                break;
+            case 'diagonal1':
+                index = 5;
+                break;
+            case 'diagonal2':
+                index = 6;
+                break;
+            case 'engine':
+                index = 7;
+                break;    
+            default:
+                index = 0;
+        }
+        $('#carouselExampleIndicators').carousel(index);
+    }
     var ctx = document.getElementById('mileageChart').getContext('2d');
     var average_mileage = {{average_mileage}}; // 연평균 주행거리 값
     

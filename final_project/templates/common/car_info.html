@@ -3,27 +3,24 @@
 <div class="container">
     <div class="row justify-content-center {% if not car %} d-flex align-items-center vh-100{% endif %}">
         <div class="col-md-12">
-            <h1 class="text-center mb-4 mt-0">차량 정보 조회</h1>
+            <h1 class="text-center mb-4 mt-0" style="font-weight: 900;">차량 정보를 조회합니다.</h1>
             <form method="post" class="text-center">
                 {% csrf_token %}
-                <div class="row justify-content-center">
+                <!-- <div class="row justify-content-center">
                     <div class="col-md-4 text-md-right">
-                        <label for="car_number" class="col-form-label">차량 번호 입력:</label>
+                        <label for="car_number" class="col-form-label">차량 번호를 입력해주세요.</label><br>
                     </div>
-                </div>
+                </div> -->
                 <div class="row justify-content-center">
                     <div class="col-md-4">
-                        <input type="text" id="car_number" name="car_number" height="300px" style="border-top:none; border-left: none; border-right: none; border-bottom: 3px solid #0067ac; outline: none;"  placeholder="12가3456" class="form">
+                        <input type="text" id="car_number" name="car_number" size=40 style="height: 40px; border-top:none; border-left: none; border-right: none; border-bottom: 3px solid #0067ac; outline: none;"  placeholder="차량 번호를 입력해주세요 (예: 12가3456)" class="form">
+                        <button type="submit" class="btn" style="background-color: #0067ac; color: white; font-weight: bold;">조회</button>
                     </div>
                 </div>
-                <div class="d-flex justify-content-center mt-3">
+                <!-- <div class="d-flex justify-content-center mt-3">
                     <button type="submit" class="btn btn-primary">조회</button>
-                </div> 
-            </form>
-            
-            
-            
-            
+                </div>  -->
+            </form>       
         </div>
     </div>
 
@@ -31,57 +28,57 @@
     <div class="alert alert-danger text-center mt-3" role="alert" style="border-radius: 5px; max-width: 300px; margin: 0 auto;">
         <strong>경고!</strong> 이미 등록된 차량입니다.
     </div>
-{% endif %}
-    <div class="row justify-content-center mt-2">
+    {% endif %}
+    <div class="row justify-content-center mt-4 mb-5">
         <div class="col-md-6">
             {% if car %}
-            <div class="container mt-4">
-                <h2 class="text-center">차량 정보</h2>
+            <div class="container mt-4 mb-5">
+                <h3 style="font-weight: 800;">차량 정보를 불러왔습니다.</h3><br>
                 <table class="table align-right text-end">
                     <tbody >
                         <tr>
-                            <th clscope="row">차량 이름</th>
-                            <td class="text-end">{{ car.MNAME }}</td>
+                            <th scope="row" style="color: gray;">차량 이름</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.MNAME }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">가격</th>
-                            <td class="text-end">{{ car.PRICE }}</td>
+                            <th scope="row" style="color: gray;">가격</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.PRICE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">연식</th>
-                            <td class="text-end">{{ car.MYERAR }}</td>
+                            <th scope="row" style="color: gray;">연식</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.MYERAR }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">주행거리</th>
-                            <td class="text-end">{{ car.MILEAGE }}</td>
+                            <th scope="row" style="color: gray;">주행거리</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.MILEAGE }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">배기량</th>
-                            <td class="text-end">{{ car.DISP }}</td>
+                            <th scope="row" style="color: gray;">배기량</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.DISP }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">용도변경 이력</th>
-                            <td class="text-end">{{ car.CU_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">용도변경 이력</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.CU_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">자차피해이력</th>
-                            <td class="text-end">{{ car.MVD_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">자차피해이력</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.MVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">타차피해이력</th>
-                            <td class="text-end">{{ car.AVD_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">타차피해이력</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.AVD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">침수 이력</th>
-                            <td class="text-end">{{ car.FD_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">침수 이력</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.FD_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">도난 이력</th>
-                            <td class="text-end">{{ car.VT_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">도난 이력</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.VT_HIS|floatformat }}</td>
                         </tr>
                         <tr>
-                            <th scope="row">소유자 변경 횟수</th>
-                            <td class="text-end">{{ car.US_HIS|floatformat }}</td>
+                            <th scope="row" style="color: gray;">소유자 변경 횟수</th>
+                            <td class="text-end" style="font-weight: 600;">{{ car.US_HIS|floatformat }}</td>
                         </tr>
                         <!-- 나머지 필드에 대해 동일한 방식으로 추가 -->
                     </tbody>
@@ -91,15 +88,23 @@
         </div>
         <div class="col-md-6">
           
-                <div class="text-center mt-4 mb-5">
-                    <div class="text-center mt-1 mb-5">
-                        <h3 class="mb-5">AI 예측 적정 가격: {{ min_price }} ~ {{ max_price }}만 원</h3>
+                <div class="mt-4 mb-5">
+                    <div class="mt-1 mb-1">
+                        <div style="text-align: center;">
+                            <h3 style="font-weight: 800;">AI가 예측한 적정 가격은</h3>
+                            <h3 style="font-weight: 900;"><span style="font-size: larger; text-decoration: underline; text-decoration-color: #0067ac;">{{ min_price }}~{{ max_price }}</span>&nbsp;<span style="font-size: smaller;">만원</span>입니다.</h3>
+                        </div>
+                        <p> </p>
+                        
+                        <br><br>
                         <canvas id="futurePrice" width="600" height="300"></canvas> <!-- 예상 가격 그래프를 그릴 공간 -->
                     </div>
                     {% if already_registered %}
-                    <button type="button" class="btn btn-danger" disabled>이미 등록된 매물</button>
+                    <button type="button" class="btn btn-danger" style="float: right;" disabled>이미 등록된 매물</button>
                 {% else %}
-                    <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary">내차팔기</a>
+                <div style="text-align: center;">
+                    <a href="{% url 'sales:question_create' car.VNUM %}" class="btn btn-primary mt-" style="float: center; background-color: #0067ac; border: #0067ac;">내차팔기</a>
+                </div>
                 {% endif %}
                                 </div>
             {% elif error_message %}
@@ -130,17 +135,26 @@
     var myChart2 = echarts.init(chartDom2);
     var option;
 
+    var minValue1 = Math.min(...predictedPriceListMinusMAE);
+
     option2 = {
         title: { // 제목 추가
         text: 'AI 예측 미래 변동 가격', // 제목 내용
         left: 'center' // 가운데 정렬
+        },
+        grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
         },
         xAxis: {
             type: 'category',
             data: years // 연도를 x축으로 설정
         },
         yAxis: {
-            type: 'value'
+        type: 'value',
+        min: Math.floor(minValue1 * 0.9)
         },
         legend: { // 범례 설정
             data: ['최대', '최소'], // 범례에 표시될 항목들
@@ -171,7 +185,7 @@
                     return {
                         value: price,
                         itemStyle: {
-                            color: '#ff0000' // 빨간색
+                            color: 'green' // 빨간색
                         }
                     };
                 }),
