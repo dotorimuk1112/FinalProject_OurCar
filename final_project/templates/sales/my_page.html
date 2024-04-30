@@ -26,7 +26,7 @@
         <!-- 왼쪽 열: 사용자 정보 -->
         <div class="col-md-2" style="background-color:skyblue; border-radius: 10px; height: 600px;">
             <div class="text-center mt-4">
-                <h3>{{ user.real_name }}님 정보</h3>
+                <h3>{{ user.real_name }}님</h3>
                 <!-- 사용자가 선택한 이미지 or 디폴트 이미지 -->
                 <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
                 <form method="POST" enctype="multipart/form-data">
