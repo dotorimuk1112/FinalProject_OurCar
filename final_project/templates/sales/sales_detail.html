@@ -33,31 +33,41 @@
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
-                            <p>차량 전방</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 전방</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
-                            <p>차량 좌측</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 좌측</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
-                            <p>차량 우측</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 우측</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
-                            <p>차량 후방</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 후방</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image5 %}
                         <div class="carousel-item">
-                            <p>차량 내부</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 내부</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image5.url }}" class="d-block img-fluid" alt="Image 5">
                         </div>
                         {% endif %}
@@ -79,7 +89,9 @@
                         {% endif %}
                         {% if CarSalesPost.Image8 %}
                         <div class="carousel-item">
-                            <p>엔진룸</p>
+                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">엔진룸</h4>
+                            </div>
                             <img src="{{ CarSalesPost.Image8.url }}" class="d-block img-fluid" alt="Image 8">
                         </div>
                         {% endif %}
@@ -710,7 +722,9 @@
                     주행거리 적정 여부를 제공해드리고 있습니다.<br>
                     <span class="emphasis">기준:  국내 차량 연 평균 주행거리인 13,322km</span><br>
                 </div>
-                <canvas id="mileageChart" width="150" height="75" style="padding-top: 0px;"></canvas>
+                <div class="text-center mt-5">
+                    <canvas id="mileageChart" width="150" height="75" style="padding-top: 0px;"></canvas>
+                </div>
                 <!-- 연평균 주행거리 -->
                 {% if CarSalesPost.MYERAR > 0 and CarSalesPost.MILEAGE %}
                     {% if CarSalesPost.MYERAR %}
