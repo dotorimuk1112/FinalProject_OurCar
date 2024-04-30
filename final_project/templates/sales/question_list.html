@@ -99,7 +99,7 @@
 
 {% endif %}
 
-<div class="container my-3">
+<div class="container my-3" style="position: sticky;">
     <div class="row my-3">
         {% if  not sorting_option == "region" %}
         <div class="col-6">
@@ -172,11 +172,11 @@
         </div>
     </div>
     
-    <div class="row">
+    <div id="filter-section" class="row">
         <!-- 왼쪽에 브랜드 필터 버튼들 -->
-        <div class="col-md-2" id="filter-section">
-            <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode"  style="width: 100%;">
-                    <label for="brandFilter">브랜드 필터</label>
+        <div class="col-md-2">
+            <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode"  style="width: 100%;">
+                    <label for="brandFilter" class ="mt-3">브랜드 필터</label>
                     <select class="form-control" name="search_mode" id="search_mode">
                         <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
                         {% for brand_name in ko_brands %}
@@ -184,29 +184,35 @@
                         {% endfor %}
                     </select>
             </form>
+        </div>
+        <div class="col-md-2">
             {% if selected_brand_values %}
             <!-- 추가적인 select box -->
-            <form action="{% url 'index' %}" method="get" class="ml-0"id="search_mode2"  style="width: 100%;">
-                    <label for="brandFilter">세부 차종 명</label>
+            <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode2"  style="width: 100%;">
+                    <label for="brandFilter" class ="mt-3">세부 차종 명</label>
                     <select class="form-control" name="search_mode2" id="search_mode2">
                         <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
                         {% for brand_value in selected_brand_values %}
                         <option value="{{ brand_value }}" {% if search_mode2 == brand_value %}selected{% endif %}>{{ brand_value }}</option>
                         {% endfor %}
                     </select>
-            </form>
-            {% endif %}
-                <!-- 연식 -->
-                <form action="{% url 'index' %}" method="get" class="ml-0"id="mile_mode"  style="width: 100%;">
-                        <label for="mileFilter" class ="mt-3">연식 필터</label>
-                        <select class="form-control" name="mile_mode" id="mile_mode">
-                            <option value="전체" {% if not mile_mode %}selected{% endif %}>전체</option>
-                            {% for miles in myerar_list %}
-                            <option value="{{ miles }}" {% if mile_mode == miles %}selected{% endif %}>{{ miles }}</option>
-                            {% endfor %}
-                        </select>
                 </form>
+            {% endif %}
+        </div>
+                <!-- 연식 -->
+        <div class="col-md-2">
+            <form action="{% url 'index' %}" method="get" class="ml-0" id="mile_mode"  style="width: 100%;">
+                    <label for="mileFilter" class ="mt-3">연식 필터</label>
+                    <select class="form-control" name="mile_mode" id="mile_mode">
+                        <option value="전체" {% if not mile_mode %}selected{% endif %}>전체</option>
+                        {% for miles in myerar_list %}
+                        <option value="{{ miles }}" {% if mile_mode == miles %}selected{% endif %}>{{ miles }}</option>
+                        {% endfor %}
+                    </select>
+            </form>
+        </div>
                 <!-- 차크기 -->
+                <div class="col-md-2">
                 <form action="{% url 'index' %}" method="get" class="ml-0"id="vtype_mode"  style="width: 100%;">
                     <label for="mileFilter" class ="mt-3">크기 필터</label>
                     <select class="form-control" name="vtype_mode" id="vtype_mode">
@@ -215,8 +221,10 @@
                         <option value="{{ vtype }}" {% if vtype_mode == vtype %}selected{% endif %}>{{ vtype }}</option>
                         {% endfor %}
                     </select>
-            </form>
+                </form>
+                </div>
             <!-- 주행 거리 최소값 및 최대값-->
+            <div class="col-md-2">
             <form action="{% url 'index' %}" method="get" class="ml-0" id="mileage_filter" style="width: 100%;">
                 <label for="mileFilter" class="mt-3">주행거리 필터</label>
                 <div class="input-group">
@@ -226,6 +234,8 @@
                 <div class="d-flex justify-content-end mt-2">
                     <button type="submit" class="btn btn-dark">적용</button>
                 </div>
+                 </div>
+                 <div class="col-md-2">
                 <label for="mileFilter" class ="mt-3">가격 필터 (단위:만원)</label>
                 <div class="input-group">
                     <input type="number" class="form-control" name="min_price" placeholder="최소" value="{% if budget_filter == '1' %}{{ min_budget }}{% else %}{{ request.GET.min_price | add_commas2}}{% endif %}">
@@ -241,6 +251,7 @@
                     <button type="submit" class="btn btn-dark">적용</button>
                 </div>
             </form>
+        </div>
              <!-- 가격 최소값 및 최대값 -->
              <form action="{% url 'index' %}" method="get" class="ml-0" id="price_filter" style="width: 100%;">
                 
@@ -250,19 +261,18 @@
             </button>
 
         </div>
-
-        
-
-
-        <div class="col-md-10">
+    </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
             <div class="row">
                 {% if car_list %}
                     {% for car in car_list %}
-                        <div class="col-md-3 mb-4">
+                        <div class="col-md-3 mb-4 mt-3">
                             <div class="card">
                                 <div class="card-body clickable-card">
                                     {% if car.make_deal == 1 %}
-                                        <div style="position: relative; width: 200px; height: 200px;">
+                                        <div style="width: 200px; height: 200px;">
                                             <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
                                             <img src="/static/uploads/reserved.png" class="position-absolute top-0 start-0" alt="예약된 이미지" style="width: 100px; height: 100px;">
                                         </div>
@@ -303,6 +313,7 @@
                 {% endif %}
         </div>
     </div>
+</div>
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->

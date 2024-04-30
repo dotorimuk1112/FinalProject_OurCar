@@ -217,13 +217,23 @@ def detail(request, post_id):
     vnum_value = car_sales_post.VNUM
     car = CarAPI.objects.get(VNUM=vnum_value)
     predicted_price, mae = car_price_pred_model(car)
-    min_price = int(predicted_price - float(mae))
-    max_price = int(predicted_price + float(mae))
-    predicted_list_10000, mae_10000 = car_price_pred_model_10000(car)
-    predicted_list_20000, mae_20000 = car_price_pred_model_20000(car)
-    predicted_list_30000, mae_30000 = car_price_pred_model_30000(car)
+
+    min_price = None
+    max_price = None
+    predicted_list_10000, mae_10000 = None, None
+    predicted_list_20000, mae_20000 = None, None
+    predicted_list_30000, mae_30000 = None, None
+
+    if predicted_price and mae:
+        min_price = int(predicted_price - float(mae))
+        max_price = int(predicted_price + float(mae))
+        predicted_list_10000, mae_10000 = car_price_pred_model_10000(car)
+        predicted_list_20000, mae_20000 = car_price_pred_model_20000(car)
+        predicted_list_30000, mae_30000 = car_price_pred_model_30000(car)
+
     average_mileage = int(car.MILEAGE / (2024 - car.MYERAR + 1))
     min_budget, max_budget, budget_rec_result = 0, 0, 0
+
     if user:
         min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
