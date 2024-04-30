@@ -27,7 +27,9 @@
     <div class="row">
         <div class="col-md-6">
             <div class="card my-3">
+                
                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
@@ -72,7 +74,7 @@
                         {% if CarSalesPost.Image6 %}
                         <div class="carousel-item">
                             <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 대각 방향1</h4>
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 우측 대각</h4>
                             </div>
                             <img src="{{ CarSalesPost.Image6.url }}" class="d-block img-fluid" alt="Image 6">
                         </div>
@@ -80,7 +82,7 @@
                         {% if CarSalesPost.Image7 %}
                         <div class="carousel-item">
                             <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 대각 방향2</h4>
+                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 좌측 대각</h4>
                             </div>
                             <img src="{{ CarSalesPost.Image7.url }}" class="d-block img-fluid" alt="Image 7">
                         </div>
@@ -119,14 +121,99 @@
                 
                 
             </div>
-            <!-- 모달 버튼 -->
+            
+
+        </div>
+
+        <div class="col-md-6">
+            <div class=" my-3">
+                <div >
+                    <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
+                    <div class="d-flex">
+                        {% if CarSalesPost.modify_date %}
+                        <div class="badge bg-light text-dark p-2 text-start mx-3">
+                            <div class="mb-2">modified at</div>
+                            <div>{{ CarSalesPost.modify_date }}</div>
+                        </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="">
+                                {% if CarSalesPost.modify_date %}
+                                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                                    <div class="mb-2">modified at</div>
+                                    <div>{{ CarSalesPost.modify_date }}</div>
+                                </div>
+                                {% endif %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="text-dark text-start">
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">[{{ CarSalesPost.VNUM }}]</div>
+                                            <div class="mb-2 fs-5" style="font-weight: bold; ">{{ CarSalesPost.MNAME }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-dark text-end">
+                                            <div class= "fs-6 mt-3"> 판매가격  <span style="color: red; font-size: 30px;">{{ CarSalesPost.PRICE }}만원</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-0">
+                            <span class="text-secondary" style="font-size: 13px;">{{ CarSalesPost.MYERAR }}년식 | {{ CarSalesPost.MILEAGE }}km | {{ CarSalesPost.F_TYPE }}</span>
+                            
+                        </div>
+                    </div>
+
+                    
+                    
+                
+            </div>
+
+            <div class="row mt-2">
+                <!-- 좌측 요소 -->
+                <div class="col-md-6 mr-md-2 mb-2">
+                    <div class="bg-light text-dark p-2 text-center">
+                        {% if user.is_authenticated %}
+                            <p>고객님 추천 예산: <br>
+                            {% if min_budget > 0 %}
+                                <span style="color: green; font-weight: bold;">{{ min_budget }}만 원 ~ {{ max_budget }}만 원</span>
+                            {% else %}
+                                <span style="color: green; font-weight: bold;">0만 원 ~ {{ max_budget }}만 원</span>
+                            {% endif %}
+                            </p>
+                            <div>
+                                {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
+                                    <p>적정 가격입니다.</p>
+                                {% elif CarSalesPost.PRICE > max_budget %}
+                                    <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
+                                {% else %}
+                                    <p>고객님의 적정 예산보다 싼 차량입니다.</p>
+                                {% endif %}
+                            </div>
+                            <p>우리은행 중고차 대출 예상 금리</p>
+                            <p>{{ woori_loan.min_rate }} %</p>
+                            <p onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">6개월, 2000만원 기준입니다. 자세한 사항은 <strong>홈페이지</strong>에서 확인하세요!</p>
+                        {% else %}
+                            <p>로그인이 필요합니다.</p>
+                        {% endif %}
+                    </div>
+                    <!-- 모달 버튼 -->
             {% if CarSalesPost.detected_thumbnail or CarSalesPost.detected_image1 or CarSalesPost.detected_image2 or CarSalesPost.detected_image3 or CarSalesPost.detected_image4 or CarSalesPost.detected_image5 or CarSalesPost.detected_image6 or CarSalesPost.detected_image7 or CarSalesPost.detected_image8 %}
-            <div class="col-md-6 mb-3 text-center">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detectedModal">
-                    차량 파손이 탐지되었습니다.
+            <div class="text-center mt-3 mb-3">
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#detectedModal">
+                    <span style="vertical-align: middle;">😡</span> 
+                    <span style="vertical-align: middle;">차량 파손이 탐지되었습니다.</span>
                 </button>
             </div>
+            {% else %}
+            <div style="text-align: center;" class="mt-3">
+                <div style="background-color: lightgreen; border-radius: 10px; padding: 10px; display: inline-block; text-align: center;">
+                    <span style="font-size: 24px; display: block;">😊</span>
+                    <p style="font-size: 16px; margin-top: 5px; font-weight: bold; font-family: Arial, sans-serif; color: #333;">차량 파손이 감지되지 않았습니다.</p>
+                </div>
+            </div>
             {% endif %}
+            
 
             <!-- 모달 -->
             <div class="modal fade" id="detectedModal" tabindex="-1" aria-labelledby="detectedModalLabel" aria-hidden="true">
@@ -211,88 +298,14 @@
                 </div>
                 
             </div>
-
-        </div>
-
-        <div class="col-md-6">
-            <div class=" my-3">
-                <div >
-                    <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
-                    <div class="d-flex">
-                        {% if CarSalesPost.modify_date %}
-                        <div class="badge bg-light text-dark p-2 text-start mx-3">
-                            <div class="mb-2">modified at</div>
-                            <div>{{ CarSalesPost.modify_date }}</div>
-                        </div>
-                        {% endif %}
-                        <div class="row">
-                            <div class="">
-                                {% if CarSalesPost.modify_date %}
-                                <div class="badge bg-light text-dark p-2 text-start mx-3">
-                                    <div class="mb-2">modified at</div>
-                                    <div>{{ CarSalesPost.modify_date }}</div>
-                                </div>
-                                {% endif %}
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <div class="text-dark text-start">
-                                            <div class="mb-2 fs-5" style="font-weight: bold; ">[{{ CarSalesPost.VNUM }}]</div>
-                                            <div class="mb-2 fs-5" style="font-weight: bold; ">{{ CarSalesPost.MNAME }}</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="text-dark text-end">
-                                            <div class= "fs-6 mt-3"> 판매가격  <span style="color: red; font-size: 30px;">{{ CarSalesPost.PRICE }}만원</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr class="mt-0">
-                            <span class="text-secondary" style="font-size: 13px;">{{ CarSalesPost.MYERAR }}년식 | {{ CarSalesPost.MILEAGE }}km | {{ CarSalesPost.F_TYPE }}</span>
-                            
-                        </div>
-                    </div>
-
-                    
-                    
-                
-            </div>
-
-            <div class="row mt-2">
-                <!-- 좌측 요소 -->
-                <div class="col-md-6 mr-md-2 mb-2">
-                    <div class="bg-light text-dark p-2 text-center">
-                        {% if user.is_authenticated %}
-                            고객님 추천 예산: <br> 
-                            {% if min_budget > 0 %}
-                                {{ min_budget }}만 원 ~ {{ max_budget }}만 원
-                            {% else %}
-                                0만 원 ~ {{ max_budget }}만 원
-                            {% endif %}
-                            <div>
-                                {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
-                                    <p>적정 가격입니다.</p>
-                                {% elif CarSalesPost.PRICE > max_budget %}
-                                    <p>고객님의 적정 예산보다 비싼 차량입니다.</p>
-                                {% else %}
-                                    <p>고객님의 적정 예산보다 싼 차량입니다.</p>
-                                {% endif %}
-                            </div>
-                            <p>우리은행 중고차 대출 예상 금리</p>
-                            <p>{{ woori_loan.min_rate }} %</p>
-                            <p onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">6개월, 2000만원 기준입니다. 자세한 사항은 <strong>홈페이지</strong>에서 확인하세요!</p>
-                        {% else %}
-                            <p>로그인이 필요합니다.</p>
-                        {% endif %}
-                    </div>
                 </div>
                 
                 
                 <!-- 우측 요소 -->
                 <div class="col-md-6 ml-md-2 mb-2">
                     <div class="bg-light text-dark p-2 text-center ">
-                        <h4>판매자 정보</h4>
-                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 200px;">
+                        <h4><strong>판매자 정보</strong></h4>
+                        <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width:150px;">
                         <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
@@ -510,16 +523,26 @@
                 </tbody>
             </table>
         </div>
-        <div class="col">
+        <div class="col"  style="position: relative;">
+            <button id="info-trigger" style="background-color: darkgray; position: absolute; right: 0; width: 25px; height: 25px;">?</button>
+
+
+            <div id="info-content" style="width: 200px; position: absolute; top: 0; right: 0; padding: 10px; background-color: #f0f0f0; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">[단위:%]</p>
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 10px;">공시대상은 국산 승용자동차(중고차)입니다. (수입차, 상용차 제외)</p>
+                <p style="font-size: 14px; line-height: 1.5; color: #333; margin-bottom: 0;">회사명 (D)*는 회사가 고객과 직접 상담하여 판매하는 상품으로 금융거래시 발생할 수 있는 중개 수수료를 최소화한 상품입니다.</p>
+            </div>
+            
             {% if user.is_authenticated %}
             {% if loan_list %}
             <div>
                 <form>
                     {% csrf_token %}
-                    <output>36</output> 개월
+                    <output style="font-weight: bold; color: blue;">36</output> 개월
                     <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()" oninput="this.previousElementSibling.value = this.value">
                 </form>
                 <table class="table">
+                    
                     <thead>
                         <tr class="table-dark">
                             <th>회사명</th>
@@ -594,23 +617,26 @@
                         <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
                         <div style="position: relative;">
                             <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
-                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;">
-                                적당한 가격이에요!
+                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                                <strong>적당한 가격이에요!</strong>
                             </div>
                         </div>
 
                         {% elif CarSalesPost.PRICE < min_price %}
                         <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
                             <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
-                            <div style="background-color: yellow; color: w햣hite; padding: 5px;">
-                                너무 저렴한 것 같네요...
+                            <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
+                                <strong>너무 저렴한 것 같네요...</strong>
                             </div>
                         {% else %}
-                            <h3>해당 매물의 가격({{CarSalesPost.PRICE}}만 원)이<br>시세 대비 <span class="highlight">너무 비쌉니다</span>. </h3>
-                            <img src="/static/uploads/not_sure.png" alt="예시 이미지">
+                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                        <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                        <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
+                            <strong>너무 비싼것 같네요...</strong>
+                        </div>
                         {% endif %}
                         <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
-                        <div id="info-content" style="position: absolute; top: 30px; right: 10px;">
+                        <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
                             <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
                         </div>
                     </div>

@@ -48,6 +48,10 @@ def index(request):
         car_list = CarSalesPost.objects.order_by('-create_date')
     elif sorting_option == 'popularity':
         car_list =  CarSalesPost.objects.annotate(num_buyers=Count('buyer')).order_by('-num_buyers')
+    elif sorting_option == "lowprice":
+        car_list = CarSalesPost.objects.order_by('PRICE')
+    elif sorting_option == "highprice":
+        car_list = CarSalesPost.objects.order_by('-PRICE')
     elif sorting_option == 'region':
         if sorting_region:
             if sorting_region != "전체":
