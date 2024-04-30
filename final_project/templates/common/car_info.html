@@ -130,17 +130,26 @@
     var myChart2 = echarts.init(chartDom2);
     var option;
 
+    var minValue1 = Math.min(...predictedPriceListMinusMAE);
+
     option2 = {
         title: { // 제목 추가
         text: 'AI 예측 미래 변동 가격', // 제목 내용
         left: 'center' // 가운데 정렬
+        },
+        grid: {
+        top: '20%', // 위에서부터 20% 위치에 차트 배치
+        left: '10%', // 왼쪽에서부터 10% 위치에 차트 배치
+        right: '10%', // 오른쪽에서부터 10% 위치에 차트 배치
+        bottom: '10%' // 아래에서부터 10% 위치에 차트 배치
         },
         xAxis: {
             type: 'category',
             data: years // 연도를 x축으로 설정
         },
         yAxis: {
-            type: 'value'
+        type: 'value',
+        min: Math.floor(minValue1 * 0.9)
         },
         legend: { // 범례 설정
             data: ['최대', '최소'], // 범례에 표시될 항목들
@@ -171,7 +180,7 @@
                     return {
                         value: price,
                         itemStyle: {
-                            color: '#ff0000' // 빨간색
+                            color: 'green' // 빨간색
                         }
                     };
                 }),
