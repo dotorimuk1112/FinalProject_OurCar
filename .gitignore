@@ -3,8 +3,8 @@ venv2/
 .venv/
 venvv/
 
-final_project/my*
 final_project/my_settings.py
+
 final_project/sales/views/__pycache__/
 final_project/sales/__pycache__/
 final_project/config/__pycache__/
@@ -23,3 +23,4 @@ final_project/ai_models/car_price_prediction_models_RF.pkl
 final_project/ai_models/budget_recommend_models.pkl
 final_project/ai_models/*
 
+*.pyc

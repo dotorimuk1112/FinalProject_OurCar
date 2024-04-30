@@ -34,7 +34,7 @@ class CustomUser(AbstractUser):
 
     
 class Car(models.Model):
-    SEQ = models.IntegerField()
+    seq = models.TextField(null=True)
     MNAME = models.TextField()
     PRICE = models.IntegerField()
     MYERAR = models.IntegerField()
@@ -82,6 +82,8 @@ class scoring(models.Model):
     acc_open_past_24mths = models.IntegerField()
     total_bc_limit = models.IntegerField()
     bc_util = models.DecimalField(max_digits=5, decimal_places=1)
+    last_avg_fico = models.DecimalField(max_digits=4, decimal_places=1)
+    avg_fico = models.DecimalField(max_digits=4, decimal_places=1)
     
 class loan_rate_list(models.Model):
     company_name = models.CharField(max_length=255)
@@ -93,3 +95,25 @@ class loan_rate_list(models.Model):
     reference_date = models.DateField()
     credit_range = models.IntegerField()
     loan_period = models.IntegerField()
+    link = models.TextField(null=True)
+    
+    
+class CarAPI(models.Model):
+    SEQ = models.IntegerField()
+    MNAME = models.TextField()
+    PRICE = models.IntegerField()
+    MYERAR = models.IntegerField()
+    MILEAGE = models.IntegerField()
+    COLOR = models.TextField()
+    TRANS = models.TextField()
+    F_TYPE = models.TextField()
+    DISP = models.IntegerField()
+    VTYPE = models.TextField()
+    VNUM = models.CharField(max_length=100, primary_key=True)  # 적절한 길이를 선택하세요.
+    CU_HIS = models.IntegerField()
+    MVD_HIS = models.FloatField()
+    AVD_HIS = models.FloatField()
+    FD_HIS = models.IntegerField()
+    VT_HIS = models.FloatField()
+    US_HIS = models.IntegerField()
+    L_NAME = models.TextField(null=True)  # nullable로 설정

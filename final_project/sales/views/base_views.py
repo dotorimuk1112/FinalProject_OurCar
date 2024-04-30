@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from ..models import CarSalesPost, BuyerMessages
-from common.models import predict_budget, CustomUser, Car
+from common.models import predict_budget, CustomUser, CarAPI
 from ..forms import ProfileImageForm
 import pickle
 import seul_car_list
@@ -25,10 +25,24 @@ with open('ai_models/budget_recommend_models.pkl', 'rb') as f:
 
 # 메인 질문 리스트 + 페이지네이션
 def index(request):
+    user = request.user
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
     sorting_option = request.GET.get('sorting_option', 'date')  # 기본값은 'date'
     sorting_region = request.GET.get('sorting_region', '서울')
+    budget_filter = request.GET.get('budget_option', '-1')
+    personal_page = request.GET.get('personal_page', False)
+    mile_mode = request.GET.get('mile_mode') 
+    vtype_mode = request.GET.get('vtype_mode') 
+    # CarSalesPost 모델의 MYERAR 필드 값들을 중복 제거하여 리스트로 가져오기
+    myerar_values = CarSalesPost.objects.values_list('MYERAR', flat=True).order_by('-MYERAR').distinct()
+    myerar_values = [str(value) for value in myerar_values]
+
+    vtype_values = list(sorted(CarSalesPost.objects.values_list('VTYPE', flat=True).distinct()))
+    
+    # 중복 제거된 MYERAR 필드 값들을 리스트로 변환
+    myerar_list = list(myerar_values)
+
     # 선택한 정렬 옵션에 따라 정렬 적용
     if sorting_option == 'date':
         car_list = CarSalesPost.objects.order_by('-create_date')
@@ -42,6 +56,8 @@ def index(request):
                 ).distinct()
             
 
+        
+        
 
     # 다른 필터링 로직은 동일하게 유지
     
@@ -65,10 +81,8 @@ def index(request):
         
         # search_mode에 해당하는 키에 맞는 value 가져오기
         selected_brand_values = ko_brands.get(search_mode, [])
-        print("일치는 차종 명 존재:" + str(len(selected_brand_values)))
     else:
         selected_brand_values = []
-        print("일치는 차종 명 존재 안함:" + str(len(selected_brand_values)))
 
     if search_mode2:
         if search_mode2 != "전체":
@@ -76,12 +90,71 @@ def index(request):
                 Q(MNAME__icontains=search_mode2)
             ).distinct()
         print("세부 차종명 :" + str(len(selected_brand_values)))
+        
+    # 연식 필터   
+    if mile_mode :
+        car_list = car_list.filter(MYERAR=mile_mode)
+        
+    # 차종(크기) 필터   
+    if vtype_mode :
+        car_list = car_list.filter(VTYPE=vtype_mode)
+    # 예산 추천
+    min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
+    
+    
+    if personal_page :
+        car_list = car_list.filter(PRICE__gte=min_budget, PRICE__lte=max_budget)
+    else :
+        car_list =car_list.filter(PRICE__lt=10000000000)
+        
+    if budget_filter == '-1' :
+        car_list =car_list.filter(PRICE__lt=10000000000)
+    else : 
+        # car_list에서 PRICE 가격이 higher_budget보다 작은 게시글 필터링
+        car_list = car_list.filter(PRICE__gte=min_budget, PRICE__lte=max_budget) 
+        min_price = min_budget
+        max_price = max_budget   
+    
+    if car_list :
+        myerar_values  = car_list.filter(MYERAR__in=myerar_values)
+    
+    min_price = request.GET.get('min_price')
+    max_price = request.GET.get('max_price')
+    
+    ## 주행거리 
+    min_mileage = request.GET.get('min_mileage')
+    max_mileage = request.GET.get('max_mileage')
+    
+    
+    if min_price:
+        car_list = car_list.filter(PRICE__gte=min_price)
 
+    if max_price:
+        car_list = car_list.filter(PRICE__lte=max_price)
 
-    # print(f(sorting_option))
+    
+    if min_mileage:
+        car_list = car_list.filter(MILEAGE__gte=min_mileage)
+
+    if max_mileage:
+        car_list = car_list.filter(MILEAGE__lte=max_mileage)
+
     paginator = Paginator(car_list, 12)  # 페이지당 12개씩 보여주기
     page_obj = paginator.get_page(page)
-    context = {'car_list': page_obj, 'page': page, 'kw': kw, 'ko_brands' : ko_brands, 'selected_brand_values': selected_brand_values, 'search_mode' :search_mode, 'search_mode2' :search_mode2, 'sorting_option' : sorting_option, 'sorting_region':sorting_region }
+    context = {'car_list': page_obj, 'page': page, 
+               'kw': kw, 'ko_brands' : ko_brands, 
+               'selected_brand_values': selected_brand_values, 
+               'search_mode' :search_mode, 'search_mode2' :search_mode2, 
+               'sorting_option' : sorting_option, 
+               'sorting_region':sorting_region,
+               'budget_filter': budget_filter,
+               'personal_page':personal_page,
+               'myerar_list': myerar_list, 
+               'mile_mode' : mile_mode,
+               'vtype_values' : vtype_values,
+               'vtype_mode' : vtype_mode,
+               'min_budget':min_budget,
+               'max_budget': max_budget}
     return render(request, 'sales/question_list.html', context)
 
 # 질문 상세 보기
@@ -117,11 +190,13 @@ def cancel_proposal(request, post_id):
 # 대출 상품 데이터 가져오기
 def load_loans(term, score):
     score_00 = math.floor(score/100)*100
-    list_filtered = loan_rate_list.objects.filter(loan_period=term).filter(credit_range=score_00)
+    list_filtered_credit = loan_rate_list.objects.filter(credit_range=score_00)
+    list_filtered = list_filtered_credit.filter(loan_period=term)
     list_ordered = list_filtered.order_by('min_rate')[:5]
-    woori_loan = list_filtered.filter(company_name="우리금융캐피탈")
+    woori_loan = list_filtered_credit.get(company_name="우리은행")
     return list_ordered, woori_loan
 
+# 대출 상품 데이터 전송
 def show_loan_table(request, post_id):
     user = request.user
     input_term = request.GET.get('term')
@@ -136,7 +211,7 @@ def detail(request, post_id):
     user = request.user
     car_sales_post = get_object_or_404(CarSalesPost, post_id=post_id)
     vnum_value = car_sales_post.VNUM
-    car = Car.objects.get(VNUM=vnum_value)
+    car = CarAPI.objects.get(VNUM=vnum_value)
     predicted_price, mae = car_price_pred_model(car)
     min_price = int(predicted_price - float(mae))
     max_price = int(predicted_price + float(mae))
@@ -163,7 +238,7 @@ def detail(request, post_id):
     user_credit_score, loan_list, woori_loan = 0, 0, 0
     if user.is_authenticated:
         user_credit_score = scoring_data(user_id=user.id)
-        loan_list, woori_loan = load_loans(24, user_credit_score)
+        loan_list, woori_loan = load_loans(36, user_credit_score)
 
     context = {
         'user': user,
