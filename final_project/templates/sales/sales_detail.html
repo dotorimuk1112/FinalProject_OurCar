@@ -553,10 +553,6 @@
                     </tbody>
                 </table>
             </div>
-            <form>
-                {% csrf_token %}
-                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
-            </form>
             {% else %}
             <p>이용 가능한 대출 상품이 없습니다</p>
             {% endif %}
@@ -604,42 +600,59 @@
         <div class="col-md-4">
             <div class="text-center mt-4 mb-5">
                 <div id="info-container">
-                    <!-- AI 추천 적정 가격 -->
-                    <div class="price-info">
-                        <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
-                        <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
-                        {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                        <div style="position: relative;">
-                            <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
-                            <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
-                                <strong>적당한 가격이에요!</strong>
+                    {% if min_price and max_price %}
+                        <!-- AI 추천 적정 가격 -->
+                        <div class="price-info">
+                            <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
+                            <h3 class="price-range">{{ min_price }} - {{ max_price }}만 원</h3>
+                            {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
+                            <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                            <div style="position: relative;">
+                                <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                                    <strong>적당한 가격이에요!</strong>
+                                </div>
                             </div>
-                        </div>
 
-                        {% elif CarSalesPost.PRICE < min_price %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                            {% elif CarSalesPost.PRICE < min_price %}
+                            <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
+                                <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                                <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
+                                    <strong>너무 저렴한 것 같네요...</strong>
+                                </div>
+                            {% else %}
+                            <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
                             <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
                             <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
-                                <strong>너무 저렴한 것 같네요...</strong>
+                                <strong>너무 비싼것 같네요...</strong>
                             </div>
-                        {% else %}
-                        <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                        <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
-                        <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
-                            <strong>너무 비싼것 같네요...</strong>
+                            {% endif %}
+                            <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
+                            <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
+                                <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                            </div>
                         </div>
-                        {% endif %}
-                        <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
-                        <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
-                            <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                    {% else %}
+                        <div class="price-info">
+                            <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
+                            <h3 class="price-range">AI 추천 적정 가격 서비스를 제공하지 않는 차종입니다.</h3>
+                            <div style="position: relative;">
+                                <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                                    <strong>빠른 시일 내에 서비스를 준비하겠습니다.</strong>
+                                </div>
+                            </div>
+                            <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
+                            <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
+                                <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
         <div class="col-md-4">
-            <div class="text-center mt-1">
+            <div class="text-center mt-4">
                 {% if predicted_list_10000 and predicted_list_20000 and predicted_list_30000 %}
                     <button class="tablinks2 active" onclick="openCity2(event, 'Paris')" id="defaultOpen">10,000km/1년<span id="carCount"></span></button>
                     <button class="tablinks2" onclick="openCity2(event, 'London')">20,000km/1년<span id="carCount"></span></button>
@@ -654,14 +667,25 @@
                         <canvas id="futurePrice3" width="450" height="300"></canvas>
                     </div>
                 {% else %}
-                    <div class="text-center mt-1">
-                        <p>AI 예측 서비스를 지원하지 않는 차종입니다.</p>
+                <div class="price-info">
+                    <h3 class="info-title" style="font-weight: bold;">AI 감가상각 예측</h3>
+                    <h3 class="price-range">AI 감가상각 예측 서비스를 제공하지 않는 차종입니다.</h3>
+                    <div style="position: relative;">
+                        <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                        <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
+                            <strong>빠른 시일 내에 서비스를 준비하겠습니다.</strong>
+                        </div>
                     </div>
+                    <button id="info-trigger" style="position: absolute; top: 10px; right: 10px;">?</button>
+                    <div id="info-content" style="position: absolute; top: 30px; right: 10px; ">
+                        <h6>15,000여 개 차량의 연식, 주행거리, 색상 등을 학습한 <br>AI 모델이 제공하는 해당 매물의 적정 가격입니다.</h6>
+                    </div>
+                </div>
                 {% endif %}
             </div>
         </div>
         <div class="col-md-4">
-            <div class="text-center mt-4 mb-5" style="position: relative;">
+            <div class="text-center mt-4" style="position: relative;">
                 <button id="info-trigger" style="position: absolute; right: 0;">?</button>
 
                 <div id="info-content" style="width:50px;">
