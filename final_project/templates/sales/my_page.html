@@ -24,7 +24,7 @@
     {% endif %}
     <div class="row">
         <!-- 왼쪽 열: 사용자 정보 -->
-        <div class="col-md-2" style="background-color:skyblue; border-radius: 10px; height: 600px;">
+        <div class="col-md-2" style="background-color: rgba(36, 130, 197, 0.1); border-radius: 10px; height: 600px;">
             <div class="text-center mt-4">
                 <h3>{{ user.real_name }}님</h3>
                 <!-- 사용자가 선택한 이미지 or 디폴트 이미지 -->
@@ -96,7 +96,7 @@
 
         <!-- 오른쪽 열: 좋아요한 게시글 목록 -->
         
-        <div class="col-md-9" style="border-radius: 20px;">
+        <div class="col-md-9" style="border-radius: 20px;" >
             <div class="tab" style="display: flex; justify-content: flex-end; border-top-left-radius: 20px; border-top-right-radius: 20px;">
                 <button class="tablinks" onclick="openCity(event, 'Paris')" style="flex-grow: 1;">나의 예산 추천<span id="carCount"></span></button>
                 <button class="tablinks" onclick="openCity(event, 'MySales')" style="flex-grow: 1;">내 판매 내역({{user_cars_for_sale_count}})<span id="userCarCount"></span></button>

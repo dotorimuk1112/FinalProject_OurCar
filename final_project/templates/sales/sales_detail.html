@@ -33,41 +33,31 @@
                     <div class="carousel-inner">
                         {% if CarSalesPost.Image1 %}
                         <div class="carousel-item active">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 전방</h4>
-                            </div>
+                            <p>차량 전방</p>
                             <img src="{{ CarSalesPost.Image1.url }}" class="d-block img-fluid" alt="Image 1">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image2 %}
                         <div class="carousel-item">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 좌측</h4>
-                            </div>
+                            <p>차량 좌측</p>
                             <img src="{{ CarSalesPost.Image2.url }}" class="d-block img-fluid" alt="Image 2">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image3 %}
                         <div class="carousel-item">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 우측</h4>
-                            </div>
+                            <p>차량 우측</p>
                             <img src="{{ CarSalesPost.Image3.url }}" class="d-block img-fluid" alt="Image 3">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image4 %}
                         <div class="carousel-item">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 후방</h4>
-                            </div>
+                            <p>차량 후방</p>
                             <img src="{{ CarSalesPost.Image4.url }}" class="d-block img-fluid" alt="Image 4">
                         </div>
                         {% endif %}
                         {% if CarSalesPost.Image5 %}
                         <div class="carousel-item">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">차량 내부</h4>
-                            </div>
+                            <p>차량 내부</p>
                             <img src="{{ CarSalesPost.Image5.url }}" class="d-block img-fluid" alt="Image 5">
                         </div>
                         {% endif %}
@@ -89,9 +79,7 @@
                         {% endif %}
                         {% if CarSalesPost.Image8 %}
                         <div class="carousel-item">
-                            <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
-                                <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">엔진룸</h4>
-                            </div>
+                            <p>엔진룸</p>
                             <img src="{{ CarSalesPost.Image8.url }}" class="d-block img-fluid" alt="Image 8">
                         </div>
                         {% endif %}
@@ -190,9 +178,6 @@
                                     <p>고객님의 적정 예산보다 싼 차량입니다.</p>
                                 {% endif %}
                             </div>
-                            <p>우리은행 중고차 대출 예상 금리</p>
-                            <p>{{ woori_loan.min_rate }} %</p>
-                            <p onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">6개월, 2000만원 기준입니다. 자세한 사항은 <strong>홈페이지</strong>에서 확인하세요!</p>
                         {% else %}
                             <p>로그인이 필요합니다.</p>
                         {% endif %}
@@ -310,9 +295,14 @@
                         <i class="fas fa-phone phone-icon"></i> <!-- 전화 아이콘 -->
                         <span class="phone-number">{{ CarSalesPost.seller.phone_number }}</span> <!-- 전화번호 -->
                         <div>
-                            <div>주소 : {{ CarSalesPost.seller.address }}</div>
+                            <div>주소 : {{ CarSalesPost.seller.address }}
+                                <!--이미지로 대체-->
+                                <img src="/static/uploads/google_location_icon.png" style="width: 20px; height: 20px; cursor: pointer;" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">
+                            </div>
                          <!-- 주소 버튼 -->
-                         <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
+                         <!-- <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
+                         -->
+                         
 
                          <!-- 모달 창 -->
                          <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
@@ -549,10 +539,11 @@
                             <th>최저금리</th>
                             <th>최대금리</th>
                             <th>중도상환수수료율</th>
+                        </tr>
                     </thead>
                     <tbody id="loan_table_body">
                         {% for loan in loan_list %}
-                        <tr onClick="window.open('{{ loan.link }}', '', '');" style="cursor:pointer;">
+                        <tr>
                             <td>{{ loan.company_name }}</td>
                             <td>{{ loan.min_rate }}</td>
                             <td>{{ loan.max_rate }}</td>
@@ -562,6 +553,10 @@
                     </tbody>
                 </table>
             </div>
+            <form>
+                {% csrf_token %}
+                <input type="range" class="form-range" min="12" max="60" step="12" name="loan_term" onchange="loan_table()">
+            </form>
             {% else %}
             <p>이용 가능한 대출 상품이 없습니다</p>
             {% endif %}
@@ -607,7 +602,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-md-4">
-            <div class="text-center mt-4 mb-5" style="position: relative;">
+            <div class="text-center mt-4 mb-5">
                 <div id="info-container">
                     <!-- AI 추천 적정 가격 -->
                     <div class="price-info">
@@ -1157,7 +1152,7 @@ function loan_table(){
         success: function(data){
             var table_code = "";
             for (var i = 0; i < data.length; i++) {
-                table_code += "<tr onClick=\"window.open('" + data[i].fields.link + "', '', '');\" style='cursor:pointer;'>"
+                table_code += "<tr>"
                 table_code += "<td>" + data[i].fields.company_name + "</td>"
                 table_code += "<td>" + data[i].fields.min_rate + "</td>"
                 table_code += "<td>" + data[i].fields.max_rate + "</td>"
