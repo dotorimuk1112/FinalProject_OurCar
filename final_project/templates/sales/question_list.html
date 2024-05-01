@@ -72,30 +72,30 @@
         <!-- 4번 슬라이드-->    
         <div class="carousel-item">
             <div class="row justify-content-center">
-
-                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <div style="text-align: left;">
-                        <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: -1rem;">대출 상품 </p>
-                        <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">금리 추천</p>
-                        <p style="font-size: 20px; color:gray;" >자체 산출 신용점수로 정확하게 </p>
-                    </div>
-                </div>
-                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/check_list_blue.png" style="width: 300px; height: 300px;;"></a>
-                </div>
-            </div>
-        </div>
-        <!-- 5번 슬라이드-->    
-        <div class="carousel-item">
-            <div class="row justify-content-center">
-                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/calculator.png" style="width: 250px; height: 250px;"></a>
-                </div>
+                
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
                     <div style="text-align: left;">
                         <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: -1rem;">인공지능</p>
                         <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">적정 가격 예측</p>
                         <p style="font-size: 20px; color:gray;" >시세를 분석한 합리적 가격 제시</p>
+                    </div>
+                </div>
+                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
+                    <img src="/static/uploads/calculator.png" style="width: 250px; height: 250px;"></a>
+                </div>
+            </div>
+        </div>
+        <!-- 5번 슬라이드-->   
+        <div class="carousel-item">
+            <div class="row justify-content-center">
+                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
+                    <img src="/static/uploads/check_list_blue.png" style="width: 300px; height: 300px;;"></a>
+                </div>
+                <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
+                    <div style="text-align: left;">
+                        <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: -1rem;">대출 상품 </p>
+                        <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">금리 추천</p>
+                        <p style="font-size: 20px; color:gray;" >자체 산출 신용점수로 정확하게 </p>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@
 <!-- "맞춤 차량 보기" 버튼 -->
 {% if user.is_authenticated %}
     {% if budget_filter != '-1' or personal_page == 'True' %}
-    <div id="custom-car-btn2" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+    <div id="custom-car-btn2" style="position: fixed; bottom: 15px; right: 15px; z-index: 999;">
         <a href="" class="btn btn-secondary" style="display: inline-block;
             width: 70px;
             height: 70px;
@@ -129,14 +129,14 @@
     </div>
     {% else %}
     <!-- 예산 필터가 비활성화된 경우 -->
-    <div  class="shaking-image2" id="custom-car-btn" style="position: fixed; bottom: 20px; right: 40px; z-index: 999;">
+    <div  class="shaking-image2" id="custom-car-btn" style="position: fixed; bottom: 15px; right: 15px; z-index: 999;">
         <a href="" class="btn btn-primary" style="display: inline-block;
             width: 70px;
             height: 70px;
             line-height: 55px;
             border-radius: 50%;
             text-align: center;
-            background-color: #1c408f; /* 연두색 배경 */
+            background-color: rgba(0, 103, 172,0.8); /* 연두색 배경 */
             color: #fff; /* 버튼 텍스트 색상 */
             font-size: 18px; /* 버튼 텍스트 크기 */
             text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
@@ -147,19 +147,19 @@
     {% endif %}
     
 {% endif %}
-<div style="position: fixed; bottom: 20px; left: 90px; z-index: 999;">
+<div style="position: fixed; bottom: 10px; left: 5px; z-index: 999;">
     <!-- 이미지 -->
     <div class="text-center">
         <a href="{% url 'common:car_info' %}">
-            <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 100px; height: 100px; margin-left: 10px;" class="shaking-image">
+            <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 80px; height: 80px;" class="shaking-image">
         </a>
     </div>
     <!-- 차량 등록하기 버튼 -->
-    <a href="{% url 'common:car_info' %}" class="btn btn-dark mt-0" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">차량 등록하기</a>
+    <a href="{% url 'common:car_info' %}" class="btn btn-dark " style="width: 90px; height: 30px; font-size: 11px; font-weight:bold; 2px 2px 4px rgba(0, 0, 0, 0.5);">차량 등록</a>
 </div>
 <!-- 예산 필터가 활성화된 경우 -->
 <div>
-    <div  id="find_car_btn" class="container my-3" style="position: sticky; top: 50px; border: 3px solid #182777; z-index: 100; background-color: white;">
+    <div  id="find_car_btn" class="container my-3" style="position: sticky; top: 50px; border: 1px solid #919192; z-index: 100; background-color: white;">
         <div class="row my-3">
             {% if  not sorting_option == "region" %}
             <div class="col-6 " >
@@ -303,9 +303,9 @@
                         <input type="number" class="form-control" name="min_mileage" placeholder="최소" value="{{ request.GET.min_mileage }} " style="width: 50%;">
                         <input type="number" class="form-control" name="max_mileage" placeholder="최대" value="{{ request.GET.max_mileage }}" style="width: 50%;">
                     </div>
-                    <div class="d-flex justify-content-end mt-2 mb-2">
+                    <!-- <div class="d-flex justify-content-end mt-2 mb-2">
                         <button type="submit" class="btn btn-dark">적용</button>
-                    </div>
+                    </div> -->
                     </div>
                     <div class="col-md-2">
                     <label for="mileFilter" class ="mt-3">가격 필터 (단위:만원)</label>
@@ -317,9 +317,7 @@
                         <input type="number" class="form-control" name="max_price" placeholder="최대" value="{% if budget_filter == '1' %}{{ max_budget }}{% else %}{{ request.GET.max_price }}{% endif %}">
 
                     </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        
-                        
+                    <div class="d-flex justify-content-end mt-2 mb-2">
                         <button type="submit" class="btn btn-dark">적용</button>
                     </div>
                 </form>
@@ -346,7 +344,7 @@
                             <div class="card">
                                 <div class="card-body clickable-card">
                                     {% if car.make_deal == 1 %}
-                                        <div style="width: 200px; height: 200px;">
+                                        <div style="width: 100%; height: 200px;">
                                             <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
                                             <img src="/static/uploads/reserved.png" class="position-absolute top-0 start-0" alt="예약된 이미지" style="width: 100px; height: 100px;">
                                         </div>
@@ -379,11 +377,11 @@
                         {% endif %}
                     {% endfor %}
                 {% else %}
-                    <div class="col-md-12">
-                        <div class="text-center mb-0 bg-info" style="border-radius: 10px;">
+                    <div class="col-md-12" style="margin-top: 100px; margin-bottom: 100px;">
+                        <div class="text-center mb-0 bg-white" style="border-radius: 20px; padding: 20px;">
                             <h4 style="color: black; font-family: 'Arial', sans-serif; font-weight: bold;">매물이 없습니다.</h4>
                         </div>
-                    </div>
+                    </div>    
                 {% endif %}
         </div>
     </div>
