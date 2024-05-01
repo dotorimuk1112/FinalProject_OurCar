@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CustomUser
-from config.settings import MEDIA_ROOT
+from config.settings import MEDIA_URL
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
