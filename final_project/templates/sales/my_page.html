@@ -51,7 +51,7 @@
             </div>
             <!-- 사용자 정보 출력 부분 이후에 추가 -->
             {% comment %} <div class="text-center ">
-                <h3>TestSangmin 정보</h3>
+                <h3>카드 결제 내역</h3>
                 {% if test_sangmin_instance %}
                     <p><strong>SEQ:</strong> {{ test_sangmin_instance.seq }}</p>
                     {% if test_sangmin_instance.interior_am %}
@@ -88,7 +88,7 @@
                         <p><strong>Car Price:</strong> {{ test_sangmin_instance.car_price }}</p>
                     {% endif %}
                 {% else %}
-                    <p>TestSangmin 정보가 없습니다.</p>
+                    <p>결제 내역이 없습니다.</p>
                 {% endif %}
             </div>
              {% endcomment %}
@@ -316,7 +316,7 @@
                         {% endif %}
                         ],
                             datasets: [{
-                                label: 'TestSangmin 정보',
+                                label: '카드 결제 내역',
                                 data: [
                                     {% if test_sangmin_instance %}
                                         {% if test_sangmin_instance.interior_am > 0 %} {{ test_sangmin_instance.interior_am }}, {% endif %}
