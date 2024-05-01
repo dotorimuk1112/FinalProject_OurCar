@@ -584,7 +584,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-primary text-white">
-                <h5 class="modal-title" id="priceProposalModalLabel">가격 제안하기</h5>
+                <h5 class="modal-title" id="priceProposalModalLabel" >가격 제안하기</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -774,7 +774,7 @@
 
 
 {% if not request.user == CarSalesPost.seller %}
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
         {% if CarSalesPost.make_deal %}
             <button type="button" class="btn btn-secondary" id="reservationBtn">예약 중</button>
         {% else %}

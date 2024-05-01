@@ -98,7 +98,7 @@
 
 {% endif %}
 
-<div class="container my-3" style="position: sticky;">
+<div class="container my-3" style="position: sticky; border: 1px solid black;" >
     <div class="row my-3">
         {% if  not sorting_option == "region" %}
         <div class="col-6">
@@ -247,7 +247,7 @@
                 <div class="d-flex justify-content-end mt-2">
                     
                     
-                    <button type="submit" class="btn btn-dark">적용</button>
+                    <button type="submit" class="btn btn-dark text-align:left" >적용</button>
                 </div>
             </form>
         </div>
@@ -255,9 +255,11 @@
              <form action="{% url 'index' %}" method="get" class="ml-0" id="price_filter" style="width: 100%;">
                 
             </form>
-            <button type="submit" class="btn btn-warning">
-                <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
-            </button>
+            <div style="text-align: right;">
+                <button type="submit" class="btn btn-warning mt-3" style="width: fit-content;">
+                    <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
+                </button>
+            </div>
 
         </div>
     </div>
