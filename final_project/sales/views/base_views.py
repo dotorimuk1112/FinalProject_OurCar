@@ -198,7 +198,7 @@ def load_loans(term, score):
     list_filtered = list_filtered_credit.filter(loan_period=term)
     list_ordered = list_filtered.order_by('min_rate')[:5]
     woori_loan = list_filtered_credit.get(company_name="우리은행")
-    return list_ordered, woori_loan
+    return list_ordered, woori_loan, score_00
 
 # 대출 상품 데이터 전송
 def show_loan_table(request, post_id):
@@ -206,7 +206,7 @@ def show_loan_table(request, post_id):
     input_term = request.GET.get('term')
     user_credit_score = scoring_data(user_id=user.id)
     print(user_credit_score)
-    loans, woori_loan = load_loans(input_term, user_credit_score)
+    loans, woori_loan, score_00 = load_loans(input_term, user_credit_score)
     loan_list = serializers.serialize('json', loans)
     return HttpResponse(loan_list, content_type="text/json-comment-filtered")
 
@@ -249,10 +249,10 @@ def detail(request, post_id):
         buyer_proposals_with_info.append((proposal, buyer_info))
     
     # 사용자에게 맞는 대출 상품 목록 가져오기
-    user_credit_score, loan_list, woori_loan = 0, 0, 0
+    user_credit_score, loan_list, woori_loan, score_00 = 0, 0, 0,0
     if user.is_authenticated:
         user_credit_score = scoring_data(user_id=user.id)
-        loan_list, woori_loan = load_loans(36, user_credit_score)
+        loan_list, woori_loan, score_00 = load_loans(36, user_credit_score)
 
     context = {
         'user': user,
@@ -273,7 +273,8 @@ def detail(request, post_id):
         'average_mileage': average_mileage,
         'buyer_list' : buyer_list,
         'loan_list' : loan_list,
-        'woori_loan' : woori_loan
+        'woori_loan' : woori_loan,
+        'score_00' : score_00
     }
     return render(request, 'sales/sales_detail.html', context)
 
