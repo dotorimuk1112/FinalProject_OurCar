@@ -62,205 +62,230 @@
 </div>
 
 <!-- "맞춤 차량 보기" 버튼 -->
-
-{% if budget_filter != '-1' or personal_page == 'True' %}
-<div id="custom-car-btn2" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-    <a href="" class="btn btn-secondary" style="display: inline-block;
-        width: 70px;
-        height: 70px;
-        line-height: 50px;
-        border-radius: 50%;
-        text-align: center;
-        background-color: #6c757d; /* 버튼 배경색 */
-        color: #fff; /* 버튼 텍스트 색상 */
-        font-size: 18px; /* 버튼 텍스트 크기 */
-        text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */"><strong>ALL</strong></a>
-</div>
-{% else %}
-<!-- 예산 필터가 비활성화된 경우 -->
-<div id="custom-car-btn" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
-    <a href="" class="btn btn-primary" style="display: inline-block;
-        width: 70px;
-        height: 70px;
-        line-height: 55px;
-        border-radius: 50%;
-        text-align: center;
-        background-color: #D0FC5C; /* 연두색 배경 */
-        color: #fff; /* 버튼 텍스트 색상 */
-        font-size: 18px; /* 버튼 텍스트 크기 */
-        text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
-        border: none; /* 테두리 없음 */"><strong>맞춤</strong></a>
-</div>
-
-<!-- 예산 필터가 활성화된 경우 -->
-
+{% if user.is_authenticated %}
+    {% if budget_filter != '-1' or personal_page == 'True' %}
+    <div id="custom-car-btn2" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">
+        <a href="" class="btn btn-secondary" style="display: inline-block;
+            width: 70px;
+            height: 70px;
+            line-height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            background-color: #6c757d; /* 버튼 배경색 */
+            color: #fff; /* 버튼 텍스트 색상 */
+            font-size: 18px; /* 버튼 텍스트 크기 */
+            text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */"><strong>ALL</strong></a>
+    </div>
+    {% else %}
+    <!-- 예산 필터가 비활성화된 경우 -->
+    <div  class="shaking-image2" id="custom-car-btn" style="position: fixed; bottom: 20px; right: 40px; z-index: 999;">
+        <a href="" class="btn btn-primary" style="display: inline-block;
+            width: 70px;
+            height: 70px;
+            line-height: 55px;
+            border-radius: 50%;
+            text-align: center;
+            background-color: #1c408f; /* 연두색 배경 */
+            color: #fff; /* 버튼 텍스트 색상 */
+            font-size: 18px; /* 버튼 텍스트 크기 */
+            text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+            border: none; /* 테두리 없음 */"><strong>맞춤</strong></a>
+    </div>
+    
+    {% endif %}
+    
 {% endif %}
+<div style="position: fixed; bottom: 20px; left: 90px; z-index: 999;">
+    <!-- 이미지 -->
+    <div class="text-center">
+        <a href="{% url 'common:car_info' %}">
+            <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 100px; height: 100px; margin-left: 10px;" class="shaking-image">
+        </a>
+    </div>
+    <!-- 차량 등록하기 버튼 -->
+    <a href="{% url 'common:car_info' %}" class="btn btn-dark mt-0" style="box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">차량 등록하기</a>
+</div>
+<!-- 예산 필터가 활성화된 경우 -->
+<div>
+    <div  id="find_car_btn" class="container my-3" style="position: sticky; top: 50px; border: 3px solid #182777; z-index: 100; background-color: white;">
+        <div class="row my-3">
+            {% if  not sorting_option == "region" %}
+            <div class="col-6 " >
+                <button type="submit" class="btn btn-secondary ml-2">
+                    <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
+                </button>
+            </div>
+            
+            <div class="col-2">
+                <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
 
-<div class="container my-3" style="position: sticky;">
-    <div class="row my-3">
-        {% if  not sorting_option == "region" %}
-        <div class="col-6">
-            <a href="{% url 'common:car_info' %}" class="btn btn-primary">차량 등록하기</a>
-        </div>
-        
-        <div class="col-2">
-            <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
+                    <select class="form-control" name="sorting_option" id="sorting_option">
+                        <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
+                        <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                        <option value="lowprice" {% if  sorting_option == "lowprice" %}selected{% endif %}>가격 낮은순</option>
+                        <option value="highprice" {% if  sorting_option == "highprice" %}selected{% endif %}>가격 높은순</option>
+                        <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
-                <select class="form-control" name="sorting_option" id="sorting_option">
-                    <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
-                    <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
-                    <option value="lowprice" {% if  sorting_option == "lowprice" %}selected{% endif %}>가격 낮은순</option>
-                    <option value="highprice" {% if  sorting_option == "highprice" %}selected{% endif %}>가격 높은순</option>
-                    <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
+                    </select>    
+                </form>
+            </div>
+            {% endif %}
+            {% if  sorting_option == "region" %}
+            <div class="col-4">
+                <button type="submit" class="btn btn-warning ml-2">
+                    <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
+                </button>
+            </div>
+            <div class="col-2">
+                <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
 
-                </select>    
-            </form>
-        </div>
-        {% endif %}
-        {% if  sorting_option == "region" %}
-        <div class="col-4">
-            <a href="{% url 'common:car_info' %}" class="btn btn-primary">차량 등록하기</a>
-        </div>
-        <div class="col-2">
-            <form action="{% url 'index' %}" method="get" class="form"id="sorting_option"  style="width: 100%;">
+                    <select class="form-control" name="sorting_option" id="sorting_option">
+                        <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
+                        <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
+                        <option value="price" {% if  sorting_option == "price" %}selected{% endif %}>가격순</option>
+                        <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
 
-                <select class="form-control" name="sorting_option" id="sorting_option">
-                    <option value="date" {% if  sorting_option == "date" %}selected{% endif %}>날짜순</option>
-                    <option value="popularity" {% if  sorting_option == "popularity" %}selected{% endif %}>인기순</option>
-                    <option value="price" {% if  sorting_option == "price" %}selected{% endif %}>가격순</option>
-                    <option value="region" {% if  sorting_option == "region" %}selected{% endif %}>지역별</option>
+                    </select>    
+                </form>
+            </div>
+            <div class="col-2">
+                <form action="{% url 'index' %}" method="get" class="form"id="sorting_region"  style="width: 100%;">
 
-                </select>    
-            </form>
-        </div>
-        <div class="col-2">
-            <form action="{% url 'index' %}" method="get" class="form"id="sorting_region"  style="width: 100%;">
-
-                <select class="form-control" name="sorting_region" id="sorting_region">
-                    <option value="서울" {% if  sorting_region == "서울" %}selected{% endif %}>서울특별시</option>
-                    <option value="부산" {% if  sorting_region == "부산" %}selected{% endif %}>부산특별시</option>
-                    <option value="대구" {% if  sorting_region == "대구" %}selected{% endif %}>대구광역시</option>
-                    <option value="인천" {% if  sorting_region == "인천" %}selected{% endif %}>인천광역시</option>
-                    <option value="광주" {% if  sorting_region == "광주" %}selected{% endif %}>광주광역시</option>
-                    <option value="대전" {% if  sorting_region == "대전" %}selected{% endif %}>대전광역시</option>
-                    <option value="울산" {% if  sorting_region == "울산" %}selected{% endif %}>울산광역시</option>
-                    <option value="세종" {% if  sorting_region == "세종" %}selected{% endif %}>세종특별자치시</option>
-                    <option value="경기" {% if  sorting_region == "경기" %}selected{% endif %}>경기도</option>
-                    <option value="강원" {% if  sorting_region == "강원" %}selected{% endif %}>강원도</option>
-                    <option value="충북" {% if  sorting_region == "충북" %}selected{% endif %}>충청북도</option>
-                    <option value="충남" {% if  sorting_region == "충남" %}selected{% endif %}>충청남도</option>
-                    <option value="전북" {% if  sorting_region == "전북" %}selected{% endif %}>전라북도</option>
-                    <option value="전남" {% if  sorting_region == "전남" %}selected{% endif %}>전라남도</option>
-                    <option value="경북" {% if  sorting_region == "경북" %}selected{% endif %}>경상북도</option>
-                    <option value="경남" {% if  sorting_region == "경남" %}selected{% endif %}>경상남도</option>
-                    <option value="제주" {% if  sorting_region == "제주" %}selected{% endif %}>제주특별자치도</option>
-                </select>    
-            </form>
-        </div>
-        {% endif %}
-        
-        <div class="col-4">
-            <div class="input-group">
-                <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                    <select class="form-control" name="sorting_region" id="sorting_region">
+                        <option value="서울" {% if  sorting_region == "서울" %}selected{% endif %}>서울특별시</option>
+                        <option value="부산" {% if  sorting_region == "부산" %}selected{% endif %}>부산특별시</option>
+                        <option value="대구" {% if  sorting_region == "대구" %}selected{% endif %}>대구광역시</option>
+                        <option value="인천" {% if  sorting_region == "인천" %}selected{% endif %}>인천광역시</option>
+                        <option value="광주" {% if  sorting_region == "광주" %}selected{% endif %}>광주광역시</option>
+                        <option value="대전" {% if  sorting_region == "대전" %}selected{% endif %}>대전광역시</option>
+                        <option value="울산" {% if  sorting_region == "울산" %}selected{% endif %}>울산광역시</option>
+                        <option value="세종" {% if  sorting_region == "세종" %}selected{% endif %}>세종특별자치시</option>
+                        <option value="경기" {% if  sorting_region == "경기" %}selected{% endif %}>경기도</option>
+                        <option value="강원" {% if  sorting_region == "강원" %}selected{% endif %}>강원도</option>
+                        <option value="충북" {% if  sorting_region == "충북" %}selected{% endif %}>충청북도</option>
+                        <option value="충남" {% if  sorting_region == "충남" %}selected{% endif %}>충청남도</option>
+                        <option value="전북" {% if  sorting_region == "전북" %}selected{% endif %}>전라북도</option>
+                        <option value="전남" {% if  sorting_region == "전남" %}selected{% endif %}>전라남도</option>
+                        <option value="경북" {% if  sorting_region == "경북" %}selected{% endif %}>경상북도</option>
+                        <option value="경남" {% if  sorting_region == "경남" %}selected{% endif %}>경상남도</option>
+                        <option value="제주" {% if  sorting_region == "제주" %}selected{% endif %}>제주특별자치도</option>
+                    </select>    
+                </form>
+            </div>
+            {% endif %}
+            
+            <div class="col-4">
+                <div class="input-group">
+                    <input type="text" id="search_kw" class="form-control" value="{{ kw|default_if_none:'' }}">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="btn_search">찾기</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    
-    <div id="filter-section" class="row">
-        <!-- 왼쪽에 브랜드 필터 버튼들 -->
-        <div class="col-md-2">
-            <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode"  style="width: 100%;">
-                    <label for="brandFilter" class ="mt-3">브랜드 필터</label>
-                    <select class="form-control" name="search_mode" id="search_mode">
-                        <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
-                        {% for brand_name in ko_brands %}
-                        <option value="{{ brand_name }}" {% if search_mode == brand_name %}selected{% endif %}>{{ brand_name }}</option>
-                        {% endfor %}
-                    </select>
-            </form>
-        </div>
-        <div class="col-md-2">
-            {% if selected_brand_values %}
-            <!-- 추가적인 select box -->
-            <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode2"  style="width: 100%;">
+        
+        <div id="filter-section" class="row">
+            <!-- 왼쪽에 브랜드 필터 버튼들 -->
+            <div class="col-md-2">
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode"  style="width: 100%;">
+                        <label for="brandFilter" class ="mt-3">브랜드 필터</label>
+                        <select class="form-control" name="search_mode" id="search_mode">
+                            <option value="전체" {% if not search_mode %}selected{% endif %}>전체</option>
+                            {% for brand_name in ko_brands %}
+                            <option value="{{ brand_name }}" {% if search_mode == brand_name %}selected{% endif %}>{{ brand_name }}</option>
+                            {% endfor %}
+                        </select>
+                </form>
+            </div>
+            <div class="col-md-2">
+                {% if selected_brand_values %}
+                <!-- 추가적인 select box -->
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode2"  style="width: 100%;">
+                        <label for="brandFilter" class ="mt-3">세부 차종 명</label>
+                        <select class="form-control" name="search_mode2" id="search_mode2">
+                            <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
+                            {% for brand_value in selected_brand_values %}
+                            <option value="{{ brand_value }}" {% if search_mode2 == brand_value %}selected{% endif %}>{{ brand_value }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                {% else %}
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="search_mode2"  style="width: 100%;">
                     <label for="brandFilter" class ="mt-3">세부 차종 명</label>
                     <select class="form-control" name="search_mode2" id="search_mode2">
                         <option value="전체" {% if not search_mode2 %}selected{% endif %}>전체</option>
-                        {% for brand_value in selected_brand_values %}
-                        <option value="{{ brand_value }}" {% if search_mode2 == brand_value %}selected{% endif %}>{{ brand_value }}</option>
-                        {% endfor %}
+                        
                     </select>
                 </form>
-            {% endif %}
-        </div>
-                <!-- 연식 -->
-        <div class="col-md-2">
-            <form action="{% url 'index' %}" method="get" class="ml-0" id="mile_mode"  style="width: 100%;">
-                    <label for="mileFilter" class ="mt-3">연식 필터</label>
-                    <select class="form-control" name="mile_mode" id="mile_mode">
-                        <option value="전체" {% if not mile_mode %}selected{% endif %}>전체</option>
-                        {% for miles in myerar_list %}
-                        <option value="{{ miles }}" {% if mile_mode == miles %}selected{% endif %}>{{ miles }}</option>
-                        {% endfor %}
-                    </select>
-            </form>
-        </div>
-                <!-- 차크기 -->
-                <div class="col-md-2">
-                <form action="{% url 'index' %}" method="get" class="ml-0"id="vtype_mode"  style="width: 100%;">
-                    <label for="mileFilter" class ="mt-3">크기 필터</label>
-                    <select class="form-control" name="vtype_mode" id="vtype_mode">
-                        <option value="전체" {% if not vtype_mode %}selected{% endif %}>전체</option>
-                        {% for vtype in vtype_values %}
-                        <option value="{{ vtype }}" {% if vtype_mode == vtype %}selected{% endif %}>{{ vtype }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-                </div>
-            <!-- 주행 거리 최소값 및 최대값-->
+                {% endif %}
+            </div>
+                    <!-- 연식 -->
             <div class="col-md-2">
-            <form action="{% url 'index' %}" method="get" class="ml-0" id="mileage_filter" style="width: 100%;">
-                <label for="mileFilter" class="mt-3">주행거리 필터</label>
-                <div class="input-group">
-                    <input type="number" class="form-control" name="min_mileage" placeholder="최소" value="{{ request.GET.min_mileage }} " style="width: 50%;">
-                    <input type="number" class="form-control" name="max_mileage" placeholder="최대" value="{{ request.GET.max_mileage }}" style="width: 50%;">
-                </div>
-                <div class="d-flex justify-content-end mt-2">
-                    <button type="submit" class="btn btn-dark">적용</button>
-                </div>
-                 </div>
-                 <div class="col-md-2">
-                <label for="mileFilter" class ="mt-3">가격 필터 (단위:만원)</label>
-                <div class="input-group">
-                    <input type="number" class="form-control" name="min_price" placeholder="최소" value="{% if budget_filter == '1' %}{{ min_budget }}{% else %}{{ request.GET.min_price | add_commas2}}{% endif %}">
-                    <div class="input-group-prepend input-group-append">
-                        <span class="input-group-text">~</span>
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="mile_mode"  style="width: 100%;">
+                        <label for="mileFilter" class ="mt-3">연식 필터</label>
+                        <select class="form-control" name="mile_mode" id="mile_mode">
+                            <option value="전체" {% if not mile_mode %}selected{% endif %}>전체</option>
+                            {% for miles in myerar_list %}
+                            <option value="{{ miles }}" {% if mile_mode == miles %}selected{% endif %}>{{ miles }}</option>
+                            {% endfor %}
+                        </select>
+                </form>
+            </div>
+                    <!-- 차크기 -->
+                    <div class="col-md-2">
+                    <form action="{% url 'index' %}" method="get" class="ml-0"id="vtype_mode"  style="width: 100%;">
+                        <label for="mileFilter" class ="mt-3">크기 필터</label>
+                        <select class="form-control" name="vtype_mode" id="vtype_mode">
+                            <option value="전체" {% if not vtype_mode %}selected{% endif %}>전체</option>
+                            {% for vtype in vtype_values %}
+                            <option value="{{ vtype }}" {% if vtype_mode == vtype %}selected{% endif %}>{{ vtype }}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
                     </div>
-                    <input type="number" class="form-control" name="max_price" placeholder="최대" value="{% if budget_filter == '1' %}{{ max_budget }}{% else %}{{ request.GET.max_price }}{% endif %}">
+                <!-- 주행 거리 최소값 및 최대값-->
+                <div class="col-md-2">
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="mileage_filter" style="width: 100%;">
+                    <label for="mileFilter" class="mt-3">주행거리 필터</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="min_mileage" placeholder="최소" value="{{ request.GET.min_mileage }} " style="width: 50%;">
+                        <input type="number" class="form-control" name="max_mileage" placeholder="최대" value="{{ request.GET.max_mileage }}" style="width: 50%;">
+                    </div>
+                    <div class="d-flex justify-content-end mt-2 mb-2">
+                        <button type="submit" class="btn btn-dark">적용</button>
+                    </div>
+                    </div>
+                    <div class="col-md-2">
+                    <label for="mileFilter" class ="mt-3">가격 필터 (단위:만원)</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="min_price" placeholder="최소" value="{% if budget_filter == '1' %}{{ min_budget }}{% else %}{{ request.GET.min_price | add_commas2}}{% endif %}">
+                        <div class="input-group-prepend input-group-append">
+                            <span class="input-group-text">~</span>
+                        </div>
+                        <input type="number" class="form-control" name="max_price" placeholder="최대" value="{% if budget_filter == '1' %}{{ max_budget }}{% else %}{{ request.GET.max_price }}{% endif %}">
 
-                </div>
-                <div class="d-flex justify-content-end mt-2">
+                    </div>
+                    <div class="d-flex justify-content-end mt-2">
+                        
+                        
+                        <button type="submit" class="btn btn-dark">적용</button>
+                    </div>
+                </form>
+            </div>
+                <!-- 가격 최소값 및 최대값 -->
+                <form action="{% url 'index' %}" method="get" class="ml-0" id="price_filter" style="width: 100%;">
                     
-                    
-                    <button type="submit" class="btn btn-dark">적용</button>
-                </div>
-            </form>
-        </div>
-             <!-- 가격 최소값 및 최대값 -->
-             <form action="{% url 'index' %}" method="get" class="ml-0" id="price_filter" style="width: 100%;">
-                
-            </form>
-            <button type="submit" class="btn btn-warning">
-                <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
-            </button>
+                </form>
+                <!-- <div style="text-align: right;" class="mt-3">
+                    <button type="submit" class="btn btn-warning" style="width: fit-content;">
+                        <a class="text-white text-decoration-none" href="{% url 'sales:index' %}">초기화</a>
+                    </button>
+                </div> -->
 
+            </div>
         </div>
-    </div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -365,6 +390,7 @@
 {% block script %}
 
 <script type='text/javascript'>
+    
     function addCommas(input) {
         // 입력값에서 숫자와 .만 남기고 모두 제거합니다.
         var num = input.value.replace(/\D/g, "");

@@ -30,7 +30,8 @@ def signup(request):
     else:
         form = CustomUserForm()  # CustomUserForm 사용
     return render(request, 'common/signup.html', {'form': form})
-
+# 차량 정보 조회
+@login_required(login_url='common:login')
 def car_info(request):
     error_message = None
     car = None
