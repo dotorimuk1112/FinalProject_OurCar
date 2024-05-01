@@ -61,16 +61,6 @@ def update_buyers_count(sender, instance, **kwargs):
     buyers_count = BuyerMessages.objects.filter(post_id=instance.post_id).count()
     CarSalesPost.objects.filter(post_id=instance.post_id).update(buyers_count=buyers_count)
 
-
-class UploadedImage2(models.Model):
-    uploadedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')
-    processedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')  # processedimage 필드 추가
-    has_car = models.BooleanField(default=False)
-
-    class Meta:
-        managed = True
-        db_table = 'pybo_uploadedimage2'
-
 class BuyerMessages(models.Model):
     buyer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='buyer_messages', null=False)
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='seller_messages', null=False)
