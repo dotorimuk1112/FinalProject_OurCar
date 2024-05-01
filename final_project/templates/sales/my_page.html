@@ -31,20 +31,20 @@
                 <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="file" name="profile_image"> <!-- 파일 업로드 필드 -->
-                    <button type="submit" class="btn btn-primary">업로드</button>
+                    <input type="file" name="profile_image" > <!-- 파일 업로드 필드 -->
+                    <button type="submit" class="btn btn-primary" style="background-color: rgb(0, 103, 172); border:None;">업로드</button>
                 </form>
                 <p><strong>이름:</strong> {{ user.username }}</p>
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
                 <p><strong>주소:</strong> {{ user.address }}</p>
-                <p><strong>신용점수:</strong> {{ user_credit_score }}</p>
+                <!-- <p><strong>신용점수:</strong> {{ user_credit_score }}</p> -->
                 <div class="d-flex justify-content-center">
                     <div class="col-md-6 mb-2">
-                        <a href="{% url 'common:edit_profile'%}" class="btn btn-success btn-outline-secondary btn-block" style="font-size: 13px; color:black">개인정보 수정</a>
+                        <a href="{% url 'common:edit_profile'%}" class="btn btn-secondary btn-outline-secondary btn-block" style="font-size: 13px; color:white">개인정보 수정</a>
                     </div>
                     <div class="col-md-6 mb-2">
-                        <a href="{% url 'common:password_update'%}" class="btn btn-success btn-outline-secondary btn-block" style="font-size: 13px; color:black">비밀번호 변경</a>
+                        <a href="{% url 'common:password_update'%}" class="btn btn-secondary btn-outline-secondary btn-block" style="font-size: 13px; color:white">비밀번호 변경</a>
                     </div>
                 </div>
                 <!-- 기타 사용자 정보 필드들을 추가로 출력할 수 있음 -->
