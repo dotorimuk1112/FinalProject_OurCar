@@ -2,6 +2,7 @@ venvs/
 venv2/
 .venv/
 venvv/
+final_project/.env
 
 final_project/my_settings.py
 

@@ -29,6 +29,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'common_customer_card_history',
-            },)
-            ]
-            
+            },
+        ),
+    ]
