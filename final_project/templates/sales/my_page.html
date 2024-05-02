@@ -28,7 +28,7 @@
             <div class="text-center mt-4">
                 <h3>{{ user.real_name }}님</h3>
                 <!-- 사용자가 선택한 이미지 or 디폴트 이미지 -->
-                <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
+                <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/user_default.png{% endif %}" alt="프로필 이미지" class="rounded-circle mb-3" style="width: 100%; max-width: 150px;">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     <input type="file" name="profile_image" > <!-- 파일 업로드 필드 -->
@@ -131,7 +131,7 @@
                                         {% endif %} {% endcomment %}
                                     </div>  
                                                                  
-                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
@@ -203,7 +203,7 @@
                         <div class="col-md-3 mb-4">
                             <div class="card">
                                 <div class="card-body clickable-card">
-                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
                                         <a href="{% url 'sales:detail' car.post_id %}" style="text-decoration: none; color: inherit;">
@@ -382,16 +382,16 @@
                                 <div class="card-body clickable-card">
                                     {% if car.accepted == 0 %}
                                         <div class="position-relative">
-                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
-                                            <img src="/static/uploads/rejected.png" class="position-absolute top-0 start-0" alt="거절된 이미지" style="width: 100px; height: 100px;">
+                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                            <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/rejected.png" class="position-absolute top-0 start-0" alt="거절된 이미지" style="width: 100px; height: 100px;">
                                         </div>
                                     {% elif car.accepted == 1 %}
                                         <div class="position-relative">
-                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
-                                            <img src="/static/uploads/accepted.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
+                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                            <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/accepted.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
                                         </div>
                                     {% else %}
-                                        <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                        <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
                                     {% endif %}
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">
@@ -483,8 +483,8 @@
                                             
                                             
                                                 <div class="position-relative">
-                                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
-                                                    <img src="/static/uploads/reserved.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
+                                                    <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
+                                                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/reserved.png" class="position-absolute top-0 start-0" alt="수락된 이미지" style="width: 100px; height: 100px;">
                                                 </div>
                                           
                                            
