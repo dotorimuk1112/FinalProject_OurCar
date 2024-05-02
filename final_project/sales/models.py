@@ -82,3 +82,4 @@ def update_make_deal(sender, instance, **kwargs):
     else:
         # accepted가 없으면 make_deal 값을 False로 설정합니다.
         CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=False)
+        
