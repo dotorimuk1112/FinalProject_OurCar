@@ -8,11 +8,11 @@ node {
      stage('Pull') {
            git branch: 'master', credentialsId: 'Github-credential', url: 'https://github.com/dotorimuk1112/Final_Project.git'
         }
-        
+       
 
       stage('Build') {
             sh(script: '''yes | sudo docker image prune -a''') 
-            sh(script: '''sudo docker build -f -t ourcar_test .''')
+            sh(script: '''sudo docker build -f -t /var/lib/jenkins/workspace/final_project/Dockerfile ourcar_test .''')
         }
 
       stage('Tag') {
