@@ -12,7 +12,7 @@ node {
 
       stage('Build') {
             sh(script: '''yes | sudo docker image prune -a''') 
-            sh(script: '''sudo docker build -f -t /var/lib/jenkins/workspace/final_project/Dockerfile ourcar_test .''')
+            sh(script: '''sudo docker build -f -t /var/lib/jenkins/workspace/OurCar_django/final_project/Dockerfile ourcar_test .''')
         }
 
       stage('Tag') {
