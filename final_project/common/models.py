@@ -6,6 +6,7 @@ class predict_budget(models.Model):
     id = models.AutoField(primary_key=True)
     seq = models.CharField(max_length=255, blank=True, null=True)
     interior_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
+    interior_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     insuhos_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     offedu_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
     trvlec_am = models.DecimalField(max_digits=18, decimal_places=0, blank=True, null=True)
