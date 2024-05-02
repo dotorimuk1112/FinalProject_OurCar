@@ -3,7 +3,7 @@ import pickle
 import csv
 import pandas as pd
 
-with open('ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
+with open('/app/final_project/ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
 
 def load_data(car):
@@ -66,7 +66,7 @@ def car_price_pred_model(car):
             # 딕셔너리로 데이터를 저장할 변수 초기화
             target_model_mae = None
 
-            csv_file_path = 'common/static/car_price_pred_mae.csv'
+            csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
 
             # CSV 파일 열기
             with open(csv_file_path, newline='', encoding='cp949') as csvfile:
@@ -104,7 +104,7 @@ def car_price_pred_model_10000(car):
                 target_model = model
                 break
         
-        csv_file_path = 'common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
@@ -161,7 +161,7 @@ def car_price_pred_model_20000(car):
                 target_model = model
                 break
         
-        csv_file_path = 'common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
@@ -218,7 +218,7 @@ def car_price_pred_model_30000(car):
                 target_model = model
                 break
         
-        csv_file_path = 'common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
