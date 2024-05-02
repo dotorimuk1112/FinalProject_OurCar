@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 import numpy as np
 
-with open('ai_models/budget_recommend_models.pkl', 'rb') as f:
+with open('/app/final_project/ai_models/budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)
 
 def budget_rec_func(user_id):

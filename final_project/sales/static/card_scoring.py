@@ -30,7 +30,7 @@ def load_record(user_id):
         current_user_record = None
 
 def scoring_data(user_id):    
-    with open('ai_models/credit_scorecard_final.pkl', 'rb') as f:
+    with open('/app/final_project/ai_models/credit_scorecard_final.pkl', 'rb') as f:
         scorecard = pickle.load(f) 
     
     try:
