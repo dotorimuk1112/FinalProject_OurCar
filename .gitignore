@@ -4,7 +4,7 @@ venv2/
 venvv/
 final_project/.env
 
-final_project/my_settings.py
+
 
 final_project/sales/views/__pycache__/
 final_project/sales/__pycache__/
