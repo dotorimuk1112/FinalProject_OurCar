@@ -3,7 +3,8 @@ import pickle
 import csv
 import pandas as pd
 
-with open('/app/final_project/ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
+with open('ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
+# with open('/app/final_project/ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
 
 def load_data(car):
