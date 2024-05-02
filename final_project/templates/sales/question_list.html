@@ -39,7 +39,7 @@
         <div class="carousel-item active">
             <div class="row justify-content-center">
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/3d_magnifier.png" style="width: 350px; height: 350px;"></a>
+                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/3d_magnifier.png" style="width: 350px; height: 350px;"></a>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
                     <div style="text-align: left;">
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/toy_car.png" style="width: 300px; height: 300px;;"></a>
+                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/toy_car.png" style="width: 300px; height: 300px;;"></a>
                 </div>
             </div>
         </div>
@@ -70,13 +70,13 @@
         <div class="carousel-item">
             <div class="row justify-content-center">
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/de_graph.png" style="width: 350px; height: 350px;"></a>
+                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/de_graph.png" style="width: 350px; height: 350px;"></a>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
                     <div style="text-align: left;">
                         <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); margin-bottom: -1rem;">인공지능</p>
                         <p style="font-size: 50px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">감가상각 예측</p>
-                        <p style="font-size: 20px; color:gray;" >최대 3년, 주행거리 비례 산출</p>
+                        <p style="font-size: 20px; color:gray;" >최대 5년, 주행거리 비례 산출</p>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/calculator.png" style="width: 250px; height: 250px;"></a>
+                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/calculator.png" style="width: 250px; height: 250px;"></a>
                 </div>
             </div>
         </div>
@@ -101,7 +101,7 @@
         <div class="carousel-item">
             <div class="row justify-content-center">
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
-                    <img src="/static/uploads/check_list_blue.png" style="width: 300px; height: 300px;;"></a>
+                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/check_list_blue.png" style="width: 300px; height: 300px;;"></a>
                 </div>
                 <div class="col-4 d-flex align-items-center justify-content-center" style=" height: 400px;">
                     <div style="text-align: left;">
@@ -163,7 +163,7 @@
     <!-- 이미지 -->
     <div class="text-center">
         <a href="{% url 'common:car_info' %}">
-            <img src="/static/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 80px; height: 80px;" class="shaking-image">
+            <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/car_icon_regist.png" alt="이미지_설명" style="width: 80px; height: 80px;" class="shaking-image">
         </a>
     </div>
     <!-- 차량 등록하기 버튼 -->
@@ -357,11 +357,11 @@
                                 <div class="card-body clickable-card">
                                     {% if car.make_deal == 1 %}
                                         <div style="width: 100%; height: 200px;">
-                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
-                                            <img src="/static/uploads/reserved.png" class="position-absolute top-0 start-0" alt="예약된 이미지" style="width: 100px; height: 100px;">
+                                            <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
+                                            <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/reserved.png" class="position-absolute top-0 start-0" alt="예약된 이미지" style="width: 100px; height: 100px;">
                                         </div>
                                     {% else %}
-                                        <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}/static/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
+                                        <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width="200" height="200">
                                     {% endif %}                                    
                                     <p class="card-text"> </p>
                                     <div class="card-title my-3" style="height: 40px;">

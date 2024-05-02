@@ -27,12 +27,15 @@ def question_create(request, car_VNUM):
             print(thumb)
             thumbnail_img_result, damage_thumbnail = car_determination_and_damage_detection(thumb)
             print(thumbnail_img_result, damage_thumbnail)
-            if thumb and ('2' in thumbnail_img_result):
-                car_sales_post.thumbnail_image = thumb
-                print('썸네일 자동차 확인. 업로드 성공.')
-                if damage_thumbnail:
-                    car_sales_post.detected_thumbnail = damage_thumbnail
-                    print('썸네일에서 차량 파손 감지')
+            if thumb:
+                if thumbnail_img_result and ('2' in thumbnail_img_result):
+                    car_sales_post.thumbnail_image = thumb
+                    print('썸네일 자동차 확인. 업로드 성공.')
+                    if damage_thumbnail:
+                        car_sales_post.detected_thumbnail = damage_thumbnail
+                        print('썸네일에서 차량 파손 감지')
+                else:
+                    not_car_list.append('썸네일')
             else:
                 not_car_list.append('썸네일')
                 
@@ -41,12 +44,15 @@ def question_create(request, car_VNUM):
             print(image1)
             img1_result, damage_result1 = car_determination_and_damage_detection(image1)
             print(img1_result, damage_result1)
-            if image1 and ( '2' in img1_result):
-                car_sales_post.Image1 = image1
-                print('1번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result1:
-                    car_sales_post.detected_image1 = damage_result1
-                    print('1번 이미지에서 차량 파손 감지')
+            if image1:
+                if img1_result and ( '2' in img1_result):
+                    car_sales_post.Image1 = image1
+                    print('1번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result1:
+                        car_sales_post.detected_image1 = damage_result1
+                        print('1번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지1')
             else:
                 not_car_list.append('이미지1')
 
@@ -54,12 +60,15 @@ def question_create(request, car_VNUM):
             image2 = request.FILES.get("image2")
             img2_result, damage_result2 = car_determination_and_damage_detection(image2)
             print(img2_result, damage_result2)
-            if image2 and ('2' in img2_result):
-                car_sales_post.Image2 = image2
-                print('2번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result2:
-                    car_sales_post.detected_image2 = damage_result2
-                    print('2번 이미지에서 차량 파손 감지')
+            if image2:
+                if img2_result and ('2' in img2_result):
+                    car_sales_post.Image2 = image2
+                    print('2번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result2:
+                        car_sales_post.detected_image2 = damage_result2
+                        print('2번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지2')
             else:
                 not_car_list.append('이미지2')
 
@@ -67,12 +76,15 @@ def question_create(request, car_VNUM):
             image3 = request.FILES.get("image3")
             img3_result, damage_result3 = car_determination_and_damage_detection(image3)
             print(img3_result, damage_result3)
-            if image3 and ('2' in img3_result):
-                car_sales_post.Image3 = image3
-                print('3번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result3:
-                    car_sales_post.detected_image3 = damage_result3
-                    print('3번 이미지에서 차량 파손 감지')
+            if image3:
+                if img3_result and ('2' in img3_result):
+                    car_sales_post.Image3 = image3
+                    print('3번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result3:
+                        car_sales_post.detected_image3 = damage_result3
+                        print('3번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지3')
             else:
                 not_car_list.append('이미지3')
 
@@ -80,48 +92,60 @@ def question_create(request, car_VNUM):
             image4 = request.FILES.get("image4")
             img4_result, damage_result4 = car_determination_and_damage_detection(image4)
             print(img4_result, damage_result4)
-            if image4 and ('2' in img4_result):
-                car_sales_post.Image4 = image4
-                print('4번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result4:
-                    car_sales_post.detected_image4 = damage_result4
-                    print('4번 이미지에서 차량 파손 감지')
+            if image4:
+                if img4_result and ('2' in img4_result):
+                    car_sales_post.Image4 = image4
+                    print('4번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result4:
+                        car_sales_post.detected_image4 = damage_result4
+                        print('4번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지4')
             else:
                 not_car_list.append('이미지4')
 
             image5 = request.FILES.get("image5")
             img5_result, damage_result5 = car_determination_and_damage_detection(image5)
             print(img5_result, damage_result5)
-            if image5 and ('2' in img5_result):
-                car_sales_post.Image5 = image5
-                print('5번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result5:
-                    car_sales_post.detected_image5 = damage_result5
-                    print('5번 이미지에서 차량 파손 감지')
+            if image5:
+                if img5_result and ('2' in img5_result):
+                    car_sales_post.Image5 = image5
+                    print('5번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result5:
+                        car_sales_post.detected_image5 = damage_result5
+                        print('5번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지5')
             else:
                 not_car_list.append('이미지5')
 
             image6 = request.FILES.get("image6")
             img6_result, damage_result6 = car_determination_and_damage_detection(image6)
             print(img6_result, damage_result6)
-            if image6 and ('2' in img6_result):
-                car_sales_post.Image6 = image6
-                print('6번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result6:
-                    car_sales_post.detected_image6 = damage_result6
-                    print('6번 이미지에서 차량 파손 감지')
+            if image6:
+                if img6_result and ('2' in img6_result):
+                    car_sales_post.Image6 = image6
+                    print('6번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result6:
+                        car_sales_post.detected_image6 = damage_result6
+                        print('6번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지6')
             else:
                 not_car_list.append('이미지6')
 
             image7 = request.FILES.get("image7")
             img7_result, damage_result7 = car_determination_and_damage_detection(image7)
             print(img7_result, damage_result7)
-            if image7 and ('2' in img7_result):
-                car_sales_post.Image7 = image7
-                print('7번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result7:
-                    car_sales_post.detected_image7 = damage_result7
-                    print('7번 이미지에서 차량 파손 감지')
+            if image7:
+                if img7_result and ('2' in img7_result):
+                    car_sales_post.Image7 = image7
+                    print('7번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result7:
+                        car_sales_post.detected_image7 = damage_result7
+                        print('7번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지7')
             else:
                 not_car_list.append('이미지7')
 
@@ -129,11 +153,14 @@ def question_create(request, car_VNUM):
             img8_result, damage_result8 = car_determination_and_damage_detection(image8)
             print(img8_result, damage_result8)
             if image8:
-                car_sales_post.Image8 = image8
-                print('8번 이미지 자동차 확인. 업로드 성공.')
-                if damage_result8:
-                    car_sales_post.detected_image8 = damage_result8
-                    print('8번 이미지에서 차량 파손 감지')
+                if img8_result:
+                    car_sales_post.Image8 = image8
+                    print('8번 이미지 자동차 확인. 업로드 성공.')
+                    if damage_result8:
+                        car_sales_post.detected_image8 = damage_result8
+                        print('8번 이미지에서 차량 파손 감지')
+                else:
+                    not_car_list.append('이미지8')
             else:
                 not_car_list.append('이미지8')
 
@@ -143,10 +170,10 @@ def question_create(request, car_VNUM):
                     messages.error(request, error_message)
                 context = {'form': form, 'car': car, 'error_messages': error_messages}
                 return render(request, 'sales/question_form.html', context)
-
-            car_sales_post.save()
-            messages.success(request, '판매 게시글이 성공적으로 등록됐습니다.')
-            return redirect('sales:index')
+            else:
+                car_sales_post.save()
+                messages.success(request, '판매 게시글이 성공적으로 등록됐습니다.')
+                return redirect('sales:index')
     else:
         form = SalesForm()
     context = {'form': form, 'car': car}

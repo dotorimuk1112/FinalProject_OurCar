@@ -38,9 +38,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)cx(fx%3luyzxtx^l@@&j2_mqp0^#9&)-i%4fvt-s!jfhrsu+@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.34.74.38', '127.0.0.1']
 
 
 # Application definition
@@ -94,7 +94,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = my_settings.DATABASES
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -143,3 +142,12 @@ LOGIN_REDIRECT_URL = '/'
 
 # 사용자 모델 지정
 AUTH_USER_MODEL = 'common.CustomUser'
+
+# SECURE_SSL_REDIRECT = False
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# # ALLOWED_HOSTS = ['yourdomain.com', '3.34.74.38']
+
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True

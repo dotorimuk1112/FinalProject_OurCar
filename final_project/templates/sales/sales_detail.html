@@ -184,7 +184,7 @@
                             <div>
                                 {% if CarSalesPost.PRICE >= min_budget and CarSalesPost.PRICE <= max_budget %}
                                 <div style="position: relative;">
-                                    <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                                     
                                 </div>
                                 <div style="background-color: rgb(24, 139, 192); border-radius: 10px; padding: 10px;">
@@ -193,7 +193,7 @@
                                 </div>
                                 {% elif CarSalesPost.PRICE > max_budget %}
                                 <div style="position: relative;">
-                                    <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
                                     
                                 </div>
                                 <div style="background-color: orange; border-radius: 10px; padding: 10px;">
@@ -202,7 +202,7 @@
                                 </div>
                                 {% else %}
                                 <div style="position: relative;">
-                                    <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                    <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                                     
                                 </div>
                                 <div style="background-color: rgb(24, 139, 192); border-radius: 10px; padding: 10px;">
@@ -325,7 +325,7 @@
                         <h4><strong>판매자 정보</strong></h4>
                         <div style="display: flex; justify-content: center;">
                             <div style="width: 160px; height: 160px; border-radius: 50%; overflow: hidden;">
-                                <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}/static/uploads/user_default.png{% endif %}" alt="프로필 이미지" style="width: 100%; height: 100%; object-fit: cover; margin: auto;">
+                                <img src="{% if CarSalesPost.seller.profile_image %}{{ CarSalesPost.seller.profile_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/user_default.png{% endif %}" alt="프로필 이미지" style="width: 100%; height: 100%; object-fit: cover; margin: auto;">
                             </div>
                         </div>                        
                           <div class="mb-2">판매자: {{ CarSalesPost.seller.real_name }}</div>
@@ -334,7 +334,7 @@
                         <div>
                             
                                 <!--이미지로 대체-->
-                                <img src="/static/uploads/google_location_icon.png" style="width: 20px; height: 20px; cursor: pointer;" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">
+                                <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/google_location_icon.png" style="width: 20px; height: 20px; cursor: pointer;" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">
                                 <div>주소 : {{ CarSalesPost.seller.address }}
                             </div>
                          <!-- 주소 버튼 -->
@@ -439,10 +439,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
-                        
                     </div>
+                    
                     
                     
                     <!-- 광열 수정 부분 -->
@@ -482,17 +480,6 @@
                         <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
                            data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
                         {% endif %} 
-                    <!-- <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
-                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
-                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
-                    </a> 
-                    {% if request.user == CarSalesPost.seller %}                        
-                    <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
-                       class="btn btn-sm btn-outline-secondary">수정</a> 
-    
-                    <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
-                       data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
-                    {% endif %}  -->
                 </div>
             </div>
             
@@ -575,7 +562,7 @@
             </div>
             <div class="row">
                 <div class="col-3 bg-light text-dark p-2 text-center" onClick="window.open('{{ woori_loan.link }}', '', '');" style="cursor:pointer;">
-                    <div><img src="/static/uploads/woori_logo_circle.png" width="75" height="75" class="d-inline-block align-text-top" style="margin-top:5px; margin-bottom: 25px;"></div>
+                    <div><img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/woori_logo_circle.png" width="75" height="75" class="d-inline-block align-text-top" style="margin-top:5px; margin-bottom: 25px;"></div>
                     <div>
                         우리은행<br>
                         중고차 대출<br>
@@ -681,7 +668,7 @@
                             {% if CarSalesPost.PRICE > min_price and CarSalesPost.PRICE < max_price %}
                             <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
                             <div style="position: relative;">
-                                <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                                 <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
                                     <strong>적당한 가격이에요!</strong>
                                 </div>
@@ -689,13 +676,13 @@
 
                             {% elif CarSalesPost.PRICE < min_price %}
                             <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                                <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                                <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
                                 <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
                                     <strong>너무 저렴한 것 같네요...</strong>
                                 </div>
                             {% else %}
                             <h3 style="color: rgb(0, 103, 172);">해당 매물 : <strong>{{CarSalesPost.PRICE}}만원</strong></h3>
-                            <img src="/static/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
+                            <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/not_sure.png" alt="예시 이미지" width="150" height="150">
                             <div style="background-color: yellow; color: w햣hite; padding: 5px; border-radius:10px;">
                                 <strong>너무 비싼것 같네요...</strong>
                             </div>
@@ -710,7 +697,7 @@
                             <h3 class="info-title" style="font-weight: bold;">AI 추천 적정 가격</h3>
                             <h3 class="price-range">AI 추천 적정 가격 서비스를 제공하지 않는 차종입니다.</h3>
                             <div style="position: relative;">
-                                <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                                <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                                 <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
                                     <strong>빠른 시일 내에 서비스를 준비하겠습니다.</strong>
                                 </div>
@@ -744,7 +731,7 @@
                     <h3 class="info-title" style="font-weight: bold;">AI 감가상각 예측</h3>
                     <h3 class="price-range">AI 감가상각 예측 서비스를<br> 제공하지 않는 차종입니다.</h3>
                     <div style="position: relative;">
-                        <img src="/static/uploads/safe.png" alt="예시 이미지" width="150" height="150">
+                        <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/safe.png" alt="예시 이미지" width="150" height="150">
                         <div style="background-color: rgb(0, 103, 172); color: white; padding: 5px;  border-radius:10px;">
                             <strong>빠른 시일 내에 서비스를 준비하겠습니다.</strong>
                         </div>
