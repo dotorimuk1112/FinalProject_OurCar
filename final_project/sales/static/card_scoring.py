@@ -19,7 +19,9 @@ def load_record(user_id):
             'avg_cur_bal' : current_user_record.avg_cur_bal,
             'acc_open_past_24mths' : current_user_record.acc_open_past_24mths,
             'total_bc_limit' : current_user_record.total_bc_limit,
-            'bc_util' : current_user_record.bc_util
+            'bc_util' : current_user_record.bc_util,
+            'avg_fico' : current_user_record.avg_fico,
+            'last_avg_fico' : current_user_record.last_avg_fico
         }]
 
         return data
@@ -28,7 +30,7 @@ def load_record(user_id):
         current_user_record = None
 
 def scoring_data(user_id):    
-    with open('credit_scorecard_final.pkl', 'rb') as f:
+    with open('ai_models/credit_scorecard_final.pkl', 'rb') as f:
         scorecard = pickle.load(f) 
     
     try:

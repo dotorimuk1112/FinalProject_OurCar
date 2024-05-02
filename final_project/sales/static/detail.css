@@ -65,3 +65,54 @@
 .navbar-brand {
     color: white;
 }
+
+.navbar-toggler-icon {
+    color: rgb(255, 255, 255); /* 원하는 색상으로 변경하세요 */
+}
+
+/* 이미지에 마우스를 올렸을 때의 애니메이션 효과 */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes post-ani {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    15% {
+        transform: rotate(10deg) scale(1.2);
+    }
+    30% {
+        transform: rotate(-10deg) scale(1.2);
+    }
+    45% {
+        transform: rotate(5deg) scale(1.1);
+    }
+    60% {
+        transform: rotate(-5deg) scale(1.1);
+    }
+    75% {
+        transform: rotate(2deg) scale(1.05);
+    }
+    100% {
+        transform: rotate(0deg) scale(1);
+    }
+}
+
+
+
+/* 이미지 요소에 애니메이션을 적용하는 클래스 */
+.shaking-image:hover {
+  animation: shake 0.5s ease-in-out infinite; /* 애니메이션 지속 시간과 반복 설정 */
+  /* opacity: 0.9;
+	animation: post-ani 0.8s linear 1; */
+}
+  
+.shaking-image2:hover {
+     opacity: 0.9;
+	animation: post-ani 0.8s linear 1;
+  }

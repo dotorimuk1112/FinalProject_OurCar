@@ -13,10 +13,23 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import my_settings
 import os
+
+# AWS 인증 정보
+AWS_ACCESS_KEY_ID = my_settings.AWS_ACCESS_ID
+AWS_SECRET_ACCESS_KEY = my_settings.AWS_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = my_settings.BUCKET_NAME
+AWS_S3_REGION_NAME = my_settings.REGION_NAME
+
+CUSTOM_DOMAIN = f'{my_settings.BUCKET_NAME}.s3.{my_settings.REGION_NAME}.amazonaws.com'
+
+STATIC_URL = f"https://{CUSTOM_DOMAIN}/static/"
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+MEDIA_URL = f"https://{CUSTOM_DOMAIN}/meida/"
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '_media') 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -25,9 +38,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, '_media')
 SECRET_KEY = 'django-insecure-)cx(fx%3luyzxtx^l@@&j2_mqp0^#9&)-i%4fvt-s!jfhrsu+@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.34.74.38', '127.0.0.1']
 
 
 # Application definition
@@ -81,7 +94,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = my_settings.DATABASES
 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
@@ -130,3 +142,12 @@ LOGIN_REDIRECT_URL = '/'
 
 # 사용자 모델 지정
 AUTH_USER_MODEL = 'common.CustomUser'
+
+# SECURE_SSL_REDIRECT = False
+
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# # ALLOWED_HOSTS = ['yourdomain.com', '3.34.74.38']
+
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True

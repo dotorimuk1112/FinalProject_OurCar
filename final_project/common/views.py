@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from common.forms import CustomUserForm  # CustomUserForm을 사용하기 위해 import
 from django.contrib import messages
-from .models import Car, CustomUser
+from .models import CarAPI, CustomUser
 from sales.models import CarSalesPost
 from django.http import HttpResponse
 from .forms import CustomPasswordChangeForm,CustomUserUpdateForm
@@ -30,11 +30,8 @@ def signup(request):
     else:
         form = CustomUserForm()  # CustomUserForm 사용
     return render(request, 'common/signup.html', {'form': form})
-
-# 저장된 모델 불러오기
-# with open('car_price_prediction_models_v2.pkl', 'rb') as f:
-#     loaded_model = pickle.load(f)
-
+# 차량 정보 조회
+@login_required(login_url='common:login')
 def car_info(request):
     error_message = None
     car = None
@@ -47,13 +44,18 @@ def car_info(request):
     already_registered = None
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
-        car = Car.objects.get(VNUM=car_number)
+        car = CarAPI.objects.get(VNUM=car_number)
         predicted_price, mae = car_price_pred_model(car)
         predicted_list, mae_10000 = car_price_pred_model_10000(car)
         
-        min_price = int(predicted_price - float(mae))
-        max_price = int(predicted_price + float(mae))
-        already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+        if mae:
+            min_price = int(predicted_price - float(mae))
+            max_price = int(predicted_price + float(mae))
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+        else:
+            min_price = None
+            max_price = None
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
     return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000, 'already_registered':already_registered})
 
 

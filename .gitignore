@@ -2,8 +2,7 @@ venvs/
 venv2/
 .venv/
 venvv/
-
-ourcar/my_settings.py
+final_project/.env
 
 final_project/my_settings.py
 
@@ -18,7 +17,11 @@ final_project/__pycache__/
 
 **/__pycache__/
 
-final_project/best.pt
+final_project/ai_models/yolov8s.pt
+final_project/ai_models/best.pt
+final_project/ai_models/car_price_prediction_models_xgb.pkl
+final_project/ai_models/car_price_prediction_models_RF.pkl
+final_project/ai_models/budget_recommend_models.pkl
+final_project/ai_models/*
 
-final_project/car_price_prediction_models_xgb.pkl
-final_project/car_price_prediction_models_RF.pkl
+*.pyc

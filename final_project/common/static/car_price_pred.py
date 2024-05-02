@@ -3,6 +3,9 @@ import pickle
 import csv
 import pandas as pd
 
+with open('ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
+    loaded_model = pickle.load(f)
+
 def load_data(car):
     data = {
         'MYEAR': [2024 - car.MYERAR + 1],
@@ -43,14 +46,12 @@ def load_data(car):
     return data
 
 def car_price_pred_model(car):
-    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
-        loaded_model = pickle.load(f)
-
     try:
         data = load_data(car=car)
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -82,23 +83,20 @@ def car_price_pred_model(car):
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
             predicted_price = "모델을 못 찾았습니다."
-            return predicted_price
+            return predicted_price, target_model_mae
         
     except Car.DoesNotExist:
         error_message = "해당하는 차량 정보가 없습니다."
         return error_message
     
 def car_price_pred_model_10000(car):
-    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
-        loaded_model = pickle.load(f)
-
     try:
-        # 입력된 차량 정보를 기반으로 데이터 구성
         data = load_data(car=car)
         data_df = pd.DataFrame(data)
         prediction_list = []
         target_model_name = car.L_NAME
-        target_model = None 
+        target_model = None
+        target_model_mae = None
 
 
         for model_name, model in loaded_model:
@@ -144,24 +142,19 @@ def car_price_pred_model_10000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae
 
 def car_price_pred_model_20000(car):
-    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
-        loaded_model = pickle.load(f)
-
     try:
-        # 입력된 차량 정보를 기반으로 데이터 구성
         data = load_data(car=car)
         prediction_list = []
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None 
-
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -206,23 +199,19 @@ def car_price_pred_model_20000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae
 
 def car_price_pred_model_30000(car):
-    with open('car_price_prediction_models_RF.pkl', 'rb') as f:
-        loaded_model = pickle.load(f)
-
     try:
         data = load_data(car=car)
         prediction_list = []
         data_df = pd.DataFrame(data)
         target_model_name = car.L_NAME
         target_model = None 
-
+        target_model_mae = None
 
         for model_name, model in loaded_model:
             if model_name == 'model_' + target_model_name:
@@ -267,8 +256,7 @@ def car_price_pred_model_30000(car):
 
         else:
             # 해당 모델을 찾을 수 없는 경우 처리
-            return prediction_list
+            return prediction_list, target_model_mae
         
     except Car.DoesNotExist:
-        error_message = "해당하는 차량 정보가 없습니다."
-        return error_message
+        return prediction_list, target_model_mae

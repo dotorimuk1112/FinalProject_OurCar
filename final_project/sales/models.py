@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CustomUser
-from config.settings import MEDIA_ROOT
+from config.settings import MEDIA_URL
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 
@@ -61,16 +61,6 @@ def update_buyers_count(sender, instance, **kwargs):
     buyers_count = BuyerMessages.objects.filter(post_id=instance.post_id).count()
     CarSalesPost.objects.filter(post_id=instance.post_id).update(buyers_count=buyers_count)
 
-
-class UploadedImage2(models.Model):
-    uploadedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')
-    processedimage = models.ImageField(upload_to=f'{MEDIA_ROOT}')  # processedimage 필드 추가
-    has_car = models.BooleanField(default=False)
-
-    class Meta:
-        managed = True
-        db_table = 'pybo_uploadedimage2'
-
 class BuyerMessages(models.Model):
     buyer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='buyer_messages', null=False)
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='seller_messages', null=False)
@@ -92,3 +82,4 @@ def update_make_deal(sender, instance, **kwargs):
     else:
         # accepted가 없으면 make_deal 값을 False로 설정합니다.
         CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=False)
+        
