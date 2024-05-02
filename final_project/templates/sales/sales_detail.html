@@ -369,7 +369,7 @@
                     <div class="modal fade" id="buyerProposalsModal" tabindex="-1" aria-labelledby="buyerProposalsModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-lg">
                             <div class="modal-content">
-                                <div class="modal-header bg-primary text-white">
+                                <div class="modal-header text-white" style="background-color: rgb(0, 103, 172);">
                                     <h5 class="modal-title" id="buyerProposalsModalLabel">구매 제안서</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
@@ -443,6 +443,11 @@
                         
                         <!-- 광열 수정 부분 -->
                         <!-- 구매 의사 모달 버튼 -->
+
+                        <!-- <a class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal"> 
+                            구매 의사
+                            <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
+                        </a>  -->
                         <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                             구매 의사
                             <span class="badge rounded-pill bg-success">{{ CarSalesPost.buyer.count }}</span>
@@ -482,10 +487,7 @@
                     
                     
                     
-                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
-                        class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
-                        <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
-                    </a> 
+
                     {% if request.user == CarSalesPost.seller %}                        
                     <a href="{% url 'sales:sales_modify' CarSalesPost.post_id  %}" 
                        class="btn btn-sm btn-outline-secondary">수정</a> 
