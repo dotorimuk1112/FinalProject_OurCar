@@ -173,7 +173,7 @@ def sales_modify(request, post_id):
         form = SalesForm(instance=car_sales_post)
       # car 변수에 차량번호 정보를 저장
     car_VNUM = car_sales_post.VNUM
-    car = get_object_or_404(Car, VNUM=car_VNUM)
+    car = get_object_or_404(CarAPI, VNUM=car_VNUM)
     context = {'form': form, 'car_sales_post': car_sales_post, 'car': car}
     return render(request, 'sales/question_form.html', context)
 

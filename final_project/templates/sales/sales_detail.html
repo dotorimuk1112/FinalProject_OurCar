@@ -441,7 +441,11 @@
                         </div>
                         
                         
-                        <!-- 광열 수정 부분 -->
+                        
+                    </div>
+                    
+                    
+                    <!-- 광열 수정 부분 -->
                         <!-- 구매 의사 모달 버튼 -->
                         <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                             구매 의사
@@ -478,11 +482,7 @@
                         <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
                            data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
                         {% endif %} 
-                    </div>
-                    
-                    
-                    
-                    <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
+                    <!-- <a href="javascript:void(0)" data-uri="{% url 'sales:buy_car' CarSalesPost.post_id  %}"
                         class="recommend btn btn-sm btn-outline-secondary"> 구매 의사
                         <span class="badge rounded-pill bg-success">{{CarSalesPost.buyer.count}}</span> 
                     </a> 
@@ -492,7 +492,7 @@
     
                     <a href="javascript:void(0)" class="delete btn btn-sm btn-outline-secondary"
                        data-uri="{% url 'sales:sales_delete' CarSalesPost.post_id  %}">삭제</a>
-                    {% endif %} 
+                    {% endif %}  -->
                 </div>
             </div>
             
