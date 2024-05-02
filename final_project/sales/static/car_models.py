@@ -8,8 +8,8 @@ import my_settings  # my_settings 파일은 해당 프로젝트의 설정 파일
 s3_client = boto3.client('s3', aws_access_key_id=my_settings.AWS_ACCESS_ID, aws_secret_access_key=my_settings.AWS_SECRET_KEY)
 
 # 모델 로드
-car_determination_model = YOLO('ai_models/yolov8s.pt')
-damage_detection_model = YOLO('ai_models/car_damage_detection_model.pt')
+car_determination_model = YOLO('/app/final_project/ai_models/yolov8s.pt')
+damage_detection_model = YOLO('/app/final_project/ai_models/car_damage_detection_model.pt')
 
 def car_determination_and_damage_detection(img):
     if img:
