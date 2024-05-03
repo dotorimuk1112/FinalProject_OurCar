@@ -38,7 +38,6 @@
                 <p><strong>이메일:</strong> {{ user.email }}</p>
                 <p><strong>전화번호:</strong> {{ user.phone_number }}</p>
                 <p><strong>주소:</strong> {{ user.address }}</p>
-                <!-- <p><strong>신용점수:</strong> {{ user_credit_score }}</p> -->
                 <div class="d-flex justify-content-center">
                     <div class="col-md-6 mb-2">
                         <a href="{% url 'common:edit_profile'%}" class="btn btn-secondary btn-outline-secondary btn-block" style="font-size: 13px; color:white">개인정보 수정</a>
@@ -47,51 +46,7 @@
                         <a href="{% url 'common:password_update'%}" class="btn btn-secondary btn-outline-secondary btn-block" style="font-size: 13px; color:white">비밀번호 변경</a>
                     </div>
                 </div>
-                <!-- 기타 사용자 정보 필드들을 추가로 출력할 수 있음 -->
             </div>
-            <!-- 사용자 정보 출력 부분 이후에 추가 -->
-            {% comment %} <div class="text-center ">
-                <h3>카드 결제 내역</h3>
-                {% if test_sangmin_instance %}
-                    <p><strong>SEQ:</strong> {{ test_sangmin_instance.seq }}</p>
-                    {% if test_sangmin_instance.interior_am %}
-                        <p><strong>가전/가구/주방용품 :</strong> {{ test_sangmin_instance.interior_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.insuhos_am %}
-                        <p><strong>보험/병원 :</strong> {{ test_sangmin_instance.insuhos_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.offedu_am %}
-                        <p><strong>사무통신/서적/학원 :</strong> {{ test_sangmin_instance.offedu_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.trvlec_am %}
-                        <p><strong>여행/레져/문화 :</strong> {{ test_sangmin_instance.trvlec_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.fsbz_am %}
-                        <p><strong>요식업 :</strong> {{ test_sangmin_instance.fsbz_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.svcarc_am %}
-                        <p><strong>용역/수리/건축자재 :</strong> {{ test_sangmin_instance.svcarc_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.dist_am %}
-                        <p><strong>유통 :</strong> {{ test_sangmin_instance.dist_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.plsanit_am %}
-                        <p><strong>보건위생 :</strong> {{ test_sangmin_instance.plsanit_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.clothgds_am %}
-                        <p><strong>의류/신변잡화 :</strong> {{ test_sangmin_instance.clothgds_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.auto_am %}
-                        <p><strong>자동차/연료/정비 :</strong> {{ test_sangmin_instance.auto_am }}</p>
-                    {% endif %}
-                    {% if test_sangmin_instance.car_price %}
-                        <p><strong>Car Price:</strong> {{ test_sangmin_instance.car_price }}</p>
-                    {% endif %}
-                {% else %}
-                    <p>결제 내역이 없습니다.</p>
-                {% endif %}
-            </div>
-             {% endcomment %}
         </div>
 
         <!-- 오른쪽 열: 좋아요한 게시글 목록 -->
@@ -123,12 +78,6 @@
                                             </span>
                                         </div>
                                         {% endif %}
-                                        {% comment %} {% if car.buyer.count != 0 %}
-                                            <i class="fas fa-bell text-danger"></i>
-                                            <span class="text-danger d-inline">{{ car.buyer.count }}</span>
-                                        {% else %}
-                                            
-                                        {% endif %} {% endcomment %}
                                     </div>  
                                                                  
                                     <img src="{% if car.thumbnail_image %}{{ car.thumbnail_image.url }}{% else %}https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/sampleCAR.jpg{% endif %}" alt="프로필 이미지" class="card-img-top" width= "200" height= "200">
@@ -218,10 +167,7 @@
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">
                                             <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
                                         </p>   
-                                    </div>                 
-                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
-                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                    </div>                  
                                 </div>
                             </div>
                         </div>
@@ -402,25 +348,12 @@
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
                                     </div>
-                                    {% comment %} <div class="text-end">
-                                        <p style="font-size: 12px; margin-right: 10px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 요청가격: {{ car.buyer_price }}</p>
-                                        <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
-                                            <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
-                                        </p>   
-                                    </div> {% endcomment %}
                                     <div class="text-end">
                                         <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; {% if car.accepted == 0 %}color: red;{% elif car.accepted == 1 %}color: green;{% else %}color: black;{% endif %}; font-weight: bold; display: inline-block;">요청가 : {{ car.buyer_price }}만원</p>
                                         <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
                                             <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
                                         </p>   
                                     </div>
-                                    
-                                    
-                                    
-                                                   
-                                    {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                                    <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
-                                    {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
                                 </div>
                             </div>
                         </div>
@@ -497,25 +430,12 @@
                                                 <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MYERAR }}년식</p>
                                                 <p style="font-size: 12px; margin-top: 0; margin-bottom: 0;">{{ car.MILEAGE }}km | {{ car.seller.address }}</p>
                                             </div>
-                                            {% comment %} <div class="text-end">
-                                                <p style="font-size: 12px; margin-right: 10px; margin-top: 0; margin-bottom: 0; color: red; font-weight: bold; display: inline-block;">구매 요청가격: {{ car.buyer_price }}</p>
-                                                <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
-                                                    <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
-                                                </p>   
-                                            </div> {% endcomment %}
                                             <div class="text-end">
                                                 <p style="font-size: 14px; margin-top: 0; margin-bottom: 0; {% if car.accepted == 0 %}color: red;{% elif car.accepted == 1 %}color: green;{% else %}color: black;{% endif %}; font-weight: bold; display: inline-block;">요청가 : {{ car.buyer_price }}만원</p>
                                                 <p style="font-size: 12px; margin-top: 0; margin-bottom: 0; display: inline-block;">
                                                     <span style="font-size: 20px; color: skyblue;"><strong>{{ car.PRICE }}</strong></span><span style="font-size: 12px;">만원</span>
                                                 </p>   
-                                            </div>
-                                            
-                                            
-                                            
-                                                        
-                                            {% comment %} <p class="card-text">글쓴이: {{ car.seller.username }}</p>
-                                            <p class="card-text">작성일시: {{ car.create_date|date:"Y년 m월 d일" }}</p> {% endcomment %}
-                                            {% comment %} <p> eqfeddddqf </p> {% endcomment %}         
+                                            </div>        
                                         </div>
                                     </div>
                                 </div>
