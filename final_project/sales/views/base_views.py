@@ -97,11 +97,17 @@ def index(request):
         
     # 연식 필터   
     if mile_mode :
-        car_list = car_list.filter(MYERAR=mile_mode)
+        if mile_mode == "전체":
+            pass
+        else:
+            car_list = car_list.filter(MYERAR=mile_mode)
         
     # 차종(크기) 필터   
     if vtype_mode :
-        car_list = car_list.filter(VTYPE=vtype_mode)
+        if vtype_mode == "전체":
+            pass
+        else:
+            car_list = car_list.filter(VTYPE=vtype_mode)
     # 예산 추천
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
