@@ -26,7 +26,7 @@ def propose_price(request, post_id):
                 buyer_message.accepted = None
                 buyer_message.save()
             # 데이터가 성공적으로 저장된 후 리디렉션할 URL
-            return redirect('sales:my_page')  # 사용자가 자신의 페이지로 리디렉션하도록 수정해야 할 수도 있습니다.
+            return redirect('sales:my_page')
     else:
         form = BuyerMessagesForm()
     

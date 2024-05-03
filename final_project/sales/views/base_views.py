@@ -174,7 +174,7 @@ def accept_proposal(request, proposal_id):
         elif accepted_value == 'False':
             proposal.accepted = False
         proposal.save()
-        # 성공적인 메시지를 추가합니다. 이 경우 메시지 레벨은 SUCCESS입니다.
+        # 성공 메시지 추가
         messages.success(request, '성공적으로 전달되었습니다.')
         return redirect('sales:detail', post_id=proposal.post_id)
     else:
@@ -182,13 +182,13 @@ def accept_proposal(request, proposal_id):
 
 # 가격 제시 레코드 삭제
 def cancel_proposal(request, post_id):
-    # 현재 접속한 사용자와 해당 게시글(post_id)에 해당하는 구매 제안서를 가져옵니다.
+    # 현재 접속한 사용자와 해당 게시글(post_id)에 해당하는 구매 제안서 가져오기
     proposal = get_object_or_404(BuyerMessages, buyer=request.user, post_id=post_id)
 
-    # 구매 제안서를 삭제합니다.
+    # 구매 제안서를 삭제
     proposal.delete()
 
-    # 삭제 후에 어디로 리다이렉트할지 선택합니다.
+    # 삭제 후 리다이렉트
     return redirect('sales:detail', post_id)
 
 # 대출 상품 데이터 가져오기
@@ -237,15 +237,15 @@ def detail(request, post_id):
     if user:
         min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
-    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
+    # 해당 게시글에 대한 구매 제안서 목록을 가져오기
     buyer_proposals = BuyerMessages.objects.filter(post_id=post_id)
-    buyer_list = [proposal.buyer_id for proposal in buyer_proposals]    # 해당 게시글에 대한 구매 제안서 목록을 가져옵니다.s
-    # 구매 제안서 목록을 반복하면서 구매자 정보와 함께 가져옵니다.
+    buyer_list = [proposal.buyer_id for proposal in buyer_proposals]    # 해당 게시글에 대한 구매 제안서 목록을 가져오기
+    # 구매 제안서 목록을 반복하면서 구매자 정보와 함께 가져오기
     buyer_proposals_with_info = []
     for proposal in buyer_proposals:
-        # 각 구매 제안서의 구매자 정보를 가져옵니다.
+        # 각 구매 제안서의 구매자 정보를 가져오기
         buyer_info = get_object_or_404(CustomUser, id=proposal.buyer_id)
-        # 구매 제안서와 구매자 정보를 함께 저장합니다.
+        # 구매 제안서와 구매자 정보를 함께 저장
         buyer_proposals_with_info.append((proposal, buyer_info))
     
     # 사용자에게 맞는 대출 상품 목록 가져오기
@@ -284,12 +284,10 @@ def detail(request, post_id):
 def my_page(request):
     user = request.user
     test_sangmin_instance = predict_budget.objects.get(id=user.id)
-    # user_buyer_price = BuyerMessages.objects.filter(buyer_id=user.id) 
-    
     
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
         
-    # 사용자가 좋아하는 차량 가져오기
+    # 사용자가 구매 의사 보낸 차량 가져오기
     liked_car = CarSalesPost.objects.filter(buyer=user)
     
     # 사용자가 판매한 차량 가져오기
@@ -299,10 +297,10 @@ def my_page(request):
     # 현재 접속한 사용자의 ID
     user_id = request.user.id
 
-    # 현재 접속한 사용자의 ID에 해당하는 모든 BuyerMessages의 post_id를 가져옵니다.
+    # 현재 접속한 사용자의 ID에 해당하는 모든 BuyerMessages의 post_id를 가져오기
     user_buyer_messages = BuyerMessages.objects.filter(buyer_id=user_id).values_list('post_id', flat=True)
     user_buyer_price = BuyerMessages.objects.filter(buyer_id=user_id).values_list('buyer_price', flat=True)
-    # BuyerMessages에 해당하는 CarSalesPost를 가져옵니다.
+    # BuyerMessages에 해당하는 CarSalesPost를 가져오기
     buyer_proposed_cars = CarSalesPost.objects.filter(post_id__in=user_buyer_messages)
     for car in buyer_proposed_cars:
         buyer_message = BuyerMessages.objects.filter(post_id=car.post_id).first()  # 해당 게시글에 대한 첫 번째 BuyerMessages 객체 가져오기
@@ -328,7 +326,7 @@ def my_page(request):
     user_cars_for_sale_count = user_cars_for_sale.count()
     buyer_proposed_cars_count = buyer_proposed_cars.count()
 
-    # 사용자의 프로필 이미지를 가져옵니다.
+    # 사용자의 프로필 이미지를 가져오기
     profile_image = user.profile_image
     # 사용자의 신용 점수 가져오기
     user_credit_score = scoring_data(user_id=user_id)

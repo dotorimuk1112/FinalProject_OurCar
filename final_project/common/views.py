@@ -11,7 +11,7 @@ from django.contrib.auth import update_session_auth_hash
 from common.static.car_price_pred import car_price_pred_model, car_price_pred_model_10000
 
 def index(request):
-    return HttpResponse("안녕하세요 pybo에 오신것을 환영합니다.")
+    return HttpResponse("안녕하세요 아워카에 오신 것을 환영합니다.")
 
 def logout_view(request):
     logout(request)
@@ -25,11 +25,11 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            # login(request, user)
             return redirect('index')
     else:
         form = CustomUserForm()  # CustomUserForm 사용
     return render(request, 'common/signup.html', {'form': form})
+
 # 차량 정보 조회
 @login_required(login_url='common:login')
 def car_info(request):
