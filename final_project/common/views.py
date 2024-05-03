@@ -44,24 +44,18 @@ def car_info(request):
     already_registered = None
     if request.method == 'POST':
         car_number = request.POST.get('car_number')
-
-        try:        
-            car = CarAPI.objects.get(VNUM=car_number)
-            predicted_price, mae = car_price_pred_model(car)
-            predicted_list, mae_10000 = car_price_pred_model_10000(car)
-            
-            if mae:
-                min_price = int(predicted_price - float(mae))
-                max_price = int(predicted_price + float(mae))
-                already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
-            else:
-                min_price = None
-                max_price = None
-                already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
-        except CarAPI.DoesNotExist:
-            error_message = "정보를 불러올 수 없는 차량입니다. 차량 번호를 다시 확인해주세요."
-        except Exception as e:
-            error_message = f"오류 발생: {str(e)}"  # 다른 예외가 발생한 경우에도 처리 가능
+        car = CarAPI.objects.get(VNUM=car_number)
+        predicted_price, mae = car_price_pred_model(car)
+        predicted_list, mae_10000 = car_price_pred_model_10000(car)
+        
+        if mae:
+            min_price = int(predicted_price - float(mae))
+            max_price = int(predicted_price + float(mae))
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
+        else:
+            min_price = None
+            max_price = None
+            already_registered = CarSalesPost.objects.filter(VNUM=car_number).first()
     return render(request, 'common/car_info.html', {'car': car, 'min_price': min_price, 'max_price': max_price, 'error_message': error_message, 'predicted_list': predicted_list, 'mae_10000': mae_10000, 'already_registered':already_registered})
 
 
