@@ -3,44 +3,36 @@ import pickle
 import csv
 import pandas as pd
 
-with open('/app/final_project/ai_models/car_price_prediction_models_RF.pkl', 'rb') as f:
+with open('/app/final_project/ai_models/car_price_prediction_models_RF2.pkl', 'rb') as f:
     loaded_model = pickle.load(f)
 
 def load_data(car):
     data = {
         'MYEAR': [2024 - car.MYERAR + 1],
         'MILEAGE': [car.MILEAGE],
-        'DISP': [car.DISP],         
         'CU_HIS': [car.CU_HIS],
         'MVD_HIS': [car.MVD_HIS],
         'AVD_HIS': [car.AVD_HIS],
-        'TL_HIS': [1],
         'FD_HIS': [car.FD_HIS],
         'VT_HIS': [car.VT_HIS],
         'US_HIS': [car.US_HIS],
-        'TLHIS' : [1],
 
         'TRANS_CVT' : [(car.TRANS == 'CVT')],
         'TRANS_SAT' : [(car.TRANS == 'SAT')],
         'TRANS_기타': [(car.TRANS == '기타')],
         'TRANS_수동': [(car.TRANS == '수동')],
         'TRANS_오토' : [(car.TRANS == '오토')],
-        'TRANS_자동': [(car.TRANS == '자동')],
 
-        'F_TYPE_0': [(car.F_TYPE == '0')],
         'F_TYPE_CNG': [(car.F_TYPE == 'CNG')],
         'F_TYPE_LPG': [(car.F_TYPE == 'LPG')],
         'F_TYPE_가솔린': [(car.F_TYPE == '가솔린')],
-        'F_TYPE_가솔린 하이브리드': [(car.F_TYPE == '가솔린 하이브리드')],
         'F_TYPE_가솔린+LPG': [(car.F_TYPE == '가솔린+LPG')],
-        'F_TYPE_가솔린/LPG겸용': [(car.F_TYPE == '가솔린/LPG겸용')],
         'F_TYPE_기타': [(car.F_TYPE == '기타')],
         'F_TYPE_디젤': [(car.F_TYPE == '디젤')],
         'F_TYPE_전기': [(car.F_TYPE == '전기')],
         'F_TYPE_하이브리드': [(car.F_TYPE == '하이브리드')],
         'F_TYPE_하이브리드(LPG)': [(car.F_TYPE == '하이브리드(LPG)')],
         'F_TYPE_하이브리드(가솔린)': [(car.F_TYPE == '하이브리드(가솔린)')],
-        'F_TYPE_하이브리드(가솔린/전기)': [(car.F_TYPE == '하이브리드(가솔린/전기)')],
         'F_TYPE_하이브리드(디젤)': [(car.F_TYPE == '하이브리드(디젤)')],
     }
     return data
@@ -66,7 +58,7 @@ def car_price_pred_model(car):
             # 딕셔너리로 데이터를 저장할 변수 초기화
             target_model_mae = None
 
-            csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
+            csv_file_path = '/app/final_project/common/static/car_price_pred_mae_RF.csv'
 
             # CSV 파일 열기
             with open(csv_file_path, newline='', encoding='cp949') as csvfile:
@@ -104,7 +96,7 @@ def car_price_pred_model_10000(car):
                 target_model = model
                 break
         
-        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae_RF.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
@@ -161,7 +153,7 @@ def car_price_pred_model_20000(car):
                 target_model = model
                 break
         
-        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae_RF.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
@@ -218,7 +210,7 @@ def car_price_pred_model_30000(car):
                 target_model = model
                 break
         
-        csv_file_path = '/app/final_project/common/static/car_price_pred_mae.csv'
+        csv_file_path = '/app/final_project/common/static/car_price_pred_mae_RF.csv'
         
         with open(csv_file_path, newline='', encoding='cp949') as csvfile:
             reader = csv.reader(csvfile)
