@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="container my-3">
+     <!-- message 표시 -->
+     {% if messages %}
+     <div class="alert my-3" role="alert">
+     {% for message in messages %}
+        <div class="alert
+            {% if message.level_tag == "debug" %}
+                alert-secondary
+            {% elif message.level_tag == "error" %}
+                alert-danger
+            {% elif message.level_tag == "success" %}
+                alert-success
+            {% else %}
+                alert-{{ message.level_tag }}
+            {% endif %}">
+            {{ message.message }}
+        </div>
+
 <div class="container">
     <div class="row justify-content-center {% if not car %} d-flex align-items-center vh-100{% endif %}">
         <div class="col-md-12">
