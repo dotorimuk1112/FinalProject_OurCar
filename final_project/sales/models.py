@@ -7,7 +7,6 @@ from django.db.models.signals import post_save, post_delete
 class CarSalesPost(models.Model):
     post_id = models.AutoField(primary_key=True)
     seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='author_question')
-    ############차량 상세정보 ##############
     MNAME = models.TextField(null=False)
     MYERAR = models.IntegerField(null=False)
     MILEAGE = models.IntegerField(null=False)
@@ -23,7 +22,6 @@ class CarSalesPost(models.Model):
     FD_HIS = models.IntegerField(null=False)
     VT_HIS = models.FloatField(null=False)
     US_HIS = models.IntegerField(null=False)
-    #######################################
     PRICE = models.IntegerField(null=False) ##만원단위
     modify_date = models.DateTimeField(null=True, blank=True)
     create_date = models.DateTimeField()
@@ -74,12 +72,12 @@ class BuyerMessages(models.Model):
         
 @receiver([post_save, post_delete], sender=BuyerMessages)
 def update_make_deal(sender, instance, **kwargs):
-    # 해당 게시물에 대한 BuyerMessages의 accepted가 True인 수를 가져옵니다.
+    # 해당 게시물에 대한 BuyerMessages의 accepted가 True인 수를 가져오기
     accepted_count = BuyerMessages.objects.filter(post=instance.post, accepted=True).count()
-    # 만약 accepted가 1 이상이면 make_deal 값을 True로 설정합니다.
+    # 만약 accepted가 1 이상이면 make_deal 값을 True로 설정
     if accepted_count > 0:
         CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=True)
     else:
-        # accepted가 없으면 make_deal 값을 False로 설정합니다.
+        # accepted가 없으면 make_deal 값을 False로 설정
         CarSalesPost.objects.filter(post_id=instance.post.post_id).update(make_deal=False)
         

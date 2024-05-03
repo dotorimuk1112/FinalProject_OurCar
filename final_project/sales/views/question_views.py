@@ -215,16 +215,6 @@ def sales_delete(request, post_id):
     car_sales_post.delete()
     return redirect('sales:index')
 
-# 질문 추천
-# @login_required(login_url='common:login')
-# def question_vote(request, post_id):
-#     CarSalesPost = get_object_or_404(CarSalesPost, pk=post_id)
-#     if request.user == CarSalesPost.seller:
-#         messages.error(request, '본인이 작성한 글은 추천할수 없습니다')
-#     else:
-#         CarSalesPost.voter.add(request.user)
-#     return redirect('sales:detail', post_id=CarSalesPost.post_id)
-
 # 차량 구매 요청
 @login_required(login_url='common:login')
 def buy_car(request, post_id):
