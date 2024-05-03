@@ -1,9 +1,15 @@
 {% extends "base.html" %}
-{% block content %}
+{% block content %}    
+
 <div class="container">
     <div class="row justify-content-center {% if not car %} d-flex align-items-center vh-100{% endif %}">
         <div class="col-md-12">
-            <h1 class="text-center mb-4 mt-0" style="font-weight: 900;">차량 정보를 조회합니다.</h1>
+            {% if error_message %}
+            <div class="alert alert-danger text-center mt-3" role="alert" style="border-radius: 5px; max-width: 520px; margin: 0 auto;">
+                <strong></strong> {{ error_message }}
+            </div>
+            {% endif %}
+            <h1 class="text-center mb-4 mt-3" style="font-weight: 900;">차량 정보를 조회합니다.</h1>
             <form method="post" class="text-center">
                 {% csrf_token %}
                 <div class="row justify-content-center">
@@ -98,8 +104,6 @@
                 </div>
                 {% endif %}
                                 </div>
-            {% elif error_message %}
-                <p class="text-center">{{ error_message }}</p>
             {% endif %}
         </div>
     </div>
