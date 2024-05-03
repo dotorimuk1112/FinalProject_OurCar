@@ -336,12 +336,7 @@
                                 <!--이미지로 대체-->
                                 <img src="https://ourcar-bucket.s3.ap-northeast-2.amazonaws.com/uploads/google_location_icon.png" style="width: 20px; height: 20px; cursor: pointer;" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">
                                 <div>주소 : {{ CarSalesPost.seller.address }}
-                            </div>
-                         <!-- 주소 버튼 -->
-                         <!-- <button type="button" class="btn btn-success" onclick="showMapModal('{{ CarSalesPost.seller.address }}')">구글맵 확인하기</button>
-                         -->
-                         
-
+                            </div>                       
                          <!-- 모달 창 -->
                          <div class="modal fade" id="mapModal" tabindex="-1" aria-labelledby="mapModalLabel" aria-hidden="true">
                              <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -443,7 +438,7 @@
                     
                     
                     
-                    <!-- 광열 수정 부분 -->
+
                         <!-- 구매 의사 모달 버튼 -->
                         <button type="button" class="recommend btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmModal">
                             구매 의사
@@ -840,16 +835,7 @@
             {% endif %}
         {% endif %}
     </div>
-
-
 {% endif %}
-
-
-
-
-
-
-
 {% endblock%}
 {% block script %}
 
