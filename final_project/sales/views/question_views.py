@@ -35,9 +35,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_thumbnail = damage_thumbnail
                         print('썸네일에서 차량 파손 감지')
                 else:
-                    not_car_list.append('썸네일')
+                    not_car_list.append('대표 사진')
             else:
-                not_car_list.append('썸네일')
+                not_car_list.append('대표 사진')
                 
             # 이미지1 처리
             image1 = request.FILES.get("image1")
@@ -52,9 +52,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image1 = damage_result1
                         print('1번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지1')
+                    not_car_list.append('차량 전방 사진')
             else:
-                not_car_list.append('이미지1')
+                not_car_list.append('차량 전방 사진')
 
             # 이미지2 처리
             image2 = request.FILES.get("image2")
@@ -68,9 +68,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image2 = damage_result2
                         print('2번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지2')
+                    not_car_list.append('차량 좌측 사진')
             else:
-                not_car_list.append('이미지2')
+                not_car_list.append('차량 좌측 사진')
 
             # 이미지3 처리
             image3 = request.FILES.get("image3")
@@ -84,9 +84,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image3 = damage_result3
                         print('3번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지3')
+                    not_car_list.append('차량 우측 사진')
             else:
-                not_car_list.append('이미지3')
+                not_car_list.append('차량 우측 사진')
 
             # 이미지4 처리
             image4 = request.FILES.get("image4")
@@ -100,9 +100,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image4 = damage_result4
                         print('4번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지4')
+                    not_car_list.append('차량 후방 사진')
             else:
-                not_car_list.append('이미지4')
+                not_car_list.append('차량 후방 사진')
 
             image5 = request.FILES.get("image5")
             img5_result, damage_result5 = car_determination_and_damage_detection(image5)
@@ -115,9 +115,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image5 = damage_result5
                         print('5번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지5')
+                    not_car_list.append('차량 내부 사진')
             else:
-                not_car_list.append('이미지5')
+                not_car_list.append('차량 내부 사진')
 
             image6 = request.FILES.get("image6")
             img6_result, damage_result6 = car_determination_and_damage_detection(image6)
@@ -130,9 +130,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image6 = damage_result6
                         print('6번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지6')
+                    not_car_list.append('차량 대각 방향1')
             else:
-                not_car_list.append('이미지6')
+                not_car_list.append('차량 대각 방향1')
 
             image7 = request.FILES.get("image7")
             img7_result, damage_result7 = car_determination_and_damage_detection(image7)
@@ -145,9 +145,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image7 = damage_result7
                         print('7번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지7')
+                    not_car_list.append('차량 대각 방향2')
             else:
-                not_car_list.append('이미지7')
+                not_car_list.append('차량 대각 방향2')
 
             image8 = request.FILES.get("image8")
             img8_result, damage_result8 = car_determination_and_damage_detection(image8)
@@ -160,9 +160,9 @@ def question_create(request, car_VNUM):
                         car_sales_post.detected_image8 = damage_result8
                         print('8번 이미지에서 차량 파손 감지')
                 else:
-                    not_car_list.append('이미지8')
+                    not_car_list.append('엔진룸')
             else:
-                not_car_list.append('이미지8')
+                not_car_list.append('엔진룸')
 
             if not_car_list:
                 error_messages = [f'{m}에 자동차가 포함되어 있지 않습니다.' for m in not_car_list]
