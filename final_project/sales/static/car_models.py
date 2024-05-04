@@ -12,6 +12,8 @@ car_determination_model = YOLO('/app/final_project/ai_models/yolov8s.pt')
 damage_detection_model = YOLO('/app/final_project/ai_models/car_damage_detection_model.pt')
 
 def car_determination_and_damage_detection(img):
+    determination_list = None
+    detection_class = None
     if img:
         try:
             # 이미지 처리
@@ -28,7 +30,11 @@ def car_determination_and_damage_detection(img):
             
             # 결과 처리
             determination_list = [str(int(r.boxes.cls[0])) for r in results1] if results1 else None
-            detection_class = str(int(results2[0].boxes.cls[0])) if results2 else None
+
+            try:
+                detection_class = str(int(results2[0].boxes.cls[0])) if results2 else None
+            except:
+                print('파손 없음')
 
             print('determination_list:', determination_list)
             print('detection_class:', detection_class)
@@ -54,7 +60,9 @@ def car_determination_and_damage_detection(img):
         
         except Exception as e:
             print('에러 발생', e)
-            return None, None
+            print('determination_list:', determination_list)
+            print('detection_class:', detection_class)
+            return determination_list, None
             
     else:
         return None, None
