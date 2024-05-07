@@ -42,7 +42,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['3.34.74.38', '127.0.0.1','3.36.165.28']
 
-CSRF_TRUSTED_ORIGINS = ['3.34.74.38', '127.0.0.1','3.36.165.28']
+# CSRF_TRUSTED_ORIGINS = ['3.34.74.38', '127.0.0.1','3.36.165.28']
 # Application definition
 
 INSTALLED_APPS = [
