@@ -19,7 +19,8 @@ from sales.static.card_scoring import scoring_data
 from common.models import loan_rate_list
 import math
 
-with open('/app/final_project/ai_models/budget_recommend_models.pkl', 'rb') as f:
+# with open('/app/final_project/ai_models/budget_recommend_models.pkl', 'rb') as f:
+with open('ai_models/budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)
 
 
@@ -97,17 +98,11 @@ def index(request):
         
     # 연식 필터   
     if mile_mode :
-        if mile_mode == "전체":
-            pass
-        else:
-            car_list = car_list.filter(MYERAR=mile_mode)
+        car_list = car_list.filter(MYERAR=mile_mode)
         
     # 차종(크기) 필터   
     if vtype_mode :
-        if vtype_mode == "전체":
-            pass
-        else:
-            car_list = car_list.filter(VTYPE=vtype_mode)
+        car_list = car_list.filter(VTYPE=vtype_mode)
     # 예산 추천
     min_budget, max_budget, budget_rec_result = budget_rec_func(user.id)
     
@@ -204,15 +199,14 @@ def load_loans(term, score):
     list_filtered = list_filtered_credit.filter(loan_period=term)
     list_ordered = list_filtered.order_by('min_rate')[:5]
     woori_loan = list_filtered_credit.get(company_name="우리은행")
-    return list_ordered, woori_loan, score_00
+    return list_ordered, woori_loan
 
 # 대출 상품 데이터 전송
 def show_loan_table(request, post_id):
     user = request.user
     input_term = request.GET.get('term')
     user_credit_score = scoring_data(user_id=user.id)
-    print(user_credit_score)
-    loans, woori_loan, score_00 = load_loans(input_term, user_credit_score)
+    loans, woori_loan = load_loans(input_term, user_credit_score)
     loan_list = serializers.serialize('json', loans)
     return HttpResponse(loan_list, content_type="text/json-comment-filtered")
 
@@ -255,10 +249,10 @@ def detail(request, post_id):
         buyer_proposals_with_info.append((proposal, buyer_info))
     
     # 사용자에게 맞는 대출 상품 목록 가져오기
-    user_credit_score, loan_list, woori_loan, score_00 = 0, 0, 0,0
+    user_credit_score, loan_list, woori_loan = 0, 0, 0
     if user.is_authenticated:
         user_credit_score = scoring_data(user_id=user.id)
-        loan_list, woori_loan, score_00 = load_loans(36, user_credit_score)
+        loan_list, woori_loan = load_loans(36, user_credit_score)
 
     context = {
         'user': user,
@@ -280,7 +274,7 @@ def detail(request, post_id):
         'buyer_list' : buyer_list,
         'loan_list' : loan_list,
         'woori_loan' : woori_loan,
-        'score_00' : score_00
+        'user_credit_score' : user_credit_score
     }
     return render(request, 'sales/sales_detail.html', context)
 
