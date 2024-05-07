@@ -130,20 +130,20 @@
                 <div >
                     <!-- 여기에 가격을 보여주는 내용을 넣으면 됩니다. -->
                     <div class="d-flex">
-                        {% if CarSalesPost.modify_date %}
+                        {% comment %} {% if CarSalesPost.modify_date %}
                         <div class="badge bg-light text-dark p-2 text-start mx-3">
                             <div class="mb-2">modified at</div>
                             <div>{{ CarSalesPost.modify_date }}</div>
                         </div>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         <div class="row">
                             <div class="">
-                                {% if CarSalesPost.modify_date %}
+                                {% comment %} {% if CarSalesPost.modify_date %}
                                 <div class="badge bg-light text-dark p-2 text-start mx-3">
                                     <div class="mb-2">modified at</div>
                                     <div>{{ CarSalesPost.modify_date }}</div>
                                 </div>
-                                {% endif %}
+                                {% endif %} {% endcomment %}
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="text-dark text-start">
