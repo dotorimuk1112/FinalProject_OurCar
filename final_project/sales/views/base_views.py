@@ -19,8 +19,7 @@ from sales.static.card_scoring import scoring_data
 from common.models import loan_rate_list
 import math
 
-# with open('/app/final_project/ai_models/budget_recommend_models.pkl', 'rb') as f:
-with open('ai_models/budget_recommend_models.pkl', 'rb') as f:
+with open('/app/final_project/ai_models/budget_recommend_models.pkl', 'rb') as f:
     budget_rec_model = pickle.load(f)
 
 
