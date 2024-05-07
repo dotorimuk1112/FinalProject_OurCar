@@ -216,15 +216,29 @@
             
             <!-- 내 소비 내역 탭 -->
             <div id="Paris" class="tabcontent">
+
                 <div class="container h-100">
+                    
                     <div class="row align-items-center h-100">
+                        
                         <div class="col-md-6">
-                            <div id="chart-container" class="text-center" style="position:relative; height:50vh; width:100%">
-                                <canvas id="myChart" width="200" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
+                            
+                            <div style="background-color: #87CEEB;; border-radius: 10px;">
+                                <h5 class="text-center mb-4 mt-3" style="color: #FFF;"><strong>우리 카드 소비 데이터</strong></h5>
                             </div>
+                            <div style="position: relative;">
+                                <!-- 설명을 표시하는 버튼 -->
+                                <button id="info-trigger" style="background-color: darkgray; position: absolute; right: 10px; top: 40px; width: 25px; height: 25px;">?</button>
+                                <!-- 설명 내용 -->
+                                <div id="info-content" style="position: absolute; top: 40px; right: 10px; display: none;">
+                                    <h6>해당 그래프는 <strong>{{ user.real_name }}</strong> 님의 최근 6개월 간 우리카드 소비 데이터를 기반으로 만들어진 원형 그래프입니다.</h6>
+                                </div>
+                            </div>
+                            <canvas id="myChart" width="200" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 200px;"></canvas>
+                            
                         </div>
                         <div class="col-md-6">
-                            <div class="text-center mt-4" style="background-color: #BFEFFF; padding: 20px; border-radius:30px;">
+                            <div class="text-center" style="background-color: #BFEFFF; padding: 20px; border-radius:30px;">
                                 <h5 style="color: #0074D9;">
                                     {% if min_budget > 0 %}
                                         고객님 추천 예산: {{ min_budget }}만 원 ~ {{ max_budget }}만 원
@@ -508,5 +522,25 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 });
+    // 버튼 요소 가져오기
+    var infoTrigger = document.getElementById('info-trigger');
+    // 설명 내용을 표시할 div 요소 가져오기
+    var infoContent = document.getElementById('info-content');
+
+    // 버튼을 클릭하거나 호버할 때 이벤트 리스너 추가
+    infoTrigger.addEventListener('click', function() {
+        // 설명 내용을 토글하여 보이거나 숨김
+        infoContent.style.display = infoContent.style.display === 'none' ? 'block' : 'none';
+    });
+
+    infoTrigger.addEventListener('mouseover', function() {
+        // 버튼에 호버할 때 설명 내용을 표시
+        infoContent.style.display = 'block';
+    });
+
+    infoTrigger.addEventListener('mouseout', function() {
+        // 버튼에서 마우스가 벗어날 때 설명 내용을 숨김
+        infoContent.style.display = 'none';
+    });
 </script>
 {% endblock %}
