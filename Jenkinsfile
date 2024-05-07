@@ -27,7 +27,7 @@ node {
       stage('Deploy') {
             sshagent(credentials: ['AWS_EC2_Ourcar_Server']) {
                 sh(script: 'ssh -o StrictHostKeyChecking=no ubuntu@3.34.74.38 "sudo docker rm -f ourcar_test"')
-                sh(script: 'ssh ubuntu@3.34.74.38 "sudo docker run --name ourcar_test -d -v /home/ubuntu/.env:/app/.env -v /home/ubuntu/ai_models:/app/final_project/ai_models -e TZ=Asia/Seoul -p 8000:8000 ${DOCKER_USER_ID}/ourcar_test:${BUILD_NUMBER}"')
+                sh(script: 'ssh ubuntu@3.34.74.38 "sudo docker run --name ourcar_test -d -v /home/ubuntu/.env:/app/.env -v /home/ubuntu/ai_models:/app/final_project/ai_models -e TZ=Asia/Seoul -p 80:8000 ${DOCKER_USER_ID}/ourcar_test:${BUILD_NUMBER}"')
         }
     }
 
