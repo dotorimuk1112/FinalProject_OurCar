@@ -28,7 +28,7 @@ def question_create(request, car_VNUM):
             thumbnail_img_result, damage_thumbnail = car_determination_and_damage_detection(thumb)
             print(thumbnail_img_result, damage_thumbnail)
             if thumb:
-                if thumbnail_img_result and ('2' in thumbnail_img_result):
+                if thumbnail_img_result and ('2' or '3' or '5' or '7' in thumbnail_img_result):
                     car_sales_post.thumbnail_image = thumb
                     print('썸네일 자동차 확인. 업로드 성공.')
                     if damage_thumbnail:
@@ -45,7 +45,7 @@ def question_create(request, car_VNUM):
             img1_result, damage_result1 = car_determination_and_damage_detection(image1)
             print(img1_result, damage_result1)
             if image1:
-                if img1_result and ( '2' in img1_result):
+                if img1_result and ('2' or '3' or '5' or '7' in img1_result):
                     car_sales_post.Image1 = image1
                     print('1번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result1:
@@ -61,7 +61,7 @@ def question_create(request, car_VNUM):
             img2_result, damage_result2 = car_determination_and_damage_detection(image2)
             print(img2_result, damage_result2)
             if image2:
-                if img2_result and ('2' in img2_result):
+                if img2_result and ('2' or '3' or '5' or '7' in img2_result):
                     car_sales_post.Image2 = image2
                     print('2번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result2:
@@ -77,7 +77,7 @@ def question_create(request, car_VNUM):
             img3_result, damage_result3 = car_determination_and_damage_detection(image3)
             print(img3_result, damage_result3)
             if image3:
-                if img3_result and ('2' in img3_result):
+                if img3_result and ('2' or '3' or '5' or '7' in img3_result):
                     car_sales_post.Image3 = image3
                     print('3번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result3:
@@ -93,7 +93,7 @@ def question_create(request, car_VNUM):
             img4_result, damage_result4 = car_determination_and_damage_detection(image4)
             print(img4_result, damage_result4)
             if image4:
-                if img4_result and ('2' in img4_result):
+                if img4_result and ('2' or '3' or '5' or '7' in img4_result):
                     car_sales_post.Image4 = image4
                     print('4번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result4:
@@ -108,7 +108,7 @@ def question_create(request, car_VNUM):
             img5_result, damage_result5 = car_determination_and_damage_detection(image5)
             print(img5_result, damage_result5)
             if image5:
-                if img5_result and ('2' in img5_result):
+                if img5_result and ('2' or '3' or '5' or '7' in img5_result):
                     car_sales_post.Image5 = image5
                     print('5번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result5:
@@ -123,7 +123,7 @@ def question_create(request, car_VNUM):
             img6_result, damage_result6 = car_determination_and_damage_detection(image6)
             print(img6_result, damage_result6)
             if image6:
-                if img6_result and ('2' in img6_result):
+                if img6_result and ('2' or '3' or '5' or '7' in img6_result):
                     car_sales_post.Image6 = image6
                     print('6번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result6:
@@ -138,7 +138,7 @@ def question_create(request, car_VNUM):
             img7_result, damage_result7 = car_determination_and_damage_detection(image7)
             print(img7_result, damage_result7)
             if image7:
-                if img7_result and ('2' in img7_result):
+                if img7_result and ('2' or '3' or '5' or '7' in img7_result):
                     car_sales_post.Image7 = image7
                     print('7번 이미지 자동차 확인. 업로드 성공.')
                     if damage_result7:
