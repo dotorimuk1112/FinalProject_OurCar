@@ -40,7 +40,7 @@ SECRET_KEY = 'django-insecure-)cx(fx%3luyzxtx^l@@&j2_mqp0^#9&)-i%4fvt-s!jfhrsu+@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['3.34.74.38', '127.0.0.1','3.36.165.28']
+ALLOWED_HOSTS = ['3.34.74.38', '127.0.0.1']
 
 # CSRF_TRUSTED_ORIGINS = ['3.34.74.38', '127.0.0.1','3.36.165.28']
 # Application definition
@@ -149,5 +149,5 @@ AUTH_USER_MODEL = 'common.CustomUser'
 
 # # ALLOWED_HOSTS = ['yourdomain.com', '3.34.74.38']
 
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False
